@@ -106,5 +106,19 @@ class NodeTest {
     assertNull(singleNode.prev);
   }
 
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithTwoElements() {
+    // Arrange
+    List<Integer> numbers = List.of(11,33);
+
+    // Act
+    Node head = new Node(numbers);
+
+    // Assert
+    assertEquals(11, head.value);
+    assertEquals(33, head.next.value);
+    assertNull(head.next.next);
+    assertEquals(head, head.next.prev);
+  }
 }
