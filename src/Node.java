@@ -38,24 +38,26 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    if(list == null){
+    if(list == null || list.isEmpty()){
       throw new IllegalArgumentException("List is Empty");
     }
 
-    Node head = new Node(list.get(0));
-    Node current = head;
-    head.prev = null;
+    // Node head = new Node(list.get(0));
+    // Node current = head;
 
-    while(current != null){
+    this.value = list.get(0);
+    this.prev = null;
+
+    // 'this' refers to the Node object on which this method is being called
+    Node current = this;
+
       for (int i = 1; i < list.size(); i++) {
           Node nextNode = new Node(list.get(i));
           current.next = nextNode;
           nextNode.prev = current;
+          current = nextNode;
       }
-      current = current.next;
     }
-  }
-
   /**
    * Converts the linked list starting from this node into a list of integers.
    * Treats this node as the head, even if it has a previous value.
