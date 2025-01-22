@@ -41,7 +41,6 @@ class NodeTest {
     );
   }
 
-  
   // DONE: Add test for list constructor when passed null list
   @Test
   void testListConstructorWithNullList() {
@@ -92,6 +91,20 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
+  // DONE: Add test for Node with no next or prev
+  @Test
+  void testListConstructorWithSingleNode() {
+    // Arrange
+    Node singleNode = new Node(69);
+
+    // Act
+    List<Integer> result = singleNode.toList();
+
+    // Assert
+    assertEquals(List.of(69), result);
+    assertNull(singleNode.next);
+    assertNull(singleNode.prev);
+  }
+
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
 }
