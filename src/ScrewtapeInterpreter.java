@@ -128,9 +128,12 @@ public class ScrewtapeInterpreter {
       }
     }
 
-
-
-    return null;
+    // Unmatched opening brackets condition
+    if (!brackets.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + brackets.peek());
+    }
+    
+    return bracketMap;
   }
 
   /**
