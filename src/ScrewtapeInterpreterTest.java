@@ -76,10 +76,23 @@ class ScrewtapeInterpreterTest {
     // Assert
     assertEquals(expected, actual);
   }
+
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  // Additional Test
+  @Test
+  void testUnmatchedOpeningBracketMap() {
+     // Arrange
+     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+     String program = "[+[->]<";
 
+    // Act & Assert
+    assertThrows(
+        IllegalArgumentException.class, 
+        () -> interpreter.bracketMap(program),
+        "Expected IllegalArgumentException for unmatched opening bracket."
+    );
+  }
   
-
   @Test
   void testAdd() {
     // Arrange
