@@ -64,5 +64,11 @@ public class Node {
     //starts moving to where Node method was called 
     Node current = this; 
 
+    while (current != null) {
+      //add to the listOfInts and store the value of the node
+      listOfInts.add(current.value); 
+      current = current.next;
+    }
+    return listOfInts;
   }
 }
