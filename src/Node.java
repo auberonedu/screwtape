@@ -51,15 +51,7 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    //Store into an arraylist, note* use correct interface type 
-    //travers through the nodes 
-      //start at front 
-    
-    //create a loop
-    //get value of the next node
-    //keep moving through the nodes 
-    //then return the final arrayList
-
+  
     List<Integer> listOfInts = new ArrayList<>();
     //starts moving to where Node method was called 
     Node current = this; 
