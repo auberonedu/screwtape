@@ -155,13 +155,78 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
     StringBuilder output = new StringBuilder();
     int programLength = program.length();
     int programPointer = 0; // Pointer to track the position
     Map<Integer, Integer> bracketMap = bracketMap(program);
 
-    return null;
+    // Keep iterating until the end of the program
+    while (programPointer < programLength) {
+      char currentCommand = program.charAt(programPointer);
+
+      switch (currentCommand) {
+        // FIRST CASE
+        case '+':
+          tapePointer.value++; // Incrementing the current node value
+          break;  
+
+        // SECOND CASE
+        case '-':
+          tapePointer.value--; // Decrementing the current node value
+          break;
+
+        // THIRD CASE
+        case '>':
+          // Moving the pointer to the next node, and adding a new node if needed
+          if (tapePointer.next == null) {
+              tapePointer.next = new Node(0); // Creating a new node at the end
+              tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next; 
+          break;
+        
+        // FOURTH CASE
+        case '<':
+          // Moving the pointer to the previous node, and adding a new node if needed
+          if (tapePointer.prev == null) {
+              tapePointer.prev = new Node(0); // Creating a new node at the beginning
+              tapePointer.prev.next = tapePointer;
+              tapePointer = tapePointer.next;
+          } else {
+            tapePointer = tapePointer.prev; // Moving to the previous node
+          }
+          break;
+
+        // FIFTH CASE
+        case '.':
+          // Converting the value to a character and appending it to the output
+          output.append((char) tapePointer.value);
+          break;
+
+        // SIXTH CASE
+        case '[':
+          // Go to the matching bracket forward if the value equals to 0
+          if (tapePointer.value == 0) {
+            programPointer = bracketMap.get(programPointer);
+          }
+          break;
+
+        // SEVENTH CASE
+        case ']':
+          // Go to the matching bracket backwards if the value equals to non-zero
+          if (tapePointer.value != 0) {
+            programPointer = bracketMap.get(programPointer);
+          }
+          break;
+      }
+
+      // Move the program pointer to the next character
+      programPointer++;
+    }
+
+    // Return the output as a String format 
+    return output.toString();
   }
 }
