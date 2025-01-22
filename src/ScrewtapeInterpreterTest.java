@@ -60,7 +60,22 @@ class ScrewtapeInterpreterTest {
     assertEquals(expected, actual);
   }
 
-  
+  @Test
+  void testEmptyBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
+
+     // Expected
+     Map<Integer, Integer> expected = new HashMap<>();
+     expected.put(1, 0);
+
+     // Act
+    Map<Integer, Integer> actual = interpreter.bracketMap(program);
+
+    // Assert
+    assertEquals(expected, actual);
+  }
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
   
