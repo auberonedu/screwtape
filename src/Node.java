@@ -75,6 +75,9 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
+    List<Integer> result = new ArrayList<>();
+    Node current = this;
+    
     return null;
   }
 }
