@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,6 +67,14 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
-    return null;
+    Node current = this;
+    List<Integer> result = new ArrayList<>();
+
+    while(current != null){
+      result.add(current.value);
+      current = current.next;
+    }
+
+    return result;
   }
 }
