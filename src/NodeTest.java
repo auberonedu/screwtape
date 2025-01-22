@@ -41,10 +41,34 @@ class NodeTest {
     );
   }
 
-  
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Add test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    // Arrange
+    List<Integer> nullList = null;
 
+    // Act and Assert
+    assertThrows(
+      IllegalArgumentException.class,
+      () -> new Node(nullList),
+      "Expected constructor to throw IllegalArgumentException for a null list."
+    );
+  }
+
+  // DONE: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithSingleElement() {
+    // Arrange
+    List<Integer> numbers = List.of(999);
+
+    // Act
+    Node head = new Node(numbers);
+
+    // Assert
+    assertEquals(999, head.value);
+    assertNull(head.next);
+    assertNull(head.prev);
+  }
 
   // -------- WAVE 2 -------
 
@@ -67,6 +91,34 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Add test for Node with no next or prev
+  @Test
+  void testListConstructorWithSingleNode() {
+    // Arrange
+    Node singleNode = new Node(69);
+
+    // Act
+    List<Integer> result = singleNode.toList();
+
+    // Assert
+    assertEquals(List.of(69), result);
+    assertNull(singleNode.next);
+    assertNull(singleNode.prev);
+  }
+
+  // DONE: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithTwoElements() {
+    // Arrange
+    List<Integer> numbers = List.of(11,33);
+
+    // Act
+    Node head = new Node(numbers);
+
+    // Assert
+    assertEquals(11, head.value);
+    assertEquals(33, head.next.value);
+    assertNull(head.next.next);
+    assertEquals(head, head.next.prev);
+  }
 }

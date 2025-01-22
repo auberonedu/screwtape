@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -105,9 +107,33 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // Hint: use a stack
-    return null;
+    Map<Integer, Integer> bracketMap = new HashMap<>();
+    Stack<Integer> brackets = new Stack<>();
+
+    // Iterating
+    for (int i = 0; i < program.length(); i++) {
+      char ch = program.charAt(i);
+
+      if (ch == '[') {
+        // Pushing the index of the opening bracket in Stack
+        brackets.push(i);
+      } else if (ch == ']') {
+        if (brackets.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+        }
+        int openingBracketIndex = brackets.pop();
+        bracketMap.put(i, openingBracketIndex); // Storing the matching pair
+      }
+    }
+
+    // Unmatched opening brackets condition
+    if (!brackets.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + brackets.peek());
+    }
+
+    return bracketMap;
   }
 
   /**
@@ -129,8 +155,81 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    StringBuilder output = new StringBuilder();
+    int programLength = program.length();
+    int programPointer = 0; // Pointer to track the position
+    Map<Integer, Integer> bracketMap = bracketMap(program);
+
+    // Keep iterating until the end of the program
+    while (programPointer < programLength) {
+      char currentCommand = program.charAt(programPointer);
+
+      switch (currentCommand) {
+        // FIRST CASE
+        case '+':
+          tapePointer.value++; // Incrementing the current node value
+          break;  
+
+        // SECOND CASE
+        case '-':
+          tapePointer.value--; // Decrementing the current node value
+          break;
+
+        // THIRD CASE
+        case '>':
+          // Moving the pointer to the next node, and adding a new node if needed
+          if (tapePointer.next == null) {
+              tapePointer.next = new Node(0); // Creating a new node at the end
+              tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next; 
+          break;
+        
+        // FOURTH CASE
+        case '<':
+          // Moving the pointer to the previous node, and adding a new node if needed
+          if (tapePointer.prev == null) {
+              // Creating a new node at the beginning
+              Node newHead = new Node(0);
+              newHead.next = tapePointer;
+              tapePointer.prev = newHead;
+              tapePointer = newHead;
+              tapeHead = newHead;
+          } else {
+            tapePointer = tapePointer.prev; // Moving to the previous node
+          }
+          break;
+
+        // FIFTH CASE
+        case '.':
+          // Converting the value to a character and appending it to the output
+          output.append((char) tapePointer.value);
+          break;
+
+        // SIXTH CASE
+        case '[':
+          // Go to the matching bracket forward if the value equals to 0
+          if (tapePointer.value == 0) {
+            programPointer = bracketMap.get(programPointer);
+          }
+          break;
+
+        // SEVENTH CASE
+        case ']':
+          // Go to the matching bracket backwards if the value equals to non-zero
+          if (tapePointer.value != 0) {
+            programPointer = bracketMap.get(programPointer);
+          }
+          break;
+      }
+
+      // Move the program pointer to the next character
+      programPointer++;
+    }
+
+    // Return the output as a String format 
+    return output.toString();
   }
 }
