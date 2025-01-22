@@ -50,6 +50,10 @@ public class Node {
 
     Node current = this;  // Start with the head node as the current node
 
+    // Loop through the rest of the elements in the list and create subsequent nodes
+    for (int i = 1; i < list.size(); i++) {
+       
+    }
 }
 
   /**
