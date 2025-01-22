@@ -52,7 +52,11 @@ public class Node {
 
     // Loop through the rest of the elements in the list and create subsequent nodes
     for (int i = 1; i < list.size(); i++) {
-       
+        // Create a new node for the next value in the list
+        Node newNode = new Node(list.get(i));
+
+        current.next = newNode;
+        newnode.prev =
     }
 }
 
