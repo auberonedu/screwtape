@@ -191,9 +191,12 @@ public class ScrewtapeInterpreter {
         case '<':
           // Moving the pointer to the previous node, and adding a new node if needed
           if (tapePointer.prev == null) {
-              tapePointer.prev = new Node(0); // Creating a new node at the beginning
-              tapePointer.prev.next = tapePointer;
-              tapePointer = tapePointer.next;
+              // Creating a new node at the beginning
+              Node newHead = new Node(0);
+              newHead.next = tapePointer;
+              tapePointer.prev = newHead;
+              tapePointer = newHead;
+              tapeHead = newHead;
           } else {
             tapePointer = tapePointer.prev; // Moving to the previous node
           }
