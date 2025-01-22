@@ -112,10 +112,14 @@ public class ScrewtapeInterpreter {
     Map<Integer, Integer> bracketMap = new HashMap<>();
     Stack<Integer> brackets = new Stack<>();
 
+    // Iterating
+    for (int i = 0; i < program.length(); i++) {
+      char ch = program.charAt(i);
+      
+    }
 
 
 
-    
     return null;
   }
 
