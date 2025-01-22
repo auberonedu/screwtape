@@ -42,6 +42,11 @@ public class Node {
     if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("The list cannot be empty or null.");
     }
+
+    // Creating the first node using the first value from the list
+    this.value = list.get(0);
+    Node current = this; // head 
+
   }
 
   /**
