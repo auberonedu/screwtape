@@ -60,6 +60,9 @@ public class Node {
     //keep moving through the nodes 
     //then return the final arrayList
 
+    List<Integer> listOfInts = new ArrayList<>();
+    //starts moving to where Node method was called 
+    Node current = this; 
 
   }
 }
