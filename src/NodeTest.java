@@ -57,6 +57,18 @@ class NodeTest {
   }
  
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test 
+  void testListConstructorWithNullElemens() {
+    List<Integer> listWithNulls = new ArrayList<>();
+    listWithNulls.add(1);
+    listWithNulls.add(null);
+    listWithNulls.add(3);
+    listWithNulls.add(4);
+    
+    assertNull(listWithNulls.get(1));
+
+    assertEquals(4, listWithNulls.size());
+  }
 
 
   // -------- WAVE 2 -------
