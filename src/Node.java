@@ -42,7 +42,15 @@ public class Node {
     if (list.isEmpty() || list == null) {
       throw new IllegalArgumentException("List is empty");
     }
-  }
+
+    //initialize 
+    this.value = list.get(0);
+    this.prev = null;
+    this.next = null;
+
+    Node current = this;  // Start with the head node as the current node
+
+}
 
   /**
    * Converts the linked list starting from this node into a list of integers.
