@@ -157,6 +157,11 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
+    StringBuilder output = new StringBuilder();
+    int programLength = program.length();
+    int programPointer = 0; // Pointer to track the position
+    Map<Integer, Integer> bracketMap = bracketMap(program);
+
     return null;
   }
 }
