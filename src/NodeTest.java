@@ -41,8 +41,21 @@ class NodeTest {
     );
   }
 
-  
+  @Test 
+  void testListConstructorWithNullList(){
   // TODO: Add test for list constructor when passed null list
+  List<Integer> values = null;
+  // Node head = new Node(values);
+  // assertEquals(null, head);
+
+  //  Borrowed from test case above
+  assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(values),
+        "List is Empty"
+    );
+  }
+ 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
 
 
