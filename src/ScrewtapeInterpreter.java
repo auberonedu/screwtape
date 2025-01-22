@@ -115,7 +115,17 @@ public class ScrewtapeInterpreter {
     // Iterating
     for (int i = 0; i < program.length(); i++) {
       char ch = program.charAt(i);
-      
+
+      if (ch == '[') {
+        // Pushing the index of the opening bracket in Stack
+        brackets.push(i);
+      } else if (ch == ']') {
+        if (brackets.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+        }
+        int openingBracketIndex = brackets.pop();
+        bracketMap.put(i, openingBracketIndex); // Storing the matching pair
+      }
     }
 
 
