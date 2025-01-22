@@ -47,6 +47,15 @@ public class Node {
     this.value = list.get(0);
     Node current = this; // head 
 
+    // Iterating
+    for (int i = 1; i < list.size(); i++) {
+      // Creating new nodes using the next values from the list
+      Node newNode = new Node(list.get(i));
+      current.next = newNode; // Linking current node to new one
+      newNode.prev = current; // Linking new node to the current one
+      current = newNode; // Moving to the new node
+    }
+    
   }
 
   /**
