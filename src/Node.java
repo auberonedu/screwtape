@@ -55,7 +55,9 @@ public class Node {
       newNode.prev = current; // Linking new node to the current one
       current = newNode; // Moving to the new node
     }
-    
+
+    current.next = this; // Last node next points back to the head
+    this.prev = current; // Head prev points to the last node
   }
 
   /**
