@@ -106,6 +106,8 @@ class NodeTest {
     // Act and Assert
     List<Integer> result = oneNode.toList();
     
+    assertEquals(1, result.size());
+    assertEquals(2, result.get(0));
     
   }
 
