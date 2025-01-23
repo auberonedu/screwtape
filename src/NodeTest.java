@@ -52,7 +52,7 @@ class NodeTest {
     // Act and Assert
     assertThrows(
       IllegalArgumentException.class, 
-      () -> new Node(null),
+      () -> new Node(nullList),
       "Expected construtor to throw IllegalArgumentException for a null list."
     );
   }

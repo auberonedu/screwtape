@@ -39,7 +39,7 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    if (list.isEmpty() || list == null) {
+    if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("List is empty");
     }
 
