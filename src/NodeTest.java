@@ -47,7 +47,14 @@ class NodeTest {
   void testListConstructorWithNullList() {
 
     // Arrange 
+    List<Integer> nullList = null;
+
     // Act and Assert
+    assertThrows(
+      IllegalArgumentException.class, 
+      () -> new Node(null),
+      "Expected construtor to throw IllegalArgumentException for a null list."
+    );
   }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
 
