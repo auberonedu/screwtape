@@ -186,6 +186,57 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+
+    String asciiOutput = "";
+
+    // Rough start
+    for (int i = 0; i < program.length(); i++) {
+
+      if (program.charAt(i) == '>') {
+        // Move the tape pointer to the next memory node.
+        if (tapePointer.next == null) {
+
+          // Creates a new tailNode with 0 value
+          // Integrates the new tailNode into the linked list
+          Node tailNode = new Node(0);
+          tapePointer.next = tailNode;
+          tailNode.prev = tapePointer;
+          tapePointer = tailNode;
+        }
+        else {
+          tapePointer = tapePointer.next;
+        }
+      }
+      else if (program.charAt(i) == '<') {
+
+        // Move the tape pointer to the previous memory node.
+        if (tapePointer.prev == null) {
+
+          // Create a new head and set the pointer to it
+          tapeHead = new Node(0);
+          tapePointer = tapeHead;
+        }
+        else {
+          tapePointer = tapePointer.prev;
+        }
+      }
+      else if (program.charAt(i) == '+') {
+        // Increment the value in the current memory node.
+      }
+      else if (program.charAt(i) == '-') {
+        // Decrement the value in the current memory node.
+      }
+      else if (program.charAt(i) == '.') {
+        // Output the character represented by the value in the current memory node.
+      }
+      else if (program.charAt(i) == '[') {
+        // Do nothing
+      }
+      else if (program.charAt(i) == ']') {
+        // If the value in the current memory node is not 0, jump back to the matching `[`.
+      }
+    }
+
+    return asciiOutput;
   }
 }
