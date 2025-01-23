@@ -108,8 +108,15 @@ class NodeTest {
     
     assertEquals(1, result.size());
     assertEquals(2, result.get(0));
-    
   }
 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+
+  @Test
+  void testToListWithNegativeValues() {
+    // Arrange
+
+    // Act and Assert
+    
+  }
 }
