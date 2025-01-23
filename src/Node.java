@@ -55,8 +55,13 @@ public class Node {
         // Create a new node for the next value in the list
         Node newNode = new Node(list.get(i));
 
+        // Linking current to new node
         current.next = newNode;
-        newnode.prev =
+        newNode.prev = current;
+
+        // Keep moving through the list nodes
+        current = current.next;
+
     }
 }
 
