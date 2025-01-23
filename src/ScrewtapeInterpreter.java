@@ -116,17 +116,20 @@ public class ScrewtapeInterpreter {
         //retrieve char at current index
         char letter = program.charAt(i);
 
-        if (letter == "[") {
+        if (letter == '[') {
+            stack.push(i);
+        } else if (letter == ']') {
+            int rightBracket = stack.pop();
 
-        } else if (letter == "]") {
-
+            //store the pair
+            brackets.put(i, rightBracket);
         }
     }
     if (!stack.isEmpty()) {
       // contains unmatched brackets
       throw new IllegalArgumentException("Unmatched brackets: " + stack.peek());
-  }
-        return brackets;
+    }
+  return brackets;
   }
 
   /**
