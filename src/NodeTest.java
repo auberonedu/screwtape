@@ -115,8 +115,13 @@ class NodeTest {
   @Test
   void testToListWithNegativeValues() {
     // Arrange
+    List<Integer> values = List.of(-10);
 
     // Act and Assert
+    Node head = new Node(values);
     
+    assertEquals(-10, head.value);
+    assertNull(head.next);
+    assertNull(head.prev);
   }
 }
