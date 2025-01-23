@@ -109,8 +109,19 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    Map<Integer, Integer> brackets = new HashMap<>();
-    Stack<Integer> stack = new Stack<>();
+    Map<Integer, Integer> brackets = new HashMap<>(); //storing bracket pairs
+    Stack<Integer> stack = new Stack<>(); //storing indices
+
+    for (int i = 0; i < program.length(); i++) {
+        //retrieve char at current index
+        char letter = program.charAt(i);
+
+        if (letter == "[") {
+
+        } else if (letter == "]") {
+          
+        }
+    }
         return brackets;
   }
 
