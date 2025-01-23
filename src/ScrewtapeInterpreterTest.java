@@ -44,7 +44,21 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);  
   }
 
-  
+  //One more testcase here
+  @Test 
+  void testEmptyOrNone() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "";
+
+    // Act and Assert
+    Map<Integer, Integer> expectedMap = interpreter.bracketMap(program);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    
+    assertEquals(expectedMap, actualMap);  
+  }
+
   
 
   @Test
