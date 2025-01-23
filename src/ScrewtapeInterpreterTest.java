@@ -30,9 +30,21 @@ class ScrewtapeInterpreterTest {
   @Test
   void testBracketJavaDocExample() {
     // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
 
     // Act and Assert
+    Map<Integer, Integer> expectedMap = interpreter.bracketMap(program);
+    expectedMap.put(4, 0);  
+    expectedMap.put(9, 5);  
+    expectedMap.put(14, 12);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    
+    assertEquals(expectedMap, actualMap);  
   }
+
+  
   
 
   @Test
