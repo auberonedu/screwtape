@@ -119,9 +119,13 @@ public class ScrewtapeInterpreter {
         if (letter == "[") {
 
         } else if (letter == "]") {
-          
+
         }
     }
+    if (!stack.isEmpty()) {
+      // contains unmatched brackets
+      throw new IllegalArgumentException("Unmatched brackets: " + stack.peek());
+  }
         return brackets;
   }
 
