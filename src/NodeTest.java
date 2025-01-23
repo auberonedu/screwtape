@@ -60,7 +60,7 @@ class NodeTest {
   // DONE
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
   @Test
-  void testListConstructorWithACoupleOfElements() {
+  void testListConstructorWithRepeatedElements() {
 
     // Arrange 
     List<Integer> coupleOfElements = List.of(2, 2);
