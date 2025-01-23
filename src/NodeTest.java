@@ -57,14 +57,23 @@ class NodeTest {
     );
   }
 
+  // DONE
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
   @Test
   void testListConstructorWithACoupleOfElements() {
 
     // Arrange 
-    
-    // Act and Assert
+    List<Integer> coupleOfElements = List.of(2, 2);
 
+    // Act and Assert
+    Node head = new Node(coupleOfElements);
+    
+    assertEquals(2, head.value);
+    assertNotNull(head.next);
+    assertEquals(2, head.next.value);
+    assertNull(head.next.next);
+
+    assertEquals(head, head.next.prev);
   }
 
   // -------- WAVE 2 -------
