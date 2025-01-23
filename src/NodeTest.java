@@ -98,5 +98,16 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithNoNextOrNoPrev() {
+    // Arrange
+    Node oneNode = new Node(2);
+
+    // Act and Assert
+    List<Integer> result = oneNode.toList();
+    
+    
+  }
+
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
 }
