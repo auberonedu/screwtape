@@ -41,10 +41,27 @@ class NodeTest {
     );
   }
 
-  
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithNullList(){
+    List<Integer> nullList = null;
 
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(nullList),
+        "Expected constructor to throw IllegalArgumentException for an empty list."
+    );
+  }
+
+  @Test
+  void testListConstructorWithOneValue(){
+    List<Integer> valueList = List.of(5);
+
+    Node head = new Node(valueList);
+
+    assertEquals(5, head.value);
+    assertEquals(null, head.prev);
+    assertEquals(null, head.next);
+  }
 
   // -------- WAVE 2 -------
 
@@ -67,6 +84,34 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListWithSingleNode(){
+    Node head = new Node(5);
+
+    List<Integer> values = head.toList();
+
+    assertEquals(List.of(5), values);
+  }
+  
+  @Test
+  void testToListWithHeadInMiddle(){
+    Node head = new Node(5);
+    Node middle = new Node(7);
+    Node tail = new Node(3);
+    Node first = new Node(2);
+    Node second = new Node(0);
+
+    first.next = second;
+    second.prev = first;
+    second.next = head;
+    head.prev = second;
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    List<Integer> values = head.toList();
+
+    assertEquals(List.of(5, 7, 3), values);
+  }
 }

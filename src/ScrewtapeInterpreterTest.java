@@ -23,10 +23,74 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
-  // TODO: Implement more tests for bracketMap
-  // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testSeperateBracketMap(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
 
-  
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(4, 0);
+    expectedMap.put(9, 5);
+    expectedMap.put(14, 12);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testSingleEmptyBracketMap(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(1, 0);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testSingleBracketMap(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[>+<-]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(5, 0);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testLopsidedBracketMap(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[++-[>>-[<<+]]]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(14, 0);
+    expectedMap.put(13, 4);
+    expectedMap.put(12, 8);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test 
+  void testIllegalArgumentBracketMap(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[++--[]";
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected bracketMap to throw IllegalArgumentException for program that contains unmatched brackets."
+    );
+
+  }
 
   @Test
   void testAdd() {
