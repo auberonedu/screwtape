@@ -52,7 +52,40 @@ class NodeTest {
         "Expected constructor to throw IllegalArgumentException for an empty list."
     );
   }
+
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithOneValue() {
+    // Arrange
+    List<Integer> values = List.of(47);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(47, head.value);
+    assertNull(head.next);
+    assertNull(head.prev);
+  }
+
+  @Test
+  void testListConstructorWithLargeValue() {
+    // Arrange
+    List<Integer> values = List.of(4700, 12322, 93939);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(4700, head.value);
+    assertNotNull(head.next);
+    assertEquals(12322, head.next.value);
+    assertNotNull(head.next.next);
+    assertEquals(93939, head.next.next.value);
+    assertNull(head.next.next.next);
+    assertEquals(head, head.next.prev);
+    assertEquals(head.next, head.next.next.prev);
+  }
 
   // -------- WAVE 2 -------
 
