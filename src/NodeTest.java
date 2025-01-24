@@ -37,11 +37,9 @@ class NodeTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> new Node(emptyList),
-        "Expected constructor to throw IllegalArgumentException for an empty list."
-    );
+        "Expected constructor to throw IllegalArgumentException for an empty list.");
   }
 
-  
   // TODO: Add test for list constructor when passed null list
   @Test
   void testListConstructorWithNullList() {
@@ -49,11 +47,11 @@ class NodeTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> new Node(null),
-        "Expected constructor to throw IllegalArgumentException for an empty list."
-    );
+        "Expected constructor to throw IllegalArgumentException for an empty list.");
   }
 
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
   @Test
   void testListConstructorWithOneValue() {
     // Arrange
@@ -121,6 +119,36 @@ class NodeTest {
     assertEquals(List.of(5), values);
   }
 
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
+  @Test
+  void testToListWithManyValues() {
+    // Arrange
+    Node head = new Node(10);
+    Node second = new Node(25);
+    Node third = new Node(76);
+    Node fourth = new Node(84);
+    Node fifth = new Node(33);
+    Node sixth = new Node(10);
+    Node tail = new Node(123);
 
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+    head.next = second;
+    second.prev = head;
+    second.next = third;
+    third.prev = second;
+    third.next = fourth;
+    fourth.prev = third;
+    fourth.next = fifth;
+    fifth.prev = fourth;
+    fifth.next = sixth;
+    sixth.prev = fifth;
+    sixth.next = tail;
+    tail.prev = sixth;
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(10, 25, 76, 84, 33, 10, 123), values);
+  }
 }
