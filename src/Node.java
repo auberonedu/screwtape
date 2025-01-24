@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -55,7 +56,7 @@ public class Node {
       return;
     }
 
-    // Initializing the a current node of the LinkedList 
+    // Initializing a reference to the current node of the LinkedList 
     Node current = this;
 
     // Iterating through the list starting from index 1
@@ -82,6 +83,21 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
-    return null;
+    // Initializing a reference to the current node of the LinkedList and
+    // initializing a new ArrayList to store the values of each node
+    Node current = this;
+    List<Integer> list = new ArrayList<>();
+
+    // Looping over all nodes until the current node is null
+    while (current != null) {
+      // Adding the value of the current node to the list
+      list.add(current.value);
+
+      // Moving to the next node in the LinkedList
+      current = current.next;
+    }
+
+    // Returning the list of all values from each node
+    return list;
   }
 }
