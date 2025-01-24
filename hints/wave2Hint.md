@@ -1,0 +1,1 @@
+Remember that this is an instance method. `this` will get you a pointer to the specific Node that the method is being called on. Something along the lines of `Node current = this;` may be helpful.

@@ -1,0 +1,3 @@
+Note that you are modifying a constructor here. You can access the value of the node under construction using `this.value` and the next pointer using `this.next`. If the input list is not empty, you will need to set the current node to hold the first value in the list: `this.value = list.get(0);`
+
+> The `this` is actually not needed here. In a constructor / instance method the `this` is implied if there's no other variable in scope with the same name.
