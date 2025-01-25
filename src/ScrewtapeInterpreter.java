@@ -162,6 +162,15 @@ public class ScrewtapeInterpreter {
     //make a for-loop to keep '[' and ']' together always matching
         //if statements with stack syntax
 
+    int instructionPointer = 0;
+    StringBuilder outputString = new StringBuilder();
+
+    Stack<Integer> stack = new Stack<>();
+    Map<Integer, Integer> bracketMap = new HashMap<>();
+
+    for (int i = 0; i < program.length(); i++) {
+        char currChar = program.charAt(i);
+    }
     return null;
   }
 }
