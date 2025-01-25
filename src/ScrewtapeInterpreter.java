@@ -213,7 +213,9 @@ public class ScrewtapeInterpreter {
         if (tapePointer.prev == null) {
 
           // Create a new head and set the pointer to it
-          tapeHead = new Node(0);
+          this.tapeHead = new Node(0);
+          tapePointer.prev = tapeHead;
+          tapeHead.next = tapePointer;
           tapePointer = tapeHead;
         }
         else {
@@ -222,21 +224,34 @@ public class ScrewtapeInterpreter {
       }
       else if (program.charAt(i) == '+') {
         // Increment the value in the current memory node.
+        tapePointer.value++;
       }
       else if (program.charAt(i) == '-') {
         // Decrement the value in the current memory node.
+        tapePointer.value--;
       }
       else if (program.charAt(i) == '.') {
+
+        System.out.println("Value: " + tapePointer.value);
         // Output the character represented by the value in the current memory node.
+        asciiOutput += Character.toString((char) tapePointer.value);
+
+        
+
       }
       else if (program.charAt(i) == '[') {
-        // Do nothing
+        tapePointer = tapePointer.next;
+        System.out.println(tapePointer.value);
       }
       else if (program.charAt(i) == ']') {
-        // If the value in the current memory node is not 0, jump back to the matching `[`.
+        
+        if (tapePointer.value != 0) {
+          this.bracketMap(program);
+        }
       }
     }
 
+    System.out.println("Output: " + asciiOutput);
     return asciiOutput;
   }
 }
