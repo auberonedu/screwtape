@@ -153,6 +153,15 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
+
+    //initialize variables start at 0
+    //store indices in a stack
+    //Map holds the key-value pairs for the brackets
+    //make a for loop 
+        //if statements depending on the ASCII char
+    //make a for-loop to keep '[' and ']' together always matching
+        //if statements with stack syntax
+
     return null;
   }
 }
