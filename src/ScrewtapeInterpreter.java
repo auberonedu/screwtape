@@ -211,6 +211,7 @@ public class ScrewtapeInterpreter {
           if (pointerStorage[instructionPointer] == 0) {
             i = bracketMap.get(i);  // Jump to the matching closing bracket
 
+            
         } 
         else if (instruction == ']') {       
            //if NOT zero then go back to match 
