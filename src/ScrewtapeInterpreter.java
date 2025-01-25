@@ -168,6 +168,7 @@ public class ScrewtapeInterpreter {
     Stack<Integer> stack = new Stack<>();
     Map<Integer, Integer> bracketMap = new HashMap<>();
 
+    //loop for matchy match bracket
     for (int i = 0; i < program.length(); i++) {
         char currChar = program.charAt(i);
         
@@ -181,6 +182,27 @@ public class ScrewtapeInterpreter {
           //map and match the brackets together 
           bracketMap.put(openRightBracket, i);
           bracketMap.put(i, openRightBracket);
+        }
+    }
+
+    //loop for if statements for brackets
+    for (int i = 0; i < program.length(); i++) {
+        char instruction = program.charAt(i); 
+
+        if (instruction ==) {
+
+        } 
+        else if (instruction == ) {
+
+        }
+        else if (instruction == ) {
+
+        }
+        else if (instruction == ) {
+
+        } 
+        else if (instruction == ) {
+          
         }
     }
     return null;
