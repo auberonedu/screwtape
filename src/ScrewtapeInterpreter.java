@@ -170,6 +170,18 @@ public class ScrewtapeInterpreter {
 
     for (int i = 0; i < program.length(); i++) {
         char currChar = program.charAt(i);
+        
+        if (currChar == '[') {
+          stack.push(i);
+        } 
+        else if (currChar == ']') {
+          //pop the last opening bracket index
+          int openRightBracket = stack.pop();
+
+          //map and match the brackets together 
+          bracketMap.put(openRightBracket, i);
+          bracketMap.put(i, openRightBracket);
+        }
     }
     return null;
   }
