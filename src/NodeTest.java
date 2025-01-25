@@ -42,7 +42,7 @@ class NodeTest {
   }
 
   
-  // TODO: Add test for list constructor when passed null list
+  // DONE: Add test for list constructor when passed null list
   @Test
   void testListConstructorWithNullList() {
 
@@ -57,8 +57,7 @@ class NodeTest {
     );
   }
 
-  // DONE
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Add at least one more test for list constructor that would be useful and cover new ground.
   @Test
   void testListConstructorWithRepeatedElements() {
 
@@ -97,7 +96,7 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
+  // DONE: Add test for Node with no next or prev
   @Test
   void testToListWithNoNextOrNoPrev() {
     // Arrange
@@ -110,7 +109,7 @@ class NodeTest {
     assertEquals(2, result.get(0));
   }
 
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Add at least one more test for list constructor that would be useful and cover new ground.
 
   @Test
   void testToListWithNegativeValues() {

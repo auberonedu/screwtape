@@ -107,7 +107,7 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // Hint: use a stack
     Map<Integer, Integer> brackets = new HashMap<>(); //storing bracket pairs
     Stack<Integer> stack = new Stack<>(); //storing indices
@@ -151,7 +151,7 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
 
     //initialize variables start at 0
@@ -188,7 +188,7 @@ public class ScrewtapeInterpreter {
     }
 
     //loop for if statements for brackets
-    for (int i = 0; i < program.length(); i++) {
+    for (int i = 0; i < program.length();) {
         char instruction = program.charAt(i); 
 
         if (instruction == '>') {
@@ -211,7 +211,6 @@ public class ScrewtapeInterpreter {
           if (pointerStorage[instructionPointer] == 0) {
             i = bracketMap.get(i);  // Jump to the matching closing bracket
 
-            
         } 
         else if (instruction == ']') {       
            //if NOT zero then go back to match 
@@ -219,7 +218,7 @@ public class ScrewtapeInterpreter {
             i = bracketMap.get(i);  // Jump to the matching opening bracket
         }
         }
+        }
     }
-    return outputString.toString();
-  }
+    return outputString.toString();  }
 }
