@@ -68,6 +68,15 @@ public class Node {
   public List<Integer> toList() {
     // Wave 2 - TODO: Implement this
 
-    return null;
+    // Create list to hold values
+    List<Integer> result = new ArrayList<>();
+    Node current = this;
+
+    // Traverse linked list to add each value to result list
+    while (current != null) {
+        result.add(current.value);
+        current = current.next;
+    }
+    return result;
   }
 }
