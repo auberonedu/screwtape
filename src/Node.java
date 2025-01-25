@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -56,12 +57,6 @@ public class Node {
     }
   }
 
-  public Node(List<Integer> list, Node prev) {
-
-  }
-
- 
-
   // [1, 2, 3]
   // node (1), next -> node (2) -> node (3)
 
@@ -72,7 +67,14 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
-    return null;
+    List<Integer> list = new ArrayList<>();
+
+    Node current = this;
+    while (current != null) {
+      list.add(current.value);
+      current = current.next;
+    }
+
+    return list;
   }
 }
