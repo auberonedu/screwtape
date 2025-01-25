@@ -162,6 +162,8 @@ public class ScrewtapeInterpreter {
     //make a for-loop to keep '[' and ']' together always matching
         //if statements with stack syntax
 
+    //array for storage
+    int[] pointerStorage = new int[1000];       //forgot to make array for pointers' memory
     int instructionPointer = 0;
     StringBuilder outputString = new StringBuilder();
 
@@ -189,22 +191,35 @@ public class ScrewtapeInterpreter {
     for (int i = 0; i < program.length(); i++) {
         char instruction = program.charAt(i); 
 
-        if (instruction ==) {
+        if (instruction == '>') {
+          instructionPointer++;
+        } 
+        else if (instruction == '<') {
+          instructionPointer--;
+        }
+        else if (instruction == '+') {
+          pointerStorage[instructionPointer]++;
+        }
+        else if (instruction == '-') {
+          pointerStorage[instructionPointer]--;
+        } 
+        else if (instruction == '.') {
+          outputString.append((char)pointerStorage[instructionPointer]);
+        }
+        else if (instruction == '[') {       
+          //if zero skip to match ']' loop
+          if (pointerStorage[instructionPointer] == 0) {
+            i = bracketMap.get(i);  // Jump to the matching closing bracket
 
         } 
-        else if (instruction == ) {
-
+        else if (instruction == ']') {       
+           //if NOT zero then go back to match 
+           if (pointerStorage[instructionPointer] != 0) {
+            i = bracketMap.get(i);  // Jump to the matching opening bracket
         }
-        else if (instruction == ) {
 
-        }
-        else if (instruction == ) {
-
-        } 
-        else if (instruction == ) {
-          
         }
     }
-    return null;
+    return outputString.toString();
   }
 }
