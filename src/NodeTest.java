@@ -109,6 +109,45 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithSingleNode() {
+    // Arrange
+    Node head = new Node(42);
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(42), values);
+  }
+
   // TODO: Add at least one more test for list constructor that would be useful
   // and cover new ground.
+  @Test
+  void testToListWithDisconnectedNode() {
+    // Arrange
+    Node node = new Node(99);
+
+    // Act
+    List<Integer> values = node.toList();
+
+    // Assert
+    assertEquals(List.of(99), values);
+  }
+
+  @Test
+  void testToListWithLargeLinkedList() {
+    // Arrange
+    List<Integer> values = new ArrayList<>();
+    for (int i = 0; i < 1000; i++) {
+      values.add(i);
+    }
+    Node head = new Node(values);
+
+    // Act
+    List<Integer> result = head.toList();
+
+    // Assert
+    assertEquals(values, result);
+  }
 }
