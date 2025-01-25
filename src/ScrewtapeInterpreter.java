@@ -137,9 +137,8 @@ public class ScrewtapeInterpreter {
 
         bracketPairTracker.push("[");
         openBracketIndexTracker.push(i);
-   
-      } 
-      else if (program.charAt(i) == ']') {
+
+      } else if (program.charAt(i) == ']') {
 
         closeBracketIndex = i;
 
@@ -149,7 +148,7 @@ public class ScrewtapeInterpreter {
 
           openBracketIndexTracker.pop();
           bracketPairTracker.pop();
-        } 
+        }
       }
     }
 
@@ -188,65 +187,67 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
 
     String asciiOutput = "";
+    int openBracketIndex = 0;
 
     // Rough start
     for (int i = 0; i < program.length(); i++) {
 
       if (program.charAt(i) == '>') {
-        // Move the tape pointer to the next memory node.
         if (tapePointer.next == null) {
 
-          // Creates a new tailNode with 0 value
-          // Integrates the new tailNode into the linked list
           Node tailNode = new Node(0);
           tapePointer.next = tailNode;
           tailNode.prev = tapePointer;
           tapePointer = tailNode;
-        }
+        } 
         else {
+
           tapePointer = tapePointer.next;
         }
-      }
+      } 
       else if (program.charAt(i) == '<') {
-
-        // Move the tape pointer to the previous memory node.
         if (tapePointer.prev == null) {
 
-          // Create a new head and set the pointer to it
           this.tapeHead = new Node(0);
           tapePointer.prev = tapeHead;
           tapeHead.next = tapePointer;
           tapePointer = tapeHead;
-        }
+        } 
         else {
           tapePointer = tapePointer.prev;
         }
-      }
+      } 
       else if (program.charAt(i) == '+') {
-        // Increment the value in the current memory node.
+
         tapePointer.value++;
-      }
+      } 
       else if (program.charAt(i) == '-') {
-        // Decrement the value in the current memory node.
+
         tapePointer.value--;
-      }
+      } 
       else if (program.charAt(i) == '.') {
 
-        System.out.println("Value: " + tapePointer.value);
-        // Output the character represented by the value in the current memory node.
         asciiOutput += Character.toString((char) tapePointer.value);
-
-        
-
-      }
+      } 
       else if (program.charAt(i) == '[') {
-        tapePointer = tapePointer.next;
-        System.out.println(tapePointer.value);
-      }
+        System.out.println("test4");
+
+        this.bracketMap(program).get(i);
+        openBracketIndex = i;
+
+      } 
       else if (program.charAt(i) == ']') {
-        
+        System.out.println(tapePointer.value);
+
         if (tapePointer.value != 0) {
-          this.bracketMap(program);
+          this.bracketMap(program).get(i);
+
+          for (int j = openBracketIndex; j > 0; j--) {
+            if (program.charAt(j) == '[') {
+              i = j;
+              break;
+            }
+          }
         }
       }
     }
