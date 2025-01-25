@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Test;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,14 +38,54 @@ class NodeTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> new Node(emptyList),
-        "Expected constructor to throw IllegalArgumentException for an empty list."
-    );
+        "Expected constructor to throw IllegalArgumentException for an empty list.");
   }
 
-  
   // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithNullList() {
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class, () -> new Node(null),
+        "Expected constructor to throw IllegalArgumentException for a null list.");
+  }
 
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
+
+  @Test
+  void testListCondstructorWithSingleValue() {
+    // Arrange
+    List<Integer> values = List.of(42);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(42, head.value);
+    assertNull(head.next);
+    assertNull(head.prev);
+
+  }
+
+  @Test
+  void testListConstructorWithLargeList() {
+    // Arrange
+    List<Integer> values = new ArrayList<>();
+    for (int i = 0; i < 1000; i++) {
+      values.add(i);
+    }
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    Node current = head;
+    for (int i = 0; i < 1000; i++) {
+      assertNotNull(current);
+      assertEquals(i, current.value);
+      current = current.next;
+    }
+    assertNull(current);
+  }
 
   // -------- WAVE 2 -------
 
@@ -68,5 +109,6 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
 }
