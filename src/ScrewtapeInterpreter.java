@@ -192,19 +192,19 @@ public class ScrewtapeInterpreter {
         char instruction = program.charAt(i); 
 
         if (instruction == '>') {
-          instructionPointer++;
+          instructionPointer++;   // move right
         } 
         else if (instruction == '<') {
-          instructionPointer--;
+          instructionPointer--;   // move left 
         }
         else if (instruction == '+') {
-          pointerStorage[instructionPointer]++;
+          pointerStorage[instructionPointer]++; // increment
         }
         else if (instruction == '-') {
-          pointerStorage[instructionPointer]--;
+          pointerStorage[instructionPointer]--; // decrement
         } 
         else if (instruction == '.') {
-          outputString.append((char)pointerStorage[instructionPointer]);
+          outputString.append((char)pointerStorage[instructionPointer]); //convert and add to the end of the value 
         }
         else if (instruction == '[') {       
           //if zero skip to match ']' loop
@@ -217,7 +217,6 @@ public class ScrewtapeInterpreter {
            if (pointerStorage[instructionPointer] != 0) {
             i = bracketMap.get(i);  // Jump to the matching opening bracket
         }
-
         }
     }
     return outputString.toString();
