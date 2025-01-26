@@ -76,6 +76,31 @@ public class ScrewtapeInterpreter {
   }
 
   /**
+   * Increments the value in the current memory node (`+`)
+   * 
+   */
+  public void increment() {
+    tapePointer.value++;
+  }
+
+  /**
+   * Decrements the value in the current memory node (`-`)
+   * 
+   */
+  public void decrement() {
+    tapePointer.value--;
+  }
+
+  /**
+   * Outputs the character the value in the current memory node (`.`)
+   * 
+   * @return the character representing the integer value in the current node
+   */
+  public String output() {
+    return Character.toString((char) tapePointer.value);
+  }
+
+  /**
    * Retrieves the current state of the memory tape as a list of integers.
    * 
    * @return A list of integers representing the values in the memory tape, starting from the head.
