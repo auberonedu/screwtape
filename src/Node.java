@@ -76,6 +76,10 @@ public class Node {
     Node current  = head;
 
     List<Integer> listOfInts = new ArrayList<>();
+
+    if(head == null){
+      throw new IllegalArgumentException("The node is null or empty");
+    }
     while(current != null){
       listOfInts.add(current.value);
       current = current.next;
