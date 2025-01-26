@@ -227,6 +227,47 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    StringBuilder output = new StringBuilder();
+    
+    // bracket mapping
+    Map<Integer, Integer> brackets = bracketMap(program);
+    int instructionPointer = 0;
+
+    while (instructionPointer < program.length()) {
+      char instruction = program.charAt(instructionPointer);
+
+      switch (instruction) {
+        case '>':
+            moveRight();
+            break;
+        case '<':
+            moveLeft();
+            break;
+        case '+':
+            increment();
+            break;
+        case '-':
+            decrement();
+            break;
+        case '.':
+            output.append(output());
+            break;
+        case '[':
+            // if current memory is 0 then jump to ']'
+            if (tapePointer.value == 0) {
+                instructionPointer = brackets.get(instructionPointer);
+            }
+            break;
+        case ']':
+            // if curreny memory is not 0, then jump to '['
+            if (tapePointer.value != 0) {
+              instructionPointer = brackets.get(instructionPointer);
+            }
+            break;
+      }
+      instructionPointer++;
+    }
+
+    return output.toString();
   }
 }
