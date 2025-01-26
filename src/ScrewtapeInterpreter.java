@@ -1,3 +1,4 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -107,7 +108,35 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+
+    // hashmap to store the matching brackets
+    Map<Integer, Integer> bracketPairs = new HashMap<>();
+
+    // to keep track of the opening bracket
+    Stack<Integer> stack = new Stack<>();
+
+    // Iterate each character
+    for (int i = 0; i < program.length(); i++) {
+      char c = program.charAt(i);
+      if (c == '[') {
+        stack.push(i);
+      } else if (c == ']') {
+        if (stack.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+        }
+
+        // index of matching opening backet
+        int openIndex = stack.pop();
+        bracketPairs.put(i, openIndex);
+      }
+    }
+
+    // if any unmatched brackets, throw an error
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + stack.pop());
+    }
+
+    return bracketPairs;
   }
 
   /**
