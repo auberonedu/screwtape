@@ -34,6 +34,48 @@ public class ScrewtapeInterpreter {
   }
 
   /**
+   * moves the tape pointer to thr right (`>`)
+   * 
+   * if the pointer is at the last node, a new node is created
+   */
+  public void moveRight() {
+    if (tapePointer.next == null) {
+      
+      // create a new node with 0
+        tapePointer.next = new Node(0);
+
+        // linking the new node to the current one
+        tapePointer.next.prev = tapePointer;
+    }
+
+    // moving the pointer to the next node
+    tapePointer = tapePointer.next;
+  }
+
+  /**
+   * moves the tape pointer to thr left (`<`)
+   * 
+   * if the pointer is at the first node, a new node is created
+   */
+  public void moveLeft() {
+    if (tapePointer.prev == null) {
+        
+        // create a new node with 0
+        Node newNode = new Node(0);
+        newNode.next = tapePointer;
+        
+        // linking the current node to the new one
+        tapePointer.prev = newNode;
+
+        // tapeHead to the new first node - updating
+        tapeHead = newNode;
+    }
+
+    // moving the pointer to the prev node
+    tapePointer = tapePointer.prev;
+  }
+
+  /**
    * Retrieves the current state of the memory tape as a list of integers.
    * 
    * @return A list of integers representing the values in the memory tape, starting from the head.
