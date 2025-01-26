@@ -151,63 +151,57 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // Use a large array to simulate the tape (e.g., 30000 cells for enough space)
-    int[] pointerStorage = new int[30000];
-    int instructionPointer = 0;
     StringBuilder outputString = new StringBuilder();
-
     Stack<Integer> stack = new Stack<>();
-    Map<Integer, Integer> bracketMap = new HashMap<>();
+    Map<Integer, Integer> bracketMap = bracketMap(program);
+    
+    // Start at the head of the tape
+    tapePointer = tapeHead;
 
-    // First pass: Build the bracket map
-    for (int i = 0; i < program.length(); i++) {
-        char currChar = program.charAt(i);
-
-        if (currChar == '[') {
-            stack.push(i);  // Store index of '['
-        } 
-        else if (currChar == ']') {
-            int openRightBracket = stack.pop();
-            bracketMap.put(openRightBracket, i);  // Map opening bracket to closing bracket
-            bracketMap.put(i, openRightBracket);  // Map closing bracket to opening bracket
-        }
-    }
-
-    // Second pass: Execute the program
-    for (int i = 0; i < program.length(); i++) {
+    // Process each command in the program
+    for (int i = 0; i < program.length();) {
         char instruction = program.charAt(i);
 
         if (instruction == '>') {
-            instructionPointer++;   // Move right
+            // Move right
+            if (tapePointer.next == null) {
+                tapePointer.next = new Node(0); // Add a new node if needed
+            }
+            tapePointer = tapePointer.next;
         } 
         else if (instruction == '<') {
-            instructionPointer--;   // Move left
+            // Move left
+            if (tapePointer.prev == null) {
+                tapePointer.prev = new Node(0); // Add a new node if needed
+            }
+            tapePointer = tapePointer.prev;
         } 
         else if (instruction == '+') {
-            pointerStorage[instructionPointer]++;  // Increment the current memory cell
+            tapePointer.value++;  // Increment current node's value
         }
         else if (instruction == '-') {
-            pointerStorage[instructionPointer]--;  // Decrement the current memory cell
+            tapePointer.value--;  // Decrement current node's value
         } 
         else if (instruction == '.') {
-            outputString.append((char) pointerStorage[instructionPointer]);  // Output the ASCII value
+            outputString.append((char) tapePointer.value);  // Output ASCII character
         }
-        else if (instruction == '[') {       
-            if (pointerStorage[instructionPointer] == 0) {
-                i = bracketMap.get(i);  // Jump to the matching closing bracket
-                continue;  // Skip incrementing `i` as we've already handled this instruction
+        else if (instruction == '[') {
+            if (tapePointer.value == 0) {
+                i = bracketMap.get(i);  // Jump to matching closing bracket
+                continue;
             }
         } 
-        else if (instruction == ']') {       
-            if (pointerStorage[instructionPointer] != 0) {
-                i = bracketMap.get(i);  // Jump to the matching opening bracket
-                continue;  // Skip incrementing `i` as we've already handled this instruction
+        else if (instruction == ']') {
+            if (tapePointer.value != 0) {
+                i = bracketMap.get(i);  // Jump to matching opening bracket
+                continue;
             }
         }
 
-        i++; // Proceed to the next instruction
+        i++;  // Proceed to the next instruction
     }
 
     return outputString.toString();  // Return the final output
 }
+
 }
