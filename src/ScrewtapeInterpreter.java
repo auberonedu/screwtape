@@ -187,9 +187,7 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
 
     String asciiOutput = "";
-    int openBracketIndex = 0;
 
-    // Rough start
     for (int i = 0; i < program.length(); i++) {
 
       if (program.charAt(i) == '>') {
@@ -230,29 +228,19 @@ public class ScrewtapeInterpreter {
         asciiOutput += Character.toString((char) tapePointer.value);
       } 
       else if (program.charAt(i) == '[') {
-        System.out.println("test4");
 
         this.bracketMap(program).get(i);
-        openBracketIndex = i;
-
       } 
       else if (program.charAt(i) == ']') {
-        System.out.println(tapePointer.value);
 
+        // Attended tutoring with Everett
+        // Had a nested for loop that was causing infinite loop issues
         if (tapePointer.value != 0) {
-          this.bracketMap(program).get(i);
-
-          for (int j = openBracketIndex; j > 0; j--) {
-            if (program.charAt(j) == '[') {
-              i = j;
-              break;
-            }
-          }
+          i = this.bracketMap(program).get(i);
         }
       }
     }
 
-    System.out.println("Output: " + asciiOutput);
     return asciiOutput;
   }
 }

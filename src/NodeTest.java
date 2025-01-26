@@ -1,4 +1,5 @@
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.provider.NullSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,8 @@ class NodeTest {
   }
 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  
+  // I couldn't think of what other things to test for since we can't pass in nulls that have been mixed into the list and the constructor/variable already account for only being passed integers.
   @Test
   void testListConstructorWithOneValue() {
     // Arrange
@@ -69,6 +72,7 @@ class NodeTest {
     assertNull(head.next);
     assertNull(head.prev);
   }
+
 
   // -------- WAVE 2 -------
 
@@ -105,6 +109,24 @@ class NodeTest {
   }
 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Test suggested by Rebecca
+  @Test
+  void testToListStartingAtSecondValue() {
+    // Arrange
+    Node head = new Node(5);
+    Node middle = new Node(7);
+    Node tail = new Node(3);
 
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    // Act
+    List<Integer> values = middle.toList();
+
+    // Assert
+    assertEquals(List.of(7, 3), values);
+  }
   
 }
