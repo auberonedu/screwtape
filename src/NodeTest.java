@@ -104,7 +104,7 @@ class NodeTest {
   // TODO: Add at least one more test for list constructor that would be useful
   // and cover new ground.
   @Test
-  void testToListWithNullNode() {
+  void testToListWithNegNums() {
     List<Integer> negativeNumbers = List.of(-1, -2, -3, -4);
     Node head = new Node(negativeNumbers);
 
