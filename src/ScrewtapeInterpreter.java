@@ -151,74 +151,63 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    //initialize variables start at 0
-    //store indices in a stack
-    //Map holds the key-value pairs for the brackets
-    //make a for loop 
-    //    if statements depending on the ASCII char
-    //make a for-loop to keep '[' and ']' together always matching
-    //    if statements with stack syntax
-
-    //array for storage
-    int[] pointerStorage = new int[1000];       //forgot to make array for pointers' memory
+    // Use a large array to simulate the tape (e.g., 30000 cells for enough space)
+    int[] pointerStorage = new int[30000];
     int instructionPointer = 0;
     StringBuilder outputString = new StringBuilder();
 
     Stack<Integer> stack = new Stack<>();
     Map<Integer, Integer> bracketMap = new HashMap<>();
 
-    //loop for matchy match bracket
+    // First pass: Build the bracket map
     for (int i = 0; i < program.length(); i++) {
         char currChar = program.charAt(i);
-        
+
         if (currChar == '[') {
             stack.push(i);  // Store index of '['
         } 
         else if (currChar == ']') {
-            //pop the last opening bracket index
             int openRightBracket = stack.pop();
-            //map and match the brackets together 
             bracketMap.put(openRightBracket, i);  // Map opening bracket to closing bracket
             bracketMap.put(i, openRightBracket);  // Map closing bracket to opening bracket
         }
     }
 
-    //loop for if statements for brackets
-    for (int i = 0; i < program.length();) {
-        char instruction = program.charAt(i); 
+    // Second pass: Execute the program
+    for (int i = 0; i < program.length(); i++) {
+        char instruction = program.charAt(i);
 
         if (instruction == '>') {
-            instructionPointer++;   // move right
+            instructionPointer++;   // Move right
         } 
         else if (instruction == '<') {
-            instructionPointer--;   // move left 
-        }
+            instructionPointer--;   // Move left
+        } 
         else if (instruction == '+') {
-            pointerStorage[instructionPointer]++; // increment
+            pointerStorage[instructionPointer]++;  // Increment the current memory cell
         }
         else if (instruction == '-') {
-            pointerStorage[instructionPointer]--; // decrement
+            pointerStorage[instructionPointer]--;  // Decrement the current memory cell
         } 
         else if (instruction == '.') {
-            outputString.append((char)pointerStorage[instructionPointer]); //convert and add to the end of the value 
+            outputString.append((char) pointerStorage[instructionPointer]);  // Output the ASCII value
         }
         else if (instruction == '[') {       
-            //if zero skip to match ']' loop
             if (pointerStorage[instructionPointer] == 0) {
                 i = bracketMap.get(i);  // Jump to the matching closing bracket
-                continue;  // Skip incrementing `i`
+                continue;  // Skip incrementing `i` as we've already handled this instruction
             }
         } 
         else if (instruction == ']') {       
-            //if NOT zero then go back to match 
             if (pointerStorage[instructionPointer] != 0) {
                 i = bracketMap.get(i);  // Jump to the matching opening bracket
-                continue;  // Skip incrementing `i`
+                continue;  // Skip incrementing `i` as we've already handled this instruction
             }
         }
-        i++; // Move to the next instruction
+
+        i++; // Proceed to the next instruction
     }
+
     return outputString.toString();  // Return the final output
 }
-
 }
