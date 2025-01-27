@@ -170,20 +170,67 @@ public class ScrewtapeInterpreter {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    Map<Integer, Integer> bracketPairs = bracketMap(program);
+    StringBuilder builder = new StringBuilder();
     
     for(int i = 0; i < program.length(); i++){
-      char cmd = program.charAt(i);
+      int cmd = program.charAt(i);
 
       if(cmd == '+'){
         //add
+        tapeHead.value++;
       }
       if(cmd == '-'){
         //sub
+        tapeHead.value--;
       }
+      if(cmd == '>'){
+        //move forward
+        
+        if(tapeHead.next == null){
+          tapeHead.next = new Node(0);
+          tapePointer = tapeHead.next;
+        } else{
+          tapePointer = tapeHead.next;
+        }
+      }
+      if(cmd == '<'){
+        //move back
+        
+        if(tapeHead.prev == null){
+          tapeHead.next = new Node(0);
+          tapePointer = tapeHead.next;
+        }
+        else{
+          tapePointer = tapeHead.prev;
+        }
+      }
+      if(cmd == '['){
+        //if the tapePointer.value != 0{
+        //it is going to do the command next in line and follow the for loop and the 
+        // stuff inside the brackets
+      //}
+        if(tapePointer.value == 0){
+          //this is going to put it forward to the corresponding closing brack
+          i = bracketPairs.get(i);
+        }
+       
+      }
+      if (cmd == ']') {
+        if (tapePointer.value != 0) {
+          //moving it back to the corresponding opening bracket
+            i = bracketPairs.get(i); 
+        }
+        tapePointer = tapeHead.next;
+    }
       if(cmd == '.'){
+        builder.append(cmd);
+      }
+
+      if(cmd == '['){
 
       }
     }
-    return null;
+    return builder.toString();
   }
 }
