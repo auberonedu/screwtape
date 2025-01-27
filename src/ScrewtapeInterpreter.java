@@ -152,12 +152,10 @@ public class ScrewtapeInterpreter {
    */
   public String execute(String program) {
     StringBuilder outputString = new StringBuilder();
-    Map<Integer, Integer> bracketMapping = bracketMap(program);  // Precompute matching brackets
+    Map<Integer, Integer> bracketMapping = bracketMap(program);  
 
-    // Start at the head of the tape
     tapePointer = tapeHead;
 
-    // Process each command in the program
     for (int i = 0; i < program.length();) {
         char instruction = program.charAt(i);
 
@@ -178,30 +176,28 @@ public class ScrewtapeInterpreter {
             tapePointer = tapePointer.prev;  // Move the pointer to the previous node
         } 
         else if (instruction == '+') {
-            tapePointer.value++;  // Increment the value at the current pointer
+            tapePointer.value++;  
         }
         else if (instruction == '-') {
-            tapePointer.value--;  // Decrement the value at the current pointer
+            tapePointer.value--;  
         } 
         else if (instruction == '.') {
-            outputString.append((char) tapePointer.value);  // Output the ASCII value at the pointer
+            outputString.append((char) tapePointer.value);  
         }
         else if (instruction == '[') {
             if (tapePointer.value == 0) {
-                // Jump to the matching closing bracket
                 i = bracketMapping.get(i);
                 continue;  // Skip the increment of `i` as we already moved to the correct bracket
             }
         } 
         else if (instruction == ']') {
             if (tapePointer.value != 0) {
-                // Jump to the matching opening bracket
                 i = bracketMapping.get(i);
-                continue;  // Skip the increment of `i` as we already moved to the correct bracket
+                continue;  
             }
         }
-        i++;  // Proceed to the next instruction
+        i++; 
     }
-    return outputString.toString();  // Return the final output
+    return outputString.toString();  
   }
 }
