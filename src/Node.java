@@ -39,7 +39,7 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    // TODO: implement this
+    // DONE: implement this
     // check if the input list is null or empty
     if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("List cannot be null or empty");
@@ -68,7 +68,7 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
+    // DONE: Implement this
     // create a list
     List<Integer> values = new ArrayList<>();
 
