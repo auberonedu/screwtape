@@ -177,6 +177,18 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    int position = 0;
+    String output = "";
+
+    while (position < program.length()) {
+      if (program.charAt(position) == '+') {
+        tapePointer.value++;
+      } else if (program.charAt(position) == '-') {
+        tapePointer.value--;
+      }
+
+      position++;
+    }
+    return output;
   }
 }
