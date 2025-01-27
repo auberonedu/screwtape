@@ -116,6 +116,10 @@ public class ScrewtapeInterpreter {
     Stack<Integer> stack = new Stack<>();
     Map<Integer, Integer> matchingPairs = new HashMap<>();
 
+    if(program.isEmpty() || program == null){
+      throw new IllegalArgumentException("Expecting a program");
+    }
+
     for(int i = 0; i < program.length(); i++){
       char cmd = program.charAt(i);
       // '' is to make a STRIng a char literal for comparison... weird
@@ -165,6 +169,21 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    
+    for(int i = 0; i < program.length(); i++){
+      char cmd = program.charAt(i);
+
+      if(cmd == '+'){
+        //add
+      }
+      if(cmd == '-'){
+        //sub
+      }
+      if(cmd == '.'){
+
+      }
+    }
     return null;
   }
 }
