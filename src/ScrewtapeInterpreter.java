@@ -185,6 +185,27 @@ public class ScrewtapeInterpreter {
         tapePointer.value++;
       } else if (program.charAt(position) == '-') {
         tapePointer.value--;
+      } else if (program.charAt(position) == '>') {
+        if (tapePointer.next == null) {
+          Node nextNode = new Node(0);
+          nextNode.prev = tapePointer;
+          tapePointer.next = nextNode;
+          tapePointer = nextNode;
+        } else {
+          tapePointer = tapePointer.next;
+        }
+      } else if (program.charAt(position) == '<') {
+        if (tapePointer.prev == null) {
+          Node prevNode = new Node(0);
+          prevNode.next = tapePointer;
+          tapePointer.prev = prevNode;
+          tapePointer = prevNode;
+          tapeHead = prevNode;
+        } else {
+          tapePointer = tapePointer.prev;
+        }
+      } else if (program.charAt(position) == '.') {
+        output += (char) tapePointer.value;
       }
 
       position++;
