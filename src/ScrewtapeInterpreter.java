@@ -169,7 +169,6 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
     Map<Integer, Integer> bracketPairs = bracketMap(program);
     StringBuilder builder = new StringBuilder();
     
@@ -199,7 +198,7 @@ public class ScrewtapeInterpreter {
         
         if(tapeHead.prev == null){
           tapeHead.next = new Node(0);
-          tapePointer = tapeHead.next;
+          tapePointer = tapeHead.prev;
         }
         else{
           tapePointer = tapeHead.prev;
