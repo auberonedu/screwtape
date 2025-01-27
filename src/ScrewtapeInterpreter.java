@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -107,7 +109,43 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+    if (program == null) {
+        throw new IllegalArgumentException("Program cannot be null.");
+    }
+
+    // Map to store closing brackets and their corresponding opening brackets
+    Map<Integer, Integer> bracketPairs = new HashMap<>();
+
+    // Stack to keep track of indices of unmatched opening brackets
+    Stack<Integer> stack = new Stack<>();
+
+    // Iterate through the program
+    for (int i = 0; i < program.length(); i++) {
+        char c = program.charAt(i);
+
+        if (c == '[') {
+            // Push the index of the opening bracket onto the stack
+            stack.push(i);
+        } else if (c == ']') {
+            // Ensure there is a matching opening bracket
+            if (stack.isEmpty()) {
+                throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+            }
+
+            // Pop the most recent unmatched opening bracket index
+            int openingIndex = stack.pop();
+
+            // Add the pair to the map (closing -> opening)
+            bracketPairs.put(i, openingIndex);
+        }
+    }
+
+    // After processing, ensure there are no unmatched opening brackets
+    if (!stack.isEmpty()) {
+        throw new IllegalArgumentException("Unmatched opening bracket at index " + stack.peek());
+    }
+
+    return bracketPairs;
   }
 
   /**
@@ -131,6 +169,61 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+
+    if (program == null) {
+      throw new IllegalArgumentException("Program cannot be null.");
+    }
+
+    //generate bracket map for loop handling
+    Map<Integer, Integer> bracketPairs = bracketMap(program);
+
+    //initialize tape and pointer
+    Node tapePointer = this.tapeHead;
+
+    StringBuilder output = new StringBuilder();
+    int programCounter = 0;
+
+    //execute program commands
+    while (programCounter < program.length()) {
+      char command = program.charAt(programCounter);
+
+      if (command == '>') {
+        //move pointer to right/extend tape if needed
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0);
+          tapePointer.next.prev = tapePointer;
+        }
+        tapePointer = tapePointer.next;
+      } else if (command == '<') {
+        //move point to left/extend tape if needed
+        if (tapePointer.prev == null) {
+          tapePointer.prev = new Node(0);
+          tapePointer.prev.next = tapePointer;
+        }
+        tapePointer = tapePointer.prev;
+      } else if (command == '+') {
+        //increment current pointer
+        tapePointer.value++;
+      } else if (command == '-') {
+        //decrement current pointer
+        tapePointer.value--;
+      } else if (command == '.') {
+        //output ASCII char of current value
+        output.append((char) tapePointer.value);
+      } else if (command == '[') {
+        //if value zero jump to matching closing bracket
+        if (tapePointer.value == 0) {
+          programCounter = bracketPairs.get(programCounter);
+        }
+      } else if (command == ']') {
+        //if value non-zero jump back to matching opening bracket
+        if (tapePointer.value != 0) {
+          programCounter = bracketPairs.get(programCounter) - 1;
+        }
+      }
+      //move to next command
+      programCounter++;
+    }
+    return output.toString();
   }
 }
