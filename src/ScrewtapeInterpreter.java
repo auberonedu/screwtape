@@ -118,14 +118,15 @@ public class ScrewtapeInterpreter {
       if (c == '[') {
         bracketPairing.push(i);
       } else if (c == ']') {
+        // if empty then no opening bracket to match closing bracket
         if (bracketPairing.isEmpty()) {
           throw new IllegalArgumentException("Unmatched closing bracket");
         }
-        int poppedBracketIndex = bracketPairing.pop();
-        bracketLocations.put(i, poppedBracketIndex);
+        bracketLocations.put(i, bracketPairing.pop());
       }
     }
 
+    // only opening brackets in the stack so if not empty means unmatched
     if (!bracketPairing.isEmpty()) {
       throw new IllegalArgumentException("Unmatched opening bracket");
     }
@@ -156,9 +157,14 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
     int index = 0;
     Map<Integer, Integer> bracketIndex = bracketMap(program);
+    String converted = "";
+
     while (index < program.length()) {
+
       char c = program.charAt(index);
+
       switch (c) {
+
         case '>':
           if (tapePointer.next == null) {
             tapePointer.next = new Node(0);
@@ -189,6 +195,9 @@ public class ScrewtapeInterpreter {
 
         case '.':
         // do something
+          int asciiValue = tapePointer.value;
+          char character = (char) asciiValue;
+          converted += character;
           break;
         
         case '[':
@@ -197,12 +206,14 @@ public class ScrewtapeInterpreter {
         
         case ']':
           if (tapePointer.value != 0) {
+            // starts loop back at index where [ is
             index = bracketIndex.get(index);
           }
           break;
       }
+
       index++;
     }
-    return null;
+    return converted;
   }
 }
