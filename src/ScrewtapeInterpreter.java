@@ -1,6 +1,7 @@
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -173,7 +174,7 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // Hint: use a stack
 
     // hashmap to store the matching brackets
@@ -195,6 +196,7 @@ public class ScrewtapeInterpreter {
         // index of matching opening backet
         int openIndex = stack.pop();
         bracketPairs.put(i, openIndex);
+        bracketPairs.put(openIndex, i);
       }
     }
 
@@ -225,7 +227,7 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
     StringBuilder output = new StringBuilder();
     
@@ -250,12 +252,12 @@ public class ScrewtapeInterpreter {
             decrement();
             break;
         case '.':
-            output.append(output());
+            output.append((char) tapePointer.value);
             break;
         case '[':
             // if current memory is 0 then jump to ']'
             if (tapePointer.value == 0) {
-                instructionPointer = brackets.get(instructionPointer);
+              instructionPointer = brackets.get(instructionPointer);
             }
             break;
         case ']':
