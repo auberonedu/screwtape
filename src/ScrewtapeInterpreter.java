@@ -169,8 +169,13 @@ public class ScrewtapeInterpreter {
       
         case '<':
           if (tapePointer.prev == null) {
-            tapePointer.prev = new Node(0);
-            tapePointer.prev.next = tapePointer;
+            Node newNode = new Node(0);
+            newNode.next = tapePointer;
+            tapePointer.prev = newNode;
+            tapePointer = newNode;
+            tapeHead = newNode;
+          } else {
+            tapePointer = tapePointer.prev;
           }
           break;
 
@@ -179,7 +184,7 @@ public class ScrewtapeInterpreter {
           break;
         
         case '-':
-        tapePointer.value--;
+          tapePointer.value--;
           break;
 
         case '.':
