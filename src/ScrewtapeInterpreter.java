@@ -244,7 +244,11 @@ public class ScrewtapeInterpreter {
         // tapePointer = tapeHead.next;
       }
       if (cmd == '.') {
-        builder.append(cmd);
+
+        //this is casting the value of the node to a char which is then going to convert it to the ascii value. All chars are ascii. Given the node is a int
+        builder.append((char) tapePointer.value);
+        // Problem with this below is that it is not being converted to a ascii
+        // builder.append(cmd);
       }
 
       // if(cmd == '['){
