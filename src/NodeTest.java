@@ -107,6 +107,7 @@ class NodeTest {
     assertEquals(List.of(5), values);
   }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @SuppressWarnings("null")
   @Test
   void testToListWithNullNode() {
   
@@ -115,7 +116,7 @@ class NodeTest {
     assertThrows(
         NullPointerException.class,
         () -> {
-            List<Integer> values = head.toList();
+            head.toList();
         },
         "Expected toList() to throw NullPointerException when called on a null Node."
     );
