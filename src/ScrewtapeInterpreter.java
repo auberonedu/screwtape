@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.Stack;
 
 /**
- * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
+ * A Screwtape interpreter that executes programs written in the Screwtape
+ * esoteric programming language.
  * 
  * Screwtape is a minimalistic language with the following commands:
  * 
@@ -12,11 +13,14 @@ import java.util.Stack;
  * - `<`: Move the tape pointer to the previous memory node.
  * - `+`: Increment the value in the current memory node.
  * - `-`: Decrement the value in the current memory node.
- * - `.`: Output the character represented by the value in the current memory node.
+ * - `.`: Output the character represented by the value in the current memory
+ * node.
  * - `[`: Do nothing
- * - `]`: If the value in the current memory node is not 0, jump back to the matching `[`.
+ * - `]`: If the value in the current memory node is not 0, jump back to the
+ * matching `[`.
  * 
- * This interpreter provides methods to manipulate the memory tape, execute programs, and handle loops efficiently.
+ * This interpreter provides methods to manipulate the memory tape, execute
+ * programs, and handle loops efficiently.
  */
 public class ScrewtapeInterpreter {
 
@@ -27,7 +31,8 @@ public class ScrewtapeInterpreter {
   private Node tapePointer;
 
   /**
-   * Constructs a new Screwtape interpreter with an initialized memory tape of a single node set to 0.
+   * Constructs a new Screwtape interpreter with an initialized memory tape of a
+   * single node set to 0.
    */
   public ScrewtapeInterpreter() {
     tapeHead = new Node(0);
@@ -37,7 +42,8 @@ public class ScrewtapeInterpreter {
   /**
    * Retrieves the current state of the memory tape as a list of integers.
    * 
-   * @return A list of integers representing the values in the memory tape, starting from the head.
+   * @return A list of integers representing the values in the memory tape,
+   *         starting from the head.
    */
   public List<Integer> getTapeData() {
     return tapeHead.toList();
@@ -46,7 +52,8 @@ public class ScrewtapeInterpreter {
   /**
    * Replaces the current memory tape with a new set of values.
    * 
-   * @param data A list of integers to initialize the memory tape. Each integer will correspond to a memory node.
+   * @param data A list of integers to initialize the memory tape. Each integer
+   *             will correspond to a memory node.
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public void setTape(List<Integer> data) {
@@ -55,7 +62,8 @@ public class ScrewtapeInterpreter {
   }
 
   /**
-   * Retrieves the value in the memory node currently pointed to by the tape pointer.
+   * Retrieves the value in the memory node currently pointed to by the tape
+   * pointer.
    * 
    * @return The integer value of the current memory node.
    */
@@ -82,12 +90,15 @@ public class ScrewtapeInterpreter {
   /**
    * Creates a map of matching bracket pairs for the given Screwtape program.
    * 
-   * The Screwtape language uses brackets `[` and `]` to define loops. This method identifies 
-   * matching bracket pairs and returns a map that associates the index of each closing bracket 
+   * The Screwtape language uses brackets `[` and `]` to define loops. This method
+   * identifies
+   * matching bracket pairs and returns a map that associates the index of each
+   * closing bracket
    * (`]`) with its corresponding opening bracket (`[`).
    * 
-   * For example, in the program `[>+<-]`, the opening bracket at index 0 matches the closing 
-   * bracket at index 5. The returned map would contain a single entry: 
+   * For example, in the program `[>+<-]`, the opening bracket at index 0 matches
+   * the closing
+   * bracket at index 5. The returned map would contain a single entry:
    * `{5: 0}`.
    * 
    * A few more examples:
@@ -110,7 +121,7 @@ public class ScrewtapeInterpreter {
     // TODO: Implement this
     // Hint: use a stack
     if (program == null) {
-        throw new IllegalArgumentException("Program cannot be null.");
+      throw new IllegalArgumentException("Program cannot be null.");
     }
 
     // Map to store closing brackets and their corresponding opening brackets
@@ -121,28 +132,28 @@ public class ScrewtapeInterpreter {
 
     // Iterate through the program
     for (int i = 0; i < program.length(); i++) {
-        char c = program.charAt(i);
+      char c = program.charAt(i);
 
-        if (c == '[') {
-            // Push the index of the opening bracket onto the stack
-            stack.push(i);
-        } else if (c == ']') {
-            // Ensure there is a matching opening bracket
-            if (stack.isEmpty()) {
-                throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
-            }
-
-            // Pop the most recent unmatched opening bracket index
-            int openingIndex = stack.pop();
-
-            // Add the pair to the map (closing -> opening)
-            bracketPairs.put(i, openingIndex);
+      if (c == '[') {
+        // Push the index of the opening bracket onto the stack
+        stack.push(i);
+      } else if (c == ']') {
+        // Ensure there is a matching opening bracket
+        if (stack.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
         }
+
+        // Pop the most recent unmatched opening bracket index
+        int openingIndex = stack.pop();
+
+        // Add the pair to the map (closing -> opening)
+        bracketPairs.put(i, openingIndex);
+      }
     }
 
     // After processing, ensure there are no unmatched opening brackets
     if (!stack.isEmpty()) {
-        throw new IllegalArgumentException("Unmatched opening bracket at index " + stack.peek());
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + stack.peek());
     }
 
     return bracketPairs;
@@ -151,12 +162,17 @@ public class ScrewtapeInterpreter {
   /**
    * Executes a Screwtape program and returns the output as a string.
    * 
-   * The Screwtape program is executed by interpreting its commands sequentially. The memory tape is dynamically 
-   * extended as needed, and the tape pointer starts at the head of the tape. Loops defined by brackets 
-   * `[` and `]` are executed as long as the current memory node's value is non-zero.
+   * The Screwtape program is executed by interpreting its commands sequentially.
+   * The memory tape is dynamically
+   * extended as needed, and the tape pointer starts at the head of the tape.
+   * Loops defined by brackets
+   * `[` and `]` are executed as long as the current memory node's value is
+   * non-zero.
    * 
-   * Output is generated using the `.` command, which converts the value in the current memory node 
-   * to its corresponding ASCII character. The resulting output is returned as a string.
+   * Output is generated using the `.` command, which converts the value in the
+   * current memory node
+   * to its corresponding ASCII character. The resulting output is returned as a
+   * string.
    * 
    * Example:
    * Program: >++++++++[<+++++++++>-]<.>>++++++++[<+++++++++>-]<+.
@@ -174,54 +190,54 @@ public class ScrewtapeInterpreter {
       throw new IllegalArgumentException("Program cannot be null.");
     }
 
-    //generate bracket map for loop handling
+    // generate bracket map for loop handling
     Map<Integer, Integer> bracketPairs = bracketMap(program);
 
-    //initialize tape and pointer
-    Node tapePointer = this.tapeHead;
-
-    StringBuilder output = new StringBuilder();
     int programCounter = 0;
+    String output = "";
 
-    //execute program commands
+    // execute program commands
     while (programCounter < program.length()) {
       char command = program.charAt(programCounter);
 
-      if (command == '>') {
-        //move pointer to right/extend tape if needed
-        if (tapePointer.next == null) {
-          tapePointer.next = new Node(0);
-          tapePointer.next.prev = tapePointer;
-        }
-        tapePointer = tapePointer.next;
-      } else if (command == '<') {
-        //move point to left/extend tape if needed
+      if (command == '+') {
+        // increment current pointer
+        tapePointer.value++;
+      } else if (command == '-') {
+        // decrement current pointer
+        tapePointer.value--;
+      } else if (command == '.') {
+        // Output ASCII char of current value
+        output += (char) tapePointer.value;
+    }   else if (command == '<') {
+        // move point to left/extend tape if needed
         if (tapePointer.prev == null) {
           tapePointer.prev = new Node(0);
           tapePointer.prev.next = tapePointer;
+          // Update tapeHead to point to the new node
+          tapeHead = tapePointer.prev;
         }
         tapePointer = tapePointer.prev;
-      } else if (command == '+') {
-        //increment current pointer
-        tapePointer.value++;
-      } else if (command == '-') {
-        //decrement current pointer
-        tapePointer.value--;
-      } else if (command == '.') {
-        //output ASCII char of current value
-        output.append((char) tapePointer.value);
+      } else if (command == '>') {
+        if (tapePointer.next == null) {
+          // Create a new node to the right
+          Node newNode = new Node(0);
+          tapePointer.next = newNode;
+          newNode.prev = tapePointer;
+        }
+        // Move the pointer to the next node
+        tapePointer = tapePointer.next;
       } else if (command == '[') {
-        //if value zero jump to matching closing bracket
-        if (tapePointer.value == 0) {
-          programCounter = bracketPairs.get(programCounter);
-        }
+        // do nothing - move to next command
+        // placeholder - no special action required
       } else if (command == ']') {
-        //if value non-zero jump back to matching opening bracket
+        // if current memory node's value not 0, jump back to matching opening bracket
         if (tapePointer.value != 0) {
-          programCounter = bracketPairs.get(programCounter) - 1;
+          programCounter = bracketPairs.get(programCounter) - 1; // Jump back to the corresponding `[`
         }
+        // Otherwise, do nothing and continue to the next command
       }
-      //move to next command
+      // move to next command
       programCounter++;
     }
     return output.toString();
