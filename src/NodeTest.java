@@ -92,5 +92,32 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithOneValue() {
+    // Arrange
+    Node head = new Node(5);
+
+    head.next = null;
+    head.prev = null;
+    
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(5), values);
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListWithNullNode() {
+  
+    Node head = null;
+
+    assertThrows(
+        NullPointerException.class,
+        () -> {
+            List<Integer> values = head.toList();
+        },
+        "Expected toList() to throw NullPointerException when called on a null Node."
+    );
+  }
 }
