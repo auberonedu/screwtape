@@ -127,7 +127,7 @@ class ScrewtapeInterpreterTest {
     // Assert
     // The tape should look like: [2, 0, 0]
     List<Integer> tapeData = interpreter.getTapeData();
-    assertEquals(List.of(2, 0, 0), tapeData);
+     assertEquals(List.of(2, 0, 0), tapeData);
 
     // The tape pointer should be at the head cell, value = 2
     assertEquals(2, interpreter.getTapePointerValue());

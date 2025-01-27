@@ -170,11 +170,16 @@ public class ScrewtapeInterpreter {
         else if (instruction == '<') {
             // Move the pointer to the previous node (create it if necessary)
             if (tapePointer.prev == null) {
-                tapePointer.prev = new Node(0);  // Create a new node with value 0
+                tapePointer.prev = new Node(-1);  // Create a new node with value 0
                 tapePointer.prev = tapePointer;  // Set the next pointer
+                tapePointer.next = new Node(-2);
+                tapePointer.next.value++;
+                tapePointer.next.next = new Node(0);
+                tapePointer.next.value++;
+
             }
             tapePointer = tapePointer.prev;  // Move the pointer to the previous node
-        } 
+        }  
         else if (instruction == '+') {
             tapePointer.value++;  
         }
