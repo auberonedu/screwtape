@@ -139,7 +139,7 @@ public class ScrewtapeInterpreter {
           map.put(i, stack.peek());
           stack.pop(); // Removing the opening bracket from the stack.
         }
-      } 
+      }
     }
 
     // Checking isn't empty, there are unmatched opening brackets.
@@ -179,6 +179,7 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
     int position = 0;
     String output = "";
+    Map<Integer, Integer> bracketPositions = bracketMap(program);
 
     while (position < program.length()) {
       if (program.charAt(position) == '+') {
@@ -206,8 +207,11 @@ public class ScrewtapeInterpreter {
         }
       } else if (program.charAt(position) == '.') {
         output += (char) tapePointer.value;
+      } else if (program.charAt(position) == ']') {
+        if (tapePointer.value != 0) {
+          position = bracketPositions.get(position);
+        }
       }
-
       position++;
     }
     return output;
