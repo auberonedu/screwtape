@@ -112,9 +112,36 @@ public class ScrewtapeInterpreter {
     // a stack takes - Push is putting things ontop. -Pop is taking the top item off
     //  you can only traverse this last in first out. So you can only take the 
     // top item off and only add to the top.
+    // stack is to only temporarily hold the bracket values INDEX to add to the map
     Stack<Integer> stack = new Stack<>();
     Map<Integer, Integer> matchingPairs = new HashMap<>();
-    return null;
+
+    for(int i = 0; i < program.length(); i++){
+      char cmd = program.charAt(i);
+      // '' is to make a STRIng a char literal for comparison... weird
+      if(cmd == '['){
+        stack.push(i);
+      }
+      else if(cmd == ']'){
+        if(stack.isEmpty()){
+          throw new IllegalArgumentException("Unmatched closing bracket");
+        }
+        //this line is to pop the top integer of the stack into the map to then
+        // create the key value pair needed to know the opening and closing brack
+        int openingBrack = stack.pop();
+        // i in this put represents the place of the most recent closing brack
+        // which makes the key and value deal in the map data structure
+        matchingPairs.put(i, openingBrack);
+      }
+
+      //this gets checked if you go through the whole string of commands and their isn't a single closing brack
+      if(!stack.isEmpty()){
+        throw new IllegalArgumentException("Unamtched Opening bracket");
+      }
+      // only want to use a map when you find the closing bracket
+
+    }
+    return matchingPairs;
   }
 
   /**
