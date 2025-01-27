@@ -43,6 +43,7 @@ class NodeTest {
 
   
   // TODO: Add test for list constructor when passed null list
+
   @Test
   void testListConstructorWithNullList() {
     // Arrange
@@ -56,7 +57,18 @@ class NodeTest {
     );
   }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWitOneValue() {
+    // Arrange
+    List<Integer> values = List.of(1);
 
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(1, head.value);
+    assertNull(head.next);
+  }
 
   // -------- WAVE 2 -------
 
