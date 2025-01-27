@@ -55,7 +55,30 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
-  
+  @Test
+  void testNestedBracketMapUnmatchedOpeningBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[][";
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program), 
+        "Unmatched opening bracket");
+  }
+
+  @Test
+  void testNestedBracketMapUnmatchedClosingBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]]]";
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program), 
+        "Unmatched opening bracket");
+  }
+
 
   @Test
   void testAdd() {

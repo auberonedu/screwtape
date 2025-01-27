@@ -118,10 +118,18 @@ public class ScrewtapeInterpreter {
       if (c == '[') {
         bracketPairing.push(i);
       } else if (c == ']') {
+        if (bracketPairing.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket");
+        }
         int poppedBracketIndex = bracketPairing.pop();
         bracketLocations.put(i, poppedBracketIndex);
       }
     }
+
+    if (!bracketPairing.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket");
+    }
+
     return bracketLocations;
   }
 
@@ -146,6 +154,50 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
+    int index = 0;
+    Map<Integer, Integer> bracketIndex = bracketMap(program);
+    while (index < program.length()) {
+      char c = program.charAt(index);
+      switch (c) {
+        case '>':
+          if (tapePointer.next == null) {
+            tapePointer.next = new Node(0);
+            tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next;
+          break;
+      
+        case '<':
+          if (tapePointer.prev == null) {
+            tapePointer.prev = new Node(0);
+            tapePointer.prev.next = tapePointer;
+          }
+          break;
+
+        case '+':
+          tapePointer.value++;
+          break;
+        
+        case '-':
+        tapePointer.value--;
+          break;
+
+        case '.':
+        // do something
+          break;
+        
+        case '[':
+          // do nothing
+          break;
+        
+        case ']':
+          if (tapePointer.value != 0) {
+            index = bracketIndex.get(index);
+          }
+          break;
+      }
+      index++;
+    }
     return null;
   }
 }
