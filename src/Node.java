@@ -39,6 +39,27 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
+    // logic to handle empty/null list
+    if (list.isEmpty() || list == null) {
+      throw new IllegalArgumentException("List is empty or null");
+    }
+
+    // initialize head
+    Node currentNode = new Node(list.get(0));
+    // logic for lists with only 1 value
+    if (list.size() == 1) {
+      currentNode.prev = null;
+      currentNode.next = null;
+    } else { // iterate through list linking next and prev
+      for (int i = 1; i < list.size(); i++) {
+        Node newNode = new Node(list.get(i));
+        currentNode.next = newNode;
+        newNode.prev = currentNode;
+        currentNode = currentNode.next;
+      }
+      currentNode.next = null; // for tail to point to null
+    }
+    
   }
 
   /**
