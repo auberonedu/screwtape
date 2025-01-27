@@ -177,31 +177,31 @@ public class ScrewtapeInterpreter {
 
       if(cmd == '+'){
         //add
-        tapeHead.value++;
+        tapePointer.value++;
       }
       if(cmd == '-'){
         //sub
-        tapeHead.value--;
+        tapePointer.value--;
       }
       if(cmd == '>'){
         //move forward
         
-        if(tapeHead.next == null){
-          tapeHead.next = new Node(0);
-          tapePointer = tapeHead.next;
+        if(tapePointer.next == null){
+          tapePointer.next = new Node(0);
+          tapePointer = tapePointer.next;
         } else{
-          tapePointer = tapeHead.next;
+          tapePointer = tapePointer.next;
         }
       }
       if(cmd == '<'){
         //move back
         
-        if(tapeHead.prev == null){
-          tapeHead.next = new Node(0);
-          tapePointer = tapeHead.prev;
+        if(tapePointer.prev == null){
+          tapePointer.prev = new Node(0);
+          tapePointer = tapePointer.prev;
         }
         else{
-          tapePointer = tapeHead.prev;
+          tapePointer = tapePointer.prev;
         }
       }
       if(cmd == '['){
@@ -220,15 +220,15 @@ public class ScrewtapeInterpreter {
           //moving it back to the corresponding opening bracket
             i = bracketPairs.get(i); 
         }
-        tapePointer = tapeHead.next;
+        // tapePointer = tapeHead.next;
     }
       if(cmd == '.'){
         builder.append(cmd);
       }
 
-      if(cmd == '['){
+      // if(cmd == '['){
 
-      }
+      // }
     }
     return builder.toString();
   }
