@@ -40,12 +40,14 @@ public class Node {
   public Node(List<Integer> list) {
     // TODO: implement this
     // logic to handle empty/null list
-    if (list.isEmpty() || list == null) {
+    if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("List is empty or null");
     }
 
     // initialize head
-    Node currentNode = new Node(list.get(0));
+    this.value = list.get(0);
+    this.prev = null;
+    Node currentNode = this;
     // logic for lists with only 1 value
     if (list.size() == 1) {
       currentNode.prev = null;
