@@ -37,14 +37,36 @@ class NodeTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> new Node(emptyList),
-        "Expected constructor to throw IllegalArgumentException for an empty list."
-    );
+        "Expected constructor to throw IllegalArgumentException for an empty list.");
   }
 
-  
   // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithNullList() {
+    List<Integer> nullList = null;
 
+    // assert throws is good for testing if code throws a specific exception
+    assertThrows(
+
+        // the .class at the end of the illegalarguemtn... is there to ensure that both
+        // the throw given by the program and the one we expect are of the same. Almost
+        // like === when comparing objects
+        IllegalArgumentException.class,
+        () -> new Node(nullList),
+        "Expected constructor to throw IllegalArgumentException for a null list.");
+
+  }
+
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
+  @Test
+  void testListConstructorWithOneItem() {
+    List<Integer> listOfOne = List.of(1);
+
+    Node head = new Node(listOfOne);
+    assertEquals(1, head.value);
+
+  }
 
   // -------- WAVE 2 -------
 
@@ -68,5 +90,25 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListWithNoPrevOrNext() {
+    // TODO: Add test for Node with no next or prev
+    Node head = new Node(5);
+
+    List<Integer> values = head.toList();
+
+    assertEquals(List.of(5), values);
+
+  }
+
+  // TODO: Add at least one more test for list constructor that would be useful
+  // and cover new ground.
+  @Test
+  void testToListWithNegNums() {
+    List<Integer> negativeNumbers = List.of(-1, -2, -3, -4);
+    Node head = new Node(negativeNumbers);
+
+    List<Integer> result = head.toList();
+    assertEquals(negativeNumbers, result);
+  }
 }

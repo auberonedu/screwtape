@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,29 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
+    if(list == null || list.isEmpty() ){
+      throw new IllegalArgumentException("The list is null or empty");
+    }
+    //making a start of this list
+    // since were working inside of a constructor we have to use 'this'
+    this.value = list.get(0);
+    Node current = this;
+
+    //WHENEVER TRANVERSING A NODE LIST ALWAYS USE CURRENT TO MOVE ALONG
+   // starting at 1 since 0 is the first value already 
+    for (int i = 1; i < list.size(); i++) {
+
+
+      Node newNode = new Node(list.get(i));
+      current.next = newNode;
+      newNode.prev = current;
+
+      //this is moving it along
+      current = newNode;
+      
+      
+      
+    }
   }
 
   /**
@@ -48,7 +72,20 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
-    return null;
+    Node head = this;
+    Node current  = head;
+
+    List<Integer> listOfInts = new ArrayList<>();
+
+    if(head == null){
+      throw new IllegalArgumentException("The node is null or empty");
+    }
+    while(current != null){
+      listOfInts.add(current.value);
+      current = current.next;
+      
+    }
+    
+    return listOfInts;
   }
 }
