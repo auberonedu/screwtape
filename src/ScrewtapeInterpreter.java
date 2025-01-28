@@ -170,8 +170,9 @@ public class ScrewtapeInterpreter {
       } else if (currentChar == '<') {
         if (tapePointer.prev == null) {
           tapePointer.prev = new Node(0);
-          tapeHead = tapeHead.prev;
+          tapePointer.prev.next = tapePointer;
           tapePointer = tapePointer.prev;
+          tapeHead = tapePointer;
         } else {
           tapePointer = tapePointer.prev;
         }
@@ -189,7 +190,6 @@ public class ScrewtapeInterpreter {
       } 
     }
     // TODO: Debug functionality for left and right movement
-    // TODO: Add functionality for outputting a value (hint: you can case an int to a char)
     // TODO: Add functionality for loops
     return screwtapeOutput;
   }
