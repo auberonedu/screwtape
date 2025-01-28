@@ -146,6 +146,37 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+
+    String screwtapeOutput = "";
+    
+    for (int i = 0; i < program.length(); i++) {
+      char currentChar = program.charAt(i);
+      if (currentChar == '+') {
+        tapePointer.value++;
+      } else if (currentChar == '-') {
+        tapePointer.value--;
+      } else if (currentChar == '>') { 
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0);
+          tapePointer = tapePointer.next;
+        } else {
+          tapePointer = tapePointer.next;
+        }
+      } else if (currentChar == '<') {
+        if (tapePointer.prev == null) {
+          tapePointer.prev = new Node(0);
+          tapeHead = tapeHead.prev;
+          tapePointer = tapePointer.prev;
+        } else {
+          tapePointer = tapePointer.prev;
+        }
+      } else if (currentChar == '.') {
+
+      }
+    }
+    // TODO: Debug functionality for left and right movement
+    // TODO: Add functionality for outputting a value (hint: you can case an int to a char)
+    // TODO: Add functionality for loops
+    return screwtapeOutput;
   }
 }
