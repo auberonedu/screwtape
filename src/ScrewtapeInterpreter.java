@@ -148,13 +148,18 @@ public class ScrewtapeInterpreter {
         matchingPairs.put(i, openingBrack);
       }
 
-      // this gets checked if you go through the whole string of commands and their
-      // isn't a single closing brack
-      if (!stack.isEmpty()) {
-        throw new IllegalArgumentException("Unamtched Opening bracket");
-      }
+      // // this gets checked if you go through the whole string of commands and their
+      // // isn't a single closing brack
+      // if (!stack.isEmpty()) {
+      // throw new IllegalArgumentException("Unamtched Opening bracket");
+      // }
       // only want to use a map when you find the closing bracket
 
+    }
+
+    // this needs to go outside the loop.... wow,
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Unamtched Opening bracket");
     }
     return matchingPairs;
   }
@@ -189,7 +194,7 @@ public class ScrewtapeInterpreter {
     StringBuilder builder = new StringBuilder();
 
     for (int i = 0; i < program.length(); i++) {
-      int cmd = program.charAt(i);
+      int cmd = program.charAt(i); // this is to read the current command
 
       if (cmd == '+') {
         // add
@@ -202,22 +207,23 @@ public class ScrewtapeInterpreter {
       if (cmd == '>') {
         // move forward
 
+        // if theres no next node create a new one
         if (tapePointer.next == null) {
           tapePointer.next = new Node(0);
-          tapePointer = tapePointer.next;
-        } else {
-          tapePointer = tapePointer.next;
+          tapePointer.next.prev = tapePointer;
         }
+        tapePointer = tapePointer.next;
+
       }
       if (cmd == '<') {
         // move back
 
         if (tapePointer.prev == null) {
           tapePointer.prev = new Node(0);
-          //connecting the new prev node created to the current node
+          // connecting the new prev node created to the current node
           tapePointer.prev.next = tapePointer;
 
-          //tapehead always represents the starting node so put it there
+          // tapehead always represents the starting node so put it there
           tapeHead = tapePointer.prev;
 
         }
@@ -245,7 +251,8 @@ public class ScrewtapeInterpreter {
       }
       if (cmd == '.') {
 
-        //this is casting the value of the node to a char which is then going to convert it to the ascii value. All chars are ascii. Given the node is a int
+        // this is casting the value of the node to a char which is then going to
+        // convert it to the ascii value. All chars are ascii. Given the node is a int
         builder.append((char) tapePointer.value);
         // Problem with this below is that it is not being converted to a ascii
         // builder.append(cmd);
@@ -254,7 +261,10 @@ public class ScrewtapeInterpreter {
       // if(cmd == '['){
 
       // }
+      // System.out.println("Command: " + cmd + ", Tape: " + getTapeData() + ", Pointer: " + tapePointer.value);
+
     }
     return builder.toString();
+    //final notes: needed to slow down, not rush check with fresh eyes and not label variables so similarly when traversing nodes
   }
 }
