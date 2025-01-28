@@ -54,7 +54,7 @@ class NodeTest {
         "Expected constructor to throw IllegalArgumentException for a null list."
     );
   }
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Added one more test for list constructor that is useful and that covers new ground.
   @Test
   void testListConstructorWithNegativeValues() {
     // Arrange
@@ -91,6 +91,36 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Added test for Node with no next or prev
+  @Test
+  void testToListWithOneNode() {
+    // Arrange
+    Node head = new Node(2);
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(2), values);
+  }
+
+  // DONE: Added one more test for list constructor that is useful and that covers new ground.
+  @Test
+  void testToListWithDuplicates() {
+    // Arrange
+    Node head = new Node(8);
+    Node middle = new Node(8);
+    Node tail = new Node(8);
+
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(8, 8, 8), values);
+  }
 }
