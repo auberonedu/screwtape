@@ -100,7 +100,7 @@ public class ScrewtapeInterpreter {
    * 
    * input: `>[+>[+-]<]`
    * output: `{9: 1, 7: 4}`
-   * [][][] -- [++[++[--][--]--]--]
+   * 
    * 
    * @param program The Screwtape program as a string.
    * @return A map where each key-value pair represents a matching bracket pair.
@@ -115,7 +115,10 @@ public class ScrewtapeInterpreter {
       if (program.charAt(i) == '[') {
         indicesOfOpens.push(i);
       } else if (program.charAt(i) ==']') {
-        bracketIndicesMap.put(i, indicesOfOpens.pop());
+        // This assigns open brackets to the first eligible close brackets, which is a quick fix but may cause issues if there are unintentional typos in the program string
+        if (!indicesOfOpens.empty()) {
+          bracketIndicesMap.put(i, indicesOfOpens.pop());
+        }
       }
     }
 
