@@ -147,14 +147,18 @@ public class ScrewtapeInterpreter {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
 
+    int instructionPointer = 0;
     String screwtapeOutput = "";
     
-    for (int i = 0; i < program.length(); i++) {
-      char currentChar = program.charAt(i);
+    while ( instructionPointer < program.length()) {
+      char currentChar = program.charAt(instructionPointer);
+
       if (currentChar == '+') {
         tapePointer.value++;
+        instructionPointer++;
       } else if (currentChar == '-') {
         tapePointer.value--;
+        instructionPointer++;
       } else if (currentChar == '>') { 
         if (tapePointer.next == null) {
           tapePointer.next = new Node(0);
@@ -162,6 +166,7 @@ public class ScrewtapeInterpreter {
         } else {
           tapePointer = tapePointer.next;
         }
+        instructionPointer++;
       } else if (currentChar == '<') {
         if (tapePointer.prev == null) {
           tapePointer.prev = new Node(0);
@@ -170,9 +175,18 @@ public class ScrewtapeInterpreter {
         } else {
           tapePointer = tapePointer.prev;
         }
+        instructionPointer++;
       } else if (currentChar == '.') {
+        // do something here
+        int value = tapePointer.value;
+        char ch = (char)value;
+        String stringified = Character.toString(ch);
 
-      }
+        screwtapeOutput = screwtapeOutput.concat(stringified);
+        instructionPointer++;
+      } else if (currentChar == ']') {
+        // move instruction pointer from the key at instruction pointer to the value
+      } 
     }
     // TODO: Debug functionality for left and right movement
     // TODO: Add functionality for outputting a value (hint: you can case an int to a char)
