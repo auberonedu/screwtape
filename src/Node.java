@@ -41,7 +41,7 @@ public class Node {
   public Node(List<Integer> list) {
     // TODO: implement this
     if (list == null || list.isEmpty()) {
-      throw new IllegalArgumentException("The list can't be null or empty.");
+      throw new IllegalArgumentException("The list cannot be null or empty.");
     }
 
     // Handles the head node
