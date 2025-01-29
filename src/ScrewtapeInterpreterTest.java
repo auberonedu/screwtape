@@ -1,6 +1,5 @@
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -9,24 +8,69 @@ import static org.junit.jupiter.api.Assertions.*;
 class ScrewtapeInterpreterTest {
 
   @Test
-  void testNestedBracketMap() {
+  void testIndependentBracketMap() {
     // Arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
-    String program = ">[+>[+-]<]";
+    String program = "[++] [--]";
 
-    Map<Integer, Integer> expectedMap = new HashMap<>();
-    expectedMap.put(9, 1);
-    expectedMap.put(7, 4);
+    Map<Integer, Integer> expectedMap = Map.of(
+        0, 3, 3, 0, 5, 8, 8, 5);
 
+    // Act
     Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
 
+    // Assert
     assertEquals(expectedMap, actualMap);
   }
 
-  // TODO: Implement more tests for bracketMap
-  // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testUnmatchedBrackets() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
 
-  
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap("[[+]"),
+        "Expected exception for unmatched opening bracket.");
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap("[+]]"),
+        "Expected exception for unmatched closing bracket.");
+  }
+
+  @Test
+  void testSimpleBracketMap() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
+
+    Map<Integer, Integer> map = interpreter.bracketMap(program);
+    assertEquals(Map.of(1, 0, 0, 1), map);
+  }
+
+  @Test
+  void testMultipleIndependentBracketPairs() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[++] [--] [<+]";
+
+    // Expected mappings:
+    // 1st loop: [0 → 3]
+    // 2nd loop: [5 → 8]
+    // 3rd loop: [10 → 13]
+    Map<Integer, Integer> expectedMap = Map.of(
+        3, 0,
+        0, 3,
+        8, 5,
+        5, 8,
+        13, 10,
+        10, 13);
+
+    // Act
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    // Assert
+    assertEquals(expectedMap, actualMap);
+  }
 
   @Test
   void testAdd() {
@@ -121,7 +165,8 @@ class ScrewtapeInterpreterTest {
     // X has ASCII code 88
     // Y has ASCII code 89
     // Z has ASCII code 90
-    // The program should increase to 88, output X, then increase to 89, output Y, then increase to 90, output Z
+    // The program should increase to 88, output X, then increase to 89, output Y,
+    // then increase to 90, output Z
     assertEquals("XYZ", result);
   }
 
@@ -135,10 +180,10 @@ class ScrewtapeInterpreterTest {
     //
     // Increase value of head node to 3
     // while head > 0
-    //    move to second node
-    //    increase second node by 2
-    //    move to head node
-    //    decrease head node by 1
+    // move to second node
+    // increase second node by 2
+    // move to head node
+    // decrease head node by 1
     // move to second node
     String program = "+++[>++<-]>";
 
@@ -164,15 +209,15 @@ class ScrewtapeInterpreterTest {
     //
     // Increase value of head node to 7
     // while head > 0
-    //    move to second node
-    //    increase second node by 3
-    //    while second node > 0
-    //       move to third node
-    //       increase third node by 5
-    //       move to second node
-    //       increase decrease second node by 1
-    //    move to head node
-    //    decrease head node by 1
+    // move to second node
+    // increase second node by 3
+    // while second node > 0
+    // move to third node
+    // increase third node by 5
+    // move to second node
+    // increase decrease second node by 1
+    // move to head node
+    // decrease head node by 1
     // move to second node
     // move to third node
     // output the third node
