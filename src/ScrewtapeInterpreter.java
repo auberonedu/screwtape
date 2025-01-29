@@ -170,13 +170,17 @@ public class ScrewtapeInterpreter {
         else if (instruction == '<') {
             // Move the pointer to the previous node (create it if necessary)
             if (tapePointer.prev == null) {
-                tapePointer.prev = new Node(-1);  // Create a new node with value 0
-                tapePointer.prev = tapePointer;  // Set the next pointer
-                tapePointer.next = new Node(-2);
-                tapePointer.next.value++;
-                tapePointer.next.next = new Node(0);
-                tapePointer.next.value++;
-
+              tapePointer.prev = new Node(0); // Create a new node with value 0
+              tapePointer.prev.next = tapeHead; // Connect the OLD head to the NEW head
+              tapeHead = tapePointer.prev; // Connect the NEW node to the OLD head and update pointer/head here
+              
+              //OLD
+              // tapePointer.prev = new Node(-1);  // Create a new node with value 0
+              // tapePointer.prev = tapePointer;  // Set the next pointer
+              // tapePointer.next = new Node(-2);
+              // tapePointer.next.value++;
+              // tapePointer.next.next = new Node(0);
+              // tapePointer.next.value++;
             }
             tapePointer = tapePointer.prev;  // Move the pointer to the previous node
         }  
@@ -192,13 +196,11 @@ public class ScrewtapeInterpreter {
         else if (instruction == '[') {
             if (tapePointer.value == 0) {
                 i = bracketMapping.get(i);
-                continue;  // Skip the increment of `i` as we already moved to the correct bracket
             }
         } 
         else if (instruction == ']') {
             if (tapePointer.value != 0) {
-                i = bracketMapping.get(i);
-                continue;  
+                i = bracketMapping.get(i);  
             }
         }
         i++; 

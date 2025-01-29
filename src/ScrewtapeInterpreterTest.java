@@ -134,6 +134,24 @@ class ScrewtapeInterpreterTest {
   }
 
   @Test
+  void testLeftAndMultipleAdd() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "+<<<++";
+
+    // Act
+    interpreter.execute(program);
+
+    // Assert
+    // The tape should look like: [2, 0, 0]
+    List<Integer> tapeData = interpreter.getTapeData();
+     assertEquals(List.of(2, 0, 0,1), tapeData);
+
+    // The tape pointer should be at the head cell, value = 2
+    assertEquals(2, interpreter.getTapePointerValue());
+  }
+
+  @Test
   void testOutput() {
     // Arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
