@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,23 +126,28 @@ public class ScrewtapeInterpreter {
 
     char[] brackets = program.toCharArray();
 
-    for(int i = 0; i < program.length(); i++){
-      //push index to stack when an open bracket is found
-      if(brackets[i] == '['){
+    for (int i = 0; i < program.length(); i++) {
+      // push index to stack when an open bracket is found
+      if (brackets[i] == '[') {
         stack.push(i);
-      } else if (brackets[i] == ']'){
-        //take the index from the open bracket and store in variable
+      } else if (brackets[i] == ']') {
+        // throws error if no matching bracket is found within the stack
+        if (stack.isEmpty()) {
+          throw new IllegalArgumentException("No matching bracket for ]");
+        }
+        // take the index from the open bracket and store in variable
         int openBracket = stack.pop();
-        //put the current index and the openBracket index into the map
+        // put the current index and the openBracket index into the map
         indexMap.put(i, openBracket);
       }
     }
 
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched Opening bracket found at " + stack.peek());
 
-    return indexMap;
     }
-
-
+    return indexMap;
+  }
 
   /**
    * Executes a Screwtape program and returns the output as a string.
@@ -169,6 +175,37 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+
+    String result = "";
+    List<Integer> tape = new ArrayList<>();
+    Stack<Integer> loopStack = new Stack<>();
+    tape.add(0);
+    int pointer = 0;
+
+    char[] instructions = program.toCharArray();
+
+    for (int i = 0; i < program.length(); i++) {
+      if (instructions[i] == '>') {
+        pointer++;
+        // expand memory if needed
+        if (pointer == tape.size()) {
+          tape.add(0);
+        }
+      } else if (instructions[i] == '<') {
+          if (pointer > 0) {
+            pointer--;
+        }
+      } else if (instructions[i] =='+'){
+        //increment 1 to current value at pointer
+        tape.set(pointer, tape.get(pointer) + 1);
+      } else if(instructions[i] == '-'){
+        tape.set(pointer, tape.get(pointer) + -1);
+      } else if(instructions[i] == '.'){
+        char num = (char) (int)tape.get(pointer);
+        result += num;
+      }
+    }
+
+    return result;
   }
 }
