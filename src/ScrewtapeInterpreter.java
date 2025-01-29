@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -105,9 +107,29 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // Hint: use a stack
-    return null;
+    Map<Integer, Integer> brackets = new HashMap<>(); //storing bracket pairs
+    Stack<Integer> stack = new Stack<>(); //storing indices
+
+    for (int i = 0; i < program.length(); i++) {
+        //retrieve char at current index
+        char letter = program.charAt(i);
+
+        if (letter == '[') {
+            stack.push(i);
+        } else if (letter == ']') {
+            int rightBracket = stack.pop();
+
+            //store the pair
+            brackets.put(i, rightBracket);
+        }
+    }
+    if (!stack.isEmpty()) {
+      // contains unmatched brackets
+      throw new IllegalArgumentException("Unmatched brackets: " + stack.peek());
+    }
+  return brackets;
   }
 
   /**
@@ -129,8 +151,60 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    StringBuilder outputString = new StringBuilder();
+    Map<Integer, Integer> bracketMapping = bracketMap(program);  
+
+    tapePointer = tapeHead;
+
+    for (int i = 0; i < program.length();) {
+        char instruction = program.charAt(i);
+
+         if (instruction == '>') {
+            // Move the pointer to the next node (create it if necessary)
+            if (tapePointer.next == null) {
+                tapePointer.next = new Node(0);  // Create a new node with value 0
+                tapePointer.next.prev = tapePointer;  // Set the previous pointer
+            }
+            tapePointer = tapePointer.next;  // Move the pointer to the next node
+        } 
+        else if (instruction == '<') {
+            // Move the pointer to the previous node (create it if necessary)
+            if (tapePointer.prev == null) {
+              tapePointer.prev = new Node(0); // Create a new node with value 0
+              tapePointer.prev.next = tapeHead; // Connect the OLD head to the NEW head
+              tapeHead = tapePointer.prev; // Connect the NEW node to the OLD head and update pointer/head here
+              
+              //OLD
+              // tapePointer.prev = new Node(-1);  // Create a new node with value 0
+              // tapePointer.prev = tapePointer;  // Set the next pointer
+              // tapePointer.next = new Node(-2);
+              // tapePointer.next.value++;
+              // tapePointer.next.next = new Node(0);
+              // tapePointer.next.value++;
+            }
+            tapePointer = tapePointer.prev;  // Move the pointer to the previous node
+        }  
+        else if (instruction == '+') {
+            tapePointer.value++;  
+        }
+        else if (instruction == '-') {
+            tapePointer.value--;  
+        } 
+        else if (instruction == '.') {
+            outputString.append((char) tapePointer.value);  
+        }
+        else if (instruction == '[') {
+            if (tapePointer.value == 0) {
+                i = bracketMapping.get(i);
+            }
+        } 
+        else if (instruction == ']') {
+            if (tapePointer.value != 0) {
+                i = bracketMapping.get(i);  
+            }
+        }
+        i++; 
+    }
+    return outputString.toString();  
   }
 }

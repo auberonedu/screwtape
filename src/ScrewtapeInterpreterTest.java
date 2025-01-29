@@ -23,8 +23,41 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
-  // TODO: Implement more tests for bracketMap
+  // DONE: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+
+  //From javadoc example
+  @Test
+  void testBracketJavaDocExample() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
+
+    // Act and Assert
+    Map<Integer, Integer> expectedMap = interpreter.bracketMap(program);
+    expectedMap.put(4, 0);  
+    expectedMap.put(9, 5);  
+    expectedMap.put(14, 12);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    
+    assertEquals(expectedMap, actualMap);  
+  }
+
+  //One more testcase here
+  @Test 
+  void testEmptyOrNone() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "";
+
+    // Act and Assert
+    Map<Integer, Integer> expectedMap = interpreter.bracketMap(program);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    
+    assertEquals(expectedMap, actualMap);  
+  }
 
   
 
@@ -94,7 +127,25 @@ class ScrewtapeInterpreterTest {
     // Assert
     // The tape should look like: [2, 0, 0]
     List<Integer> tapeData = interpreter.getTapeData();
-    assertEquals(List.of(2, 0, 0), tapeData);
+     assertEquals(List.of(2, 0, 0), tapeData);
+
+    // The tape pointer should be at the head cell, value = 2
+    assertEquals(2, interpreter.getTapePointerValue());
+  }
+
+  @Test
+  void testLeftAndMultipleAdd() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "+<<<++";
+
+    // Act
+    interpreter.execute(program);
+
+    // Assert
+    // The tape should look like: [2, 0, 0]
+    List<Integer> tapeData = interpreter.getTapeData();
+     assertEquals(List.of(2, 0, 0,1), tapeData);
 
     // The tape pointer should be at the head cell, value = 2
     assertEquals(2, interpreter.getTapePointerValue());
