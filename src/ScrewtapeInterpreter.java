@@ -39,7 +39,7 @@ public class ScrewtapeInterpreter {
    * 
    * @return A list of integers representing the values in the memory tape, starting from the head.
    */
-  public List<Integer> getTapeData() {
+  public List < Integer > getTapeData() {
     return tapeHead.toList();
   }
 
@@ -112,23 +112,23 @@ public class ScrewtapeInterpreter {
    * @return A map where each key-value pair represents a matching bracket pair.
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
-  public Map<Integer, Integer> bracketMap(String program) {
-      Map<Integer,Integer> bracketPairs = new HashMap<>();
-      Stack<Integer> indices = new Stack<>();
-      for(int i=0; i<program.length();i++){
-        if(program.charAt(i) == '['){
-          indices.add(i);
-        } else if (program.charAt(i) == ']'){
-          
-          if(indices.empty()){
-            throw new IllegalArgumentException("Contains an unmatched closing bracket");
-          }
-          bracketPairs.put(i, indices.pop());
+  public Map<Integer,Integer> bracketMap(String program) {
+    Map < Integer, Integer > bracketPairs = new HashMap < > ();
+    Stack < Integer > indices = new Stack < > ();
+    for (int i = 0; i < program.length(); i++) {
+      if (program.charAt(i) == '[') {
+        indices.add(i);
+      } else if (program.charAt(i) == ']') {
+
+        if (indices.empty()) {
+          throw new IllegalArgumentException("Contains an unmatched closing bracket");
         }
+        bracketPairs.put(i, indices.pop());
       }
-      if(!indices.isEmpty()){
-        throw new IllegalArgumentException("Contains an unmatched opening bracket");
-      }
+    }
+    if (!indices.isEmpty()) {
+      throw new IllegalArgumentException("Contains an unmatched opening bracket");
+    }
     return bracketPairs;
   }
 
@@ -151,39 +151,45 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-
+    Map <Integer, Integer> bracketMap = bracketMap(program);
     int instructionPointer = 0;
     String outputString = "";
-    while (instructionPointer < program.length()){
-    
-    if (program.charAt(instructionPointer) == '+'){
+    while (instructionPointer < program.length()) {
+
+      if (program.charAt(instructionPointer) == '+') {
         tapePointer.value++;
-      } else if (program.charAt(instructionPointer) == '-'){
+      } else if (program.charAt(instructionPointer) == '-') {
         tapePointer.value--;
-      } else if (program.charAt(instructionPointer) == '>'){
-        if(tapePointer.next == null){
+      } else if (program.charAt(instructionPointer) == '>') {
+        if (tapePointer.next == null) {
           Node temp = new Node(0);
           tapePointer.next = temp;
           temp.prev = tapePointer;
           tapePointer = temp;
+        } else {
+          tapePointer = tapePointer.next;
         }
-
-        tapePointer = tapePointer.next;
-      } else if (program.charAt(instructionPointer) == '<'){
-        if(tapePointer.prev == null){
+      } else if (program.charAt(instructionPointer) == '<') {
+        if (tapePointer.prev == null) {
           Node temp = new Node(0);
           tapePointer.prev = temp;
           temp.next = tapePointer;
           tapePointer = temp;
+          tapeHead = tapePointer;
+        } else {
+          tapePointer = tapePointer.prev;
         }
-
-        tapePointer = tapePointer.prev;
+      } else if (program.charAt(instructionPointer) == '.') {
+        outputString += Character.toString((char) tapePointer.value);
+      } else if (program.charAt(instructionPointer) == ']') {
+        if (tapePointer.value != 0) {
+          instructionPointer = bracketMap.get(instructionPointer);
+        }
       }
 
-    instructionPointer++;
+      instructionPointer++;
     }
 
-    // String strAsciiTab = Character.toString((char) iAsciiValue);
-    return null;
+    return outputString;
   }
 }

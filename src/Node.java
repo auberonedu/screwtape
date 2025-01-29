@@ -39,13 +39,13 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    if(list == null || list.size() == 0){
+    if (list == null || list.size() == 0) {
       throw new IllegalArgumentException("The provided list is empty or null");
     }
     this.value = list.get(0);
     Node curr = this;
 
-    for(int i=1; i<list.size(); i++){
+    for (int i = 1; i < list.size(); i++) {
       Node temp = new Node(list.get(i));
       curr.next = temp;
       temp.prev = curr;
@@ -60,10 +60,9 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
     Node current = this;
-    List<Integer> newList = new ArrayList<>();
-    while(current != null){
+    List < Integer > newList = new ArrayList < > ();
+    while (current != null) {
       newList.add(current.value);
       current = current.next;
     }
