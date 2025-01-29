@@ -52,18 +52,31 @@ class ScrewtapeInterpreterTest {
   }
 
   @Test
-  void testExtraCloseBracketMap() {
+  void testUnmatchedCloseBracketMap() {
     // Arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
-    String program = ">[+>[+-]<]]";
+    String program = "[][[]]]";
 
-    Map<Integer, Integer> expectedMap = new HashMap<>();
-    expectedMap.put(9, 1);
-    expectedMap.put(7, 4);
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected constructor to throw IllegalArgumentException for unmatched close bracket."
+    );
+  }
 
-    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+  @Test
+  void testUnmatchedOpenBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[][[]";
 
-    assertEquals(expectedMap, actualMap);
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected constructor to throw IllegalArgumentException for unmatched open bracket."
+    );
   }
 
   @Test

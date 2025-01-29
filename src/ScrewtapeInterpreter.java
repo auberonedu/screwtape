@@ -118,10 +118,15 @@ public class ScrewtapeInterpreter {
         // This assigns open brackets to the first eligible close brackets, which is a quick fix but may cause issues if there are unintentional typos in the program string
         if (!indicesOfOpens.empty()) {
           bracketIndicesMap.put(i, indicesOfOpens.pop());
+        } else {
+          throw new IllegalArgumentException("Unmatched close bracket");
         }
       }
     }
 
+    if (!indicesOfOpens.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched open bracket");
+    }
     return bracketIndicesMap;
   }
 
