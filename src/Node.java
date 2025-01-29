@@ -38,12 +38,20 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    this.value = list.get(0); //Takes the first value of the list
+    if (list == null || list.isEmpty()) {
+      throw new IllegalArgumentException("List cannot be null or empty");
+    }
+
+    this.value = list.get(0);
     Node current = this;
 
-    for (int i = 0; i < list.size(); i++) {
-        
+    for (int i = 1; i < list.size(); i++) {
+        Node newNode = new Node(list.get(i));
+        current.next = newNode;
+        newNode.prev = current;
+        current = newNode;
     }
+    
 
   }
 
