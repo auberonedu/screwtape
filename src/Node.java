@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,7 +40,24 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
+    if (list == null || list.isEmpty()) {
+      throw new IllegalArgumentException("List cannot be null or empty");
+    }
+
+    this.value = list.get(0);
+    Node currentNode = this;
+
+    for (int i = 1; i < list.size(); i++){
+
+      Node tailNode = new Node(list.get(i));
+    
+    currentNode.next = tailNode;
+
+    tailNode.prev = currentNode;
+
+    currentNode = tailNode;
   }
+}
 
   /**
    * Converts the linked list starting from this node into a list of integers.
@@ -49,6 +67,14 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
-    return null;
+    List <Integer> convertList = new ArrayList<>();
+
+    Node currentNode = this;
+
+    while (currentNode != null){
+      convertList.add(currentNode.value);
+      currentNode = currentNode.next;
+    }
+    return convertList;
   }
 }
