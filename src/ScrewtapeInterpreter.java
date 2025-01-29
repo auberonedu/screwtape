@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -92,6 +94,7 @@ public class ScrewtapeInterpreter {
    * 
    * input: `[+++][---]<<[+]`
    * output:`{4: 0, 9: 5, 14: 12}`
+   *
    * 
    * input: `[]`
    * output: `{1: 0}`
@@ -99,15 +102,39 @@ public class ScrewtapeInterpreter {
    * input: `>[+>[+-]<]`
    * output: `{9: 1, 7: 4}`
    * 
+   * opening - 1
+   * closing - 1 2
+   * 
+   * key - closing bracket
+   * value - opening bracket
    * 
    * @param program The Screwtape program as a string.
    * @return A map where each key-value pair represents a matching bracket pair.
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
-    // Hint: use a stack
-    return null;
+    // loop through the linked list while adding all the values to a stack
+      Map<Integer,Integer> bracketPairs = new HashMap<>();
+      Stack<Integer> indices = new Stack<>();
+      for(int i=0; i<program.length();i++){
+        if(program.charAt(i) == '['){
+          indices.add(i);
+        } else if (program.charAt(i) == ']'){
+          
+          if(indices.empty()){
+            throw new IllegalArgumentException("Contains an unmatched closing bracket");
+          }
+          bracketPairs.put(i, indices.pop());
+        }
+      }
+      if(!indices.isEmpty()){
+        throw new IllegalArgumentException("Contains an unmatched opening bracket");
+      }
+
+    // loop through the stack "backwards"
+    // add index of closing bracket to map whenver found, increment counter
+    // incremeting up whenever bracket is found
+    return bracketPairs;
   }
 
   /**
