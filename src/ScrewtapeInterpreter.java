@@ -177,8 +177,6 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
 
     String result = "";
-    List<Integer> tape = new ArrayList<>();
-    tape.add(0); 
     int pointer = 0;
 
     Map<Integer, Integer> bracketMap = bracketMap(program);
@@ -188,14 +186,13 @@ public class ScrewtapeInterpreter {
     for (int i = 0; i < program.length(); i++) {
 
       if (instructions[i] == '>') {
-        pointer++;
         // expand memory if needed
-        if (pointer == tape.size()) {
-          tape.add(0);
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0);
         }
       } else if (instructions[i] == '<') {
-        if (pointer > 0) {
-          pointer--;
+        if (tapePointer.prev != null) {
+          tapePointer = tapePointer.prev;
         }
       } else if (instructions[i] == '+') {
         // increment 1 to current value at pointer
