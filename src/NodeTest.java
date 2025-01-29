@@ -105,6 +105,25 @@ class NodeTest {
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
   @Test
   void testListConstructorWithDuplicateValues() {
-    
+    // Arrange
+    List<Integer> duplicateValues = List.of(8, 8, 8, 8);
+
+    // Act
+    Node head = new Node(duplicateValues);
+
+    // Assert
+    assertEquals(8, head.value);
+    assertNotNull(head.next);
+    assertEquals(8, head.next.value);
+    assertNotNull(head.next.next);
+    assertEquals(8, head.next.next.value);
+    assertNotNull(head.next.next.next);
+    assertEquals(8, head.next.next.next.value);
+    assertNull(head.next.next.next.next);
+
+    // Check the doubly linked structure
+    assertEquals(head, head.next.prev);
+    assertEquals(head.next, head.next.next.prev);
+    assertEquals(head.next.next, head.next.next.next.prev);
   }
 }
