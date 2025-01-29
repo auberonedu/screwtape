@@ -40,14 +40,14 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // DONE: implemented this
-    if(list == null || list.isEmpty()){
+    if (list == null || list.isEmpty()) {
       throw new IllegalArgumentException("List cannot be null or empty");
     }
 
     this.value = list.get(0);
     Node current = this;
     
-    for(int i = 1; i < list.size(); i++) {
+    for (int i = 1; i < list.size(); i++) {
       Node newNode = new Node(list.get(i));
       current.next = newNode;
       newNode.prev = current;
@@ -65,10 +65,12 @@ public class Node {
     // DONE: Implemented this
     List<Integer> newList = new ArrayList<>();
     Node current = this;
+
     while(current != null){
       newList.add(current.value);
       current = current.next;
     }
+    
     return newList;
   }
 }
