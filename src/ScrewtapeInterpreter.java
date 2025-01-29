@@ -130,7 +130,7 @@ public class ScrewtapeInterpreter {
         if (stack.isEmpty()) {
           throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
         }
-        
+
         int openingIndex = stack.pop();
 
         map.put(openingIndex, i);
@@ -169,8 +169,63 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    StringBuilder outputString = new StringBuilder();
+    Map<Integer, Integer> brackets = bracketMap(program);
+    int instructionPointer = 0;
+
+    while (instructionPointer < program.length()) {
+      char command = program.charAt(instructionPointer);
+
+      switch (command) {
+        case '+':
+          tapePointer.value++;
+          break;
+
+        case '-':
+          tapePointer.value--;
+          break;
+
+        case '>':
+          if (tapePointer.next == null) {
+            tapePointer.next = new Node(0);
+            tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next;
+          break;
+
+        case '<':
+          if (tapePointer.prev == null) {
+            Node newHead = new Node(0);
+            newHead.next = tapePointer;
+            tapePointer.prev = newHead;
+            tapeHead = newHead;
+          }
+          tapePointer = tapePointer.prev;
+          break;
+
+        case '.':
+          outputString.append((char) tapePointer.value);
+          break;
+
+        case '[':
+          if (tapePointer.value == 0) {
+            instructionPointer = brackets.get(instructionPointer);
+          }
+          break;
+
+        case ']':
+          if (tapePointer.value != 0) {
+            instructionPointer = brackets.get(instructionPointer);
+          }
+          break;
+
+        default:
+          break;
+      }
+
+      instructionPointer++;
+    }
+
+    return outputString.toString();
   }
 }
