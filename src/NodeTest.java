@@ -103,4 +103,8 @@ class NodeTest {
   }
 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithDuplicateValues() {
+    
+  }
 }
