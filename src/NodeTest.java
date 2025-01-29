@@ -78,7 +78,20 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful
-  // and cover new ground.
+  @Test
+  void testListConstructorWithLargeList() {
+    // Arrange
+    List<Integer> values = new ArrayList<>();
+    for (int i = 1; i <= 1000; i++) {
+      values.add(i);
+    }
+
+    // Act
+    Node head = new Node(values);
+    List<Integer> result = head.toList();
+
+    // Assert
+    assertEquals(values, result);
+  }
+
 }
