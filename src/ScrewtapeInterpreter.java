@@ -123,7 +123,7 @@ public class ScrewtapeInterpreter {
         stack.push(i);
       }
 
-      if (c == ']'){
+      if (c == ']') {
         if (!stack.isEmpty()){
           int value = stack.pop();
           pairsLocations.put(i, value);
@@ -132,7 +132,7 @@ public class ScrewtapeInterpreter {
         }
       }
     }
-    if (!stack.isEmpty()){
+    if (!stack.isEmpty()) {
       throw new IllegalArgumentException("The program contains unmatched brackets");
     }
 
@@ -166,19 +166,20 @@ public class ScrewtapeInterpreter {
     StringBuilder outputString = new StringBuilder();
     Map<Integer, Integer> bracketPairs = bracketMap(program);
 
-    while(instructionPointer < program.length()){
+    while (instructionPointer < program.length()) {
       char command = program.charAt(instructionPointer);
-      if(command == '+'){
+
+      if (command == '+') {
           tapePointer.value++;
-      } else if(command == '-'){
+      } else if (command == '-') {
           tapePointer.value--;
-      } else if(command == '>'){
+      } else if (command == '>') {
           if (tapePointer.next == null) {
               tapePointer.next = new Node(0);
               tapePointer.next.prev = tapePointer;
           }
           tapePointer = tapePointer.next;
-      } else if(command == '<'){
+      } else if (command == '<') {
           if (tapePointer.prev == null) {
               Node newNode = new Node(0);
               newNode.next = tapePointer;
@@ -186,19 +187,21 @@ public class ScrewtapeInterpreter {
               tapeHead = newNode;
           }
           tapePointer = tapePointer.prev;
-      } else if(command == '.'){
+      } else if (command == '.') {
           outputString.append((char) tapePointer.value);
-      } else if(command == '['){
-          if (tapePointer.value == 0){
+      } else if (command == '[') {
+          if (tapePointer.value == 0) {
               instructionPointer = bracketPairs.get(instructionPointer);
           }
-      } else if(command == ']'){
-          if (tapePointer.value != 0){
+      } else if (command == ']') {
+          if (tapePointer.value != 0) {
               instructionPointer = bracketPairs.get(instructionPointer) - 1;
           }
       }
+
         instructionPointer++;
     }
+    
     return outputString.toString();
   }
 }
