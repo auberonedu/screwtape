@@ -181,41 +181,48 @@ public class ScrewtapeInterpreter {
 
     char[] instructions = program.toCharArray();
 
-    for (int i = 0; i < program.length(); i++) {
+   for (int i = 0; i < program.length(); i++) {
 
       if (instructions[i] == '>') {
         // expand memory if needed
         if (tapePointer.next == null) {
           tapePointer.next = new Node(0);
-          //links next node back to current node
+          // links next node back to current node
           tapePointer.next.prev = tapePointer;
-        } //move to the next node
+        } // move to the next node
         tapePointer = tapePointer.next;
+
       } else if (instructions[i] == '<') {
         if (tapePointer.prev == null) {
           tapePointer.prev = new Node(0);
           tapePointer.prev.next = tapePointer;
-        } tapePointer = tapePointer.prev;}
-       else if (instructions[i] == '+') {
+        }
+          tapePointer = tapePointer.prev;
+
+      } else if (instructions[i] == '+') {
         // increment 1 to current value at pointer
         tapePointer.value += 1;
+
       } else if (instructions[i] == '-') {
         // decrement 1 to current value at pointer
         tapePointer.value -= 1;
+
       } else if (instructions[i] == '.') {
-        // fixed this line to  correctly append ASCII character to result string
+        // fixed this line to correctly append ASCII character to result string
         result += (char) tapePointer.value;
+
       } else if (instructions[i] == '[') {
         // If the current memory cell is 0, skip to the matching ']'
         if (tapePointer.value == 0) {
-          i = bracketMap.get(i); 
-        }
-      } else if(instructions[i] == ']'){
-        //this will jump back to the matching [
-        if(tapePointer.value != 0){
           i = bracketMap.get(i);
         }
-      } 
+        
+      } else if (instructions[i] == ']') {
+        // this will jump back to the matching [
+        if (tapePointer.value != 0) {
+          i = bracketMap.get(i);
+        }
+      }
     }
 
     return result;
