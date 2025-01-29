@@ -177,8 +177,7 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
 
     String result = "";
-    int pointer = 0;
-
+    
     Map<Integer, Integer> bracketMap = bracketMap(program);
 
     char[] instructions = program.toCharArray();
@@ -196,21 +195,21 @@ public class ScrewtapeInterpreter {
         }
       } else if (instructions[i] == '+') {
         // increment 1 to current value at pointer
-        tape.set(pointer, tape.get(pointer) + 1);
+        tapePointer.value += 1;
       } else if (instructions[i] == '-') {
         // decrement 1 to current value at pointer
-        tape.set(pointer, tape.get(pointer) - 1);
+        tapePointer.value -= 1;
       } else if (instructions[i] == '.') {
         // fixed this line to  correctly append ASCII character to result string
-        result += (char) (int) tape.get(pointer);
+        result += (char) tapePointer.value;
       } else if (instructions[i] == '[') {
         // If the current memory cell is 0, skip to the matching ']'
-        if (tape.get(pointer) == 0) {
+        if (tapePointer.value == 0) {
           i = bracketMap.get(i); 
         }
       } else if(instructions[i] == ']'){
         //this will jump back to the matching [
-        if(tape.get(pointer) != 0){
+        if(tapePointer.value != 0){
           i = bracketMap.get(i);
         }
       } 
