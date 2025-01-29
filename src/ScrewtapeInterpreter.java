@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -131,8 +132,6 @@ public class ScrewtapeInterpreter {
         }
       }
     }
-
-    
     if (!stack.isEmpty()){
       throw new IllegalArgumentException("The program contains unmatched brackets");
     }
@@ -162,8 +161,44 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    // DONE: Implemented this
+    int instructionPointer = 0;
+    StringBuilder outputString = new StringBuilder();
+    Map<Integer, Integer> bracketPairs = bracketMap(program);
+
+    while(instructionPointer < program.length()){
+      char command = program.charAt(instructionPointer);
+      if(command == '+'){
+          tapePointer.value++;
+      } else if(command == '-'){
+          tapePointer.value--;
+      } else if(command == '>'){
+          if (tapePointer.next == null) {
+              tapePointer.next = new Node(0);
+              tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next;
+      } else if(command == '<'){
+          if (tapePointer.prev == null) {
+              Node newNode = new Node(0);
+              newNode.next = tapePointer;
+              tapePointer.prev = newNode;
+              tapeHead = newNode;
+          }
+          tapePointer = tapePointer.prev;
+      } else if(command == '.'){
+          outputString.append((char) tapePointer.value);
+      } else if(command == '['){
+          if (tapePointer.value == 0){
+              instructionPointer = bracketPairs.get(instructionPointer);
+          }
+      } else if(command == ']'){
+          if (tapePointer.value != 0){
+              instructionPointer = bracketPairs.get(instructionPointer) - 1;
+          }
+      }
+        instructionPointer++;
+    }
+    return outputString.toString();
   }
 }
