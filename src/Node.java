@@ -38,7 +38,13 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    // TODO: implement this
+    this.value = list.get(0); //Takes the first value of the list
+    Node current = this;
+
+    for (int i = 0; i < list.size(); i++) {
+        
+    }
+
   }
 
   /**
