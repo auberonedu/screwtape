@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,8 +39,26 @@ public class Node {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public Node(List<Integer> list) {
-    // TODO: implement this
+    // handle null or empty lists
+    if (list == null || list.size() == 0) {
+      throw new IllegalArgumentException("Node constructor requires List of at least 1 integer");
+    // handle lists with one item
+    } else if (list.size() == 1) {
+      value = list.get(0);
+      // These technically do not need to be set to null, as that is their default value,
+      // but I think it helps to explicitly assign it here
+      next = null;
+      prev = null;
+    } else {
+    
+      value = list.get(0);
+      next = new Node(list.subList(1, list.size()));
+      next.prev = this;
+    }
   }
+
+  // [1, 2, 3]
+  // node (1), next -> node (2) -> node (3)
 
   /**
    * Converts the linked list starting from this node into a list of integers.
@@ -48,7 +67,14 @@ public class Node {
    * @return A list of integers representing the values in the linked list.
    */
   public List<Integer> toList() {
-    // TODO: Implement this
-    return null;
+    List<Integer> list = new ArrayList<>();
+
+    Node current = this;
+    while (current != null) {
+      list.add(current.value);
+      current = current.next;
+    }
+
+    return list;
   }
 }

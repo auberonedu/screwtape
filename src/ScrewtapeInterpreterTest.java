@@ -23,10 +23,61 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
-  // TODO: Implement more tests for bracketMap
-  // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+@ Test
+  void testConcurrentBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = ">[+>]+-[<]";
 
-  
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(9, 7);
+    expectedMap.put(4, 1);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testNoBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = ">+>+-<";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testUnmatchedCloseBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[][[]]]";
+
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected constructor to throw IllegalArgumentException for unmatched close bracket."
+    );
+  }
+
+  @Test
+  void testUnmatchedOpenBracketMap() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[][[]";
+
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected constructor to throw IllegalArgumentException for unmatched open bracket."
+    );
+  }
 
   @Test
   void testAdd() {
