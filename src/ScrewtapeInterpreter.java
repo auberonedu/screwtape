@@ -149,13 +149,19 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
 
     int instructionPointer = 0;
     String screwtapeOutput = "";
+    Map<Integer, Integer> map;
     
-    while ( instructionPointer < program.length()) {
+    try {
+        map = bracketMap(program);
+    } catch (IllegalArgumentException e) {
+        throw new IllegalArgumentException("Unmatched bracket");
+    }
+    // add illegal argument exception
+    
+    while (instructionPointer < program.length()) {
       char currentChar = program.charAt(instructionPointer);
 
       if (currentChar == '+') {
@@ -167,6 +173,7 @@ public class ScrewtapeInterpreter {
       } else if (currentChar == '>') { 
         if (tapePointer.next == null) {
           tapePointer.next = new Node(0);
+          tapePointer.next.prev = tapePointer;
           tapePointer = tapePointer.next;
         } else {
           tapePointer = tapePointer.next;
@@ -183,19 +190,22 @@ public class ScrewtapeInterpreter {
         }
         instructionPointer++;
       } else if (currentChar == '.') {
-        // do something here
         int value = tapePointer.value;
         char ch = (char)value;
         String stringified = Character.toString(ch);
-
         screwtapeOutput = screwtapeOutput.concat(stringified);
         instructionPointer++;
+      } else if (currentChar == '[') {
+        instructionPointer++;
       } else if (currentChar == ']') {
-        // move instruction pointer from the key at instruction pointer to the value
-      } 
+        if (tapePointer.value != 0) {
+          instructionPointer = map.get(instructionPointer);
+        } else {
+            instructionPointer++;
+        }
+      }
     }
-    // TODO: Debug functionality for left and right movement
-    // TODO: Add functionality for loops
+
     return screwtapeOutput;
   }
 }
