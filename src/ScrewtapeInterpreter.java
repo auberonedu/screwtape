@@ -185,18 +185,18 @@ public class ScrewtapeInterpreter {
 
     // Iterate each character
     for (int i = 0; i < program.length(); i++) {
-      char c = program.charAt(i);
-      if (c == '[') {
-        stack.push(i);
-      } else if (c == ']') {
-        if (stack.isEmpty()) {
-          throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+        char c = program.charAt(i);
+        if (c == '[') {
+            stack.push(i);
+        } else if (c == ']') {
+            if (stack.isEmpty()) {
+                throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
         }
 
         // index of matching opening backet
         int openIndex = stack.pop();
+        // bracketPairs.put(openIndex, i);
         bracketPairs.put(i, openIndex);
-        bracketPairs.put(openIndex, i);
       }
     }
 
@@ -230,43 +230,67 @@ public class ScrewtapeInterpreter {
     // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
     StringBuilder output = new StringBuilder();
-    
+    int programLength = program.length();
+  
+    int instructionPointer = 0; // pointer to track position
+
     // bracket mapping
     Map<Integer, Integer> brackets = bracketMap(program);
-    int instructionPointer = 0;
 
-    while (instructionPointer < program.length()) {
-      char instruction = program.charAt(instructionPointer);
+    while (instructionPointer < programLength) {
+      char currentCommand = program.charAt(instructionPointer);
 
-      switch (instruction) {
-        case '>':
-            moveRight();
-            break;
-        case '<':
-            moveLeft();
-            break;
+      switch (currentCommand) {
         case '+':
-            increment();
+            tapePointer.value++;
             break;
+
         case '-':
-            decrement();
+            tapePointer.value--;
             break;
+
+        case '>':
+            // moving the pointer to the next node, and additing a new node
+            if (tapePointer.next == null) {
+              tapePointer.next = new Node(0); // creating a new node at the end
+              tapePointer.next.prev = tapePointer;
+            }
+            tapePointer = tapePointer.next; 
+            break;
+
+        case '<':
+            // moving the pointer to the prev node, and adding a new node
+            if (tapePointer.prev == null) {
+              Node newHead = new Node(0);
+              newHead.next = tapePointer;
+              tapePointer.prev = newHead;
+              tapePointer = newHead;
+              tapeHead = newHead;
+            } else {
+                tapePointer = tapePointer.prev;
+            }
+            break;
+
         case '.':
             output.append((char) tapePointer.value);
             break;
+            
         case '[':
             // if current memory is 0 then jump to ']'
             if (tapePointer.value == 0) {
-              instructionPointer = brackets.get(instructionPointer);
+                instructionPointer = brackets.get(instructionPointer);
+                continue; //avoids skipping instruction after jump
             }
             break;
         case ']':
             // if curreny memory is not 0, then jump to '['
             if (tapePointer.value != 0) {
-              instructionPointer = brackets.get(instructionPointer);
+                instructionPointer = brackets.get(instructionPointer);
+                continue; //avoids skipping instruction after jump
             }
             break;
       }
+
       instructionPointer++;
     }
 

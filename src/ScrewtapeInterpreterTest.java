@@ -27,16 +27,16 @@ class ScrewtapeInterpreterTest {
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
   @Test
-  void testMultipleBracketMap() {
+  void testMultiplePairBracketMap() {
     // arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
     String program = "[++][--]<<[+]";
 
     // mapping
     Map<Integer, Integer> expectedMap = new HashMap<>();
-    expectedMap.put(4,0);
-    expectedMap.put(9,5);
-    expectedMap.put(14,12);
+    expectedMap.put(3,0);
+    expectedMap.put(7,4);
+    expectedMap.put(12,10);
 
     // act
     Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
