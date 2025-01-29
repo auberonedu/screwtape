@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -177,7 +176,7 @@ public class ScrewtapeInterpreter {
     // If you get stuck, you can look at hint.md for a hint
 
     String result = "";
-    
+
     Map<Integer, Integer> bracketMap = bracketMap(program);
 
     char[] instructions = program.toCharArray();
@@ -188,12 +187,16 @@ public class ScrewtapeInterpreter {
         // expand memory if needed
         if (tapePointer.next == null) {
           tapePointer.next = new Node(0);
-        }
+          //links next node back to current node
+          tapePointer.next.prev = tapePointer;
+        } //move to the next node
+        tapePointer = tapePointer.next;
       } else if (instructions[i] == '<') {
-        if (tapePointer.prev != null) {
-          tapePointer = tapePointer.prev;
-        }
-      } else if (instructions[i] == '+') {
+        if (tapePointer.prev == null) {
+          tapePointer.prev = new Node(0);
+          tapePointer.prev.next = tapePointer;
+        } tapePointer = tapePointer.prev;}
+       else if (instructions[i] == '+') {
         // increment 1 to current value at pointer
         tapePointer.value += 1;
       } else if (instructions[i] == '-') {
