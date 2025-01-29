@@ -108,6 +108,7 @@ public class ScrewtapeInterpreter {
     // TODO: Implement this
     // Hint: use a stack
     Map<Integer, Integer> map = new Hashmap<>();
+    
     Stack<Integer> stack = new Stack<>();
 
     for (int i = 0; i < program.length(); i++) {
