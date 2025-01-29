@@ -178,13 +178,15 @@ public class ScrewtapeInterpreter {
 
     String result = "";
     List<Integer> tape = new ArrayList<>();
-    Stack<Integer> loopStack = new Stack<>();
-    tape.add(0);
+    tape.add(0); 
     int pointer = 0;
+
+    Map<Integer, Integer> bracketMap = bracketMap(program);
 
     char[] instructions = program.toCharArray();
 
     for (int i = 0; i < program.length(); i++) {
+
       if (instructions[i] == '>') {
         pointer++;
         // expand memory if needed
@@ -192,20 +194,32 @@ public class ScrewtapeInterpreter {
           tape.add(0);
         }
       } else if (instructions[i] == '<') {
-          if (pointer > 0) {
-            pointer--;
+        if (pointer > 0) {
+          pointer--;
         }
-      } else if (instructions[i] =='+'){
-        //increment 1 to current value at pointer
+      } else if (instructions[i] == '+') {
+        // increment 1 to current value at pointer
         tape.set(pointer, tape.get(pointer) + 1);
-      } else if(instructions[i] == '-'){
-        tape.set(pointer, tape.get(pointer) + -1);
-      } else if(instructions[i] == '.'){
-        char num = (char) (int)tape.get(pointer);
-        result += num;
-      }
+      } else if (instructions[i] == '-') {
+        // decrement 1 to current value at pointer
+        tape.set(pointer, tape.get(pointer) - 1);
+      } else if (instructions[i] == '.') {
+        // fixed this line to  correctly append ASCII character to result string
+        result += (char) (int) tape.get(pointer);
+      } else if (instructions[i] == '[') {
+        // If the current memory cell is 0, skip to the matching ']'
+        if (tape.get(pointer) == 0) {
+          i = bracketMap.get(i); 
+        }
+      } else if(instructions[i] == ']'){
+        //this will jump back to the matching [
+        if(tape.get(pointer) != 0){
+          i = bracketMap.get(i);
+        }
+      } 
     }
 
     return result;
   }
+
 }
