@@ -107,7 +107,26 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+    Map<Integer, Integer> map = new Hashmap<>();
+    Stack<Integer> stack = new Stack<>();
+
+    for (int i = 0; i < program.length(); i++) {
+      if (program.charAt(i) == '['){
+        stack.push(i);
+      } else if (program.charAt(i) == ']'){
+        if(stack.isEmpty()){
+          throw new IllegalArgumentException("Found unmatched closing bracket");
+        } else {
+          map.put(i, stack.peek());
+          stack.pop();
+        }
+      }
+    }
+    if (!stack.empty()) {
+      throw new IllegalArgumentException("Found unmatched opening bracket");
+    }
+
+    return map;
   }
 
   /**
