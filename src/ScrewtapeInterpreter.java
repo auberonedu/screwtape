@@ -113,7 +113,6 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // loop through the linked list while adding all the values to a stack
       Map<Integer,Integer> bracketPairs = new HashMap<>();
       Stack<Integer> indices = new Stack<>();
       for(int i=0; i<program.length();i++){
@@ -130,10 +129,6 @@ public class ScrewtapeInterpreter {
       if(!indices.isEmpty()){
         throw new IllegalArgumentException("Contains an unmatched opening bracket");
       }
-
-    // loop through the stack "backwards"
-    // add index of closing bracket to map whenver found, increment counter
-    // incremeting up whenever bracket is found
     return bracketPairs;
   }
 
