@@ -41,10 +41,34 @@ class NodeTest {
     );
   }
 
-  
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Added test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    // Arrange
+    List<Integer> nullList = new ArrayList<>();
 
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(nullList),
+        "Expected constructor to throw IllegalArgumentException for a null list."
+    );
+  }
+  // DONE: Added one more test for list constructor that is useful and that covers new ground.
+  @Test
+  void testListConstructorWithNegativeValues() {
+    // Arrange
+    List<Integer> values = List.of(-7, -3);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(-7, head.value);
+    assertNotNull(head.next);
+    assertEquals(-3, head.next.value);
+    assertNull(head.next.next);
+  }
 
   // -------- WAVE 2 -------
 
@@ -67,6 +91,36 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // DONE: Added test for Node with no next or prev
+  @Test
+  void testToListWithOneNode() {
+    // Arrange
+    Node head = new Node(2);
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(2), values);
+  }
+
+  // DONE: Added one more test for list constructor that is useful and that covers new ground.
+  @Test
+  void testToListWithDuplicates() {
+    // Arrange
+    Node head = new Node(8);
+    Node middle = new Node(8);
+    Node tail = new Node(8);
+
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(8, 8, 8), values);
+  }
 }
