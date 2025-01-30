@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +40,20 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
+    if (list == null || list.isEmpty()) {
+      throw new IllegalArgumentException("List is empty/null.");
+    }
+
+    this.value = list.get(0);
+    Node current = this;
+
+    for (int i = 1; i < list.size(); i++) {
+      Node temp = new Node(list.get(i));
+      current.next = temp;
+      temp.prev = current;
+      current = temp;
+    }
+
   }
 
   /**
@@ -49,6 +64,14 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
-    return null;
+    List<Integer> result = new ArrayList<>();
+    Node current = this;
+
+    while (current != null) {
+      result.add(current.value);
+      current = current.next;
+    }
+
+    return result;
   }
 }
