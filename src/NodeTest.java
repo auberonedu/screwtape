@@ -42,9 +42,22 @@ class NodeTest {
   }
 
   
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    assertThrows(IllegalArgumentException.class, () -> new Node(null), "Cannot pass null as a list");
+  }
 
+  // Add at least one more test for list constructor that would be useful and cover new ground
+  @Test
+  void testListConstructorWithSingleElement() {
+    List<Integer> singleValue = List.of(12);
+    Node head = new Node(singleValue);
+
+    assertEquals(12, head.value, "Head should store correct value");
+    assertNull(head.next, "Next should be null cause there is only one node(head)");
+    assertNull(head.prev, "Prev should be null cause there is only one node(head)");
+  }
 
   // -------- WAVE 2 -------
 
