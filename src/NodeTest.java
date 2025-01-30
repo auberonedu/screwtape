@@ -1,9 +1,7 @@
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NodeTest {
 
@@ -61,7 +59,7 @@ void testListConstructorOneValue(){
   Node head = new Node(values);
   //Assert
   assertEquals(8, head.value);
-  asserNull(head.next);
+  assertNull(head.next);
   assertNull(head.prev);
 }
 
