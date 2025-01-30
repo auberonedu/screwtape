@@ -166,18 +166,28 @@ public class ScrewtapeInterpreter {
         
         switch(prompt) {
           case '+':
+            tapePointer.value++;
             break;
           
           case '-':
-            //do something
+            tapePointer.value--;
             break;
 
           case '>':
-            //do something
+            if (tapePointer.next == null) {
+                tapePointer.next = new Node(0);
+                tapePointer.next.prev = tapePointer;
+              }
+              tapePointer = tapePointer.next;
             break;
           
           case '<':
-            //do something
+            if (tapePointer.prev == null) {
+                tapePointer.prev = new Node(0);
+                tapePointer.prev.next = tapePointer;
+                tapeHead = tapePointer.prev;
+              }
+              tapePointer = tapePointer.prev;
             break;
           
           case '.':
