@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -30,6 +32,73 @@ public class ScrewtapeInterpreter {
   public ScrewtapeInterpreter() {
     tapeHead = new Node(0);
     tapePointer = tapeHead;
+  }
+
+  /**
+   * moves the tape pointer to thr right (`>`)
+   * 
+   * if the pointer is at the last node, a new node is created
+   */
+  public void moveRight() {
+    if (tapePointer.next == null) {
+      
+      // create a new node with 0
+        tapePointer.next = new Node(0);
+
+        // linking the new node to the current one
+        tapePointer.next.prev = tapePointer;
+    }
+
+    // moving the pointer to the next node
+    tapePointer = tapePointer.next;
+  }
+
+  /**
+   * moves the tape pointer to thr left (`<`)
+   * 
+   * if the pointer is at the first node, a new node is created
+   */
+  public void moveLeft() {
+    if (tapePointer.prev == null) {
+        
+        // create a new node with 0
+        Node newNode = new Node(0);
+        newNode.next = tapePointer;
+        
+        // linking the current node to the new one
+        tapePointer.prev = newNode;
+
+        // tapeHead to the new first node - updating
+        tapeHead = newNode;
+    }
+
+    // moving the pointer to the prev node
+    tapePointer = tapePointer.prev;
+  }
+
+  /**
+   * Increments the value in the current memory node (`+`)
+   * 
+   */
+  public void increment() {
+    tapePointer.value++;
+  }
+
+  /**
+   * Decrements the value in the current memory node (`-`)
+   * 
+   */
+  public void decrement() {
+    tapePointer.value--;
+  }
+
+  /**
+   * Outputs the character the value in the current memory node (`.`)
+   * 
+   * @return the character representing the integer value in the current node
+   */
+  public String output() {
+    return Character.toString((char) tapePointer.value);
   }
 
   /**
@@ -105,9 +174,38 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // Hint: use a stack
-    return null;
+
+    // hashmap to store the matching brackets
+    Map<Integer, Integer> bracketPairs = new HashMap<>();
+
+    // to keep track of the opening bracket
+    Stack<Integer> stack = new Stack<>();
+
+    // Iterate each character
+    for (int i = 0; i < program.length(); i++) {
+        char c = program.charAt(i);
+        if (c == '[') {
+            stack.push(i);
+        } else if (c == ']') {
+            if (stack.isEmpty()) {
+                throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+        }
+
+        // index of matching opening backet
+        int openIndex = stack.pop();
+        // bracketPairs.put(openIndex, i);
+        bracketPairs.put(i, openIndex);
+      }
+    }
+
+    // if any unmatched brackets, throw an error
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + stack.pop());
+    }
+
+    return bracketPairs;
   }
 
   /**
@@ -129,8 +227,73 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
+    // DONE: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    StringBuilder output = new StringBuilder();
+    int programLength = program.length();
+  
+    int instructionPointer = 0; // pointer to track position
+
+    // bracket mapping
+    Map<Integer, Integer> brackets = bracketMap(program);
+
+    while (instructionPointer < programLength) {
+      char currentCommand = program.charAt(instructionPointer);
+
+      switch (currentCommand) {
+        case '+':
+            tapePointer.value++;
+            break;
+
+        case '-':
+            tapePointer.value--;
+            break;
+
+        case '>':
+            // moving the pointer to the next node, and additing a new node
+            if (tapePointer.next == null) {
+              tapePointer.next = new Node(0); // creating a new node at the end
+              tapePointer.next.prev = tapePointer;
+            }
+            tapePointer = tapePointer.next; 
+            break;
+
+        case '<':
+            // moving the pointer to the prev node, and adding a new node
+            if (tapePointer.prev == null) {
+              Node newHead = new Node(0);
+              newHead.next = tapePointer;
+              tapePointer.prev = newHead;
+              tapePointer = newHead;
+              tapeHead = newHead;
+            } else {
+                tapePointer = tapePointer.prev;
+            }
+            break;
+
+        case '.':
+            output.append((char) tapePointer.value);
+            break;
+            
+        case '[':
+            // if current memory is 0 then jump to ']'
+            if (tapePointer.value == 0) {
+                instructionPointer = brackets.get(instructionPointer);
+                continue; //avoids skipping instruction after jump
+            }
+            break;
+        case ']':
+            // if curreny memory is not 0, then jump to '['
+            if (tapePointer.value != 0) {
+                instructionPointer = brackets.get(instructionPointer);
+                continue; //avoids skipping instruction after jump
+            }
+            break;
+      }
+
+      instructionPointer++;
+    }
+
+    return output.toString();
   }
 }
