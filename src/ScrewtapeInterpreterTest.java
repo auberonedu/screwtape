@@ -25,13 +25,20 @@ class ScrewtapeInterpreterTest {
 
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
-  @Test
-  // Arrange
+  // @Test
+  // void testBracketMatch() {
+  //   // Arrange
+  //   ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
 
-  // Act
+  //   // Act
+  //   Map<Integer, Integer> expected = Map.of(1,0);
+  //   expected.put(6,1);
+  //   expected.put(4,3);
 
-  // Assert
-  
+  //   // Assert
+  //   assertEquals(expected, interpreter.bracketMap(">+[>+<-]<"));
+  // }
+
 
   @Test
   void testAdd() {
