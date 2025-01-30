@@ -158,7 +158,41 @@ public class ScrewtapeInterpreter {
       throw new IllegalArgumentException("Program cannot be null");
     }
 
-    
+    StringBuilder output = new StringBuilder();
+    Map<Integer, Integer> brackets = bracketMap(program);
+
+    for (int i = 0; i < program.length(); i++) {
+        char prompt = program.charAt(i);
+        
+        switch(prompt) {
+          case '+':
+            break;
+          
+          case '-':
+            //do something
+            break;
+
+          case '>':
+            //do something
+            break;
+          
+          case '<':
+            //do something
+            break;
+          
+          case '.':
+            //do something
+            break;
+          
+          case '[':
+            //do something
+            break;
+          
+          case ']':
+            //do something
+            break;
+        }
+    }
     return null;
   }
 }
