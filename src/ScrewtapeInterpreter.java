@@ -116,7 +116,7 @@ public class ScrewtapeInterpreter {
       char chr = program.charAt(i);
       if (chr == '['){
         stack.push(i);
-      } else if (c == ']') {
+      } else if (chr == ']') {
         if (stack.isEmpty()) {
           throw new IllegalArgumentException("Unmatched brackets");
         }
