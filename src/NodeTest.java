@@ -93,10 +93,13 @@ class NodeTest {
   @Test
   void testToListWithNoNextOrPrev() {
     // Arrange
+    Node head = new Node(24);
 
     // Act
+    List<Integer> values = head.toList();
 
     // Assert
+    assertEquals(List.of(24), values);
   }
 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
