@@ -176,8 +176,11 @@ public class ScrewtapeInterpreter {
             Node temp = new Node(0);
             temp.next = tapePointer;
             tapePointer.prev = temp;
+            tapePointer = temp;
+            tapeHead = temp;
+          } else {
+            tapePointer = tapePointer.prev;
           }
-          tapePointer = tapePointer.prev;
           break;
       
         case '+':
