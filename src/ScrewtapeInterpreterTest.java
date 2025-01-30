@@ -76,7 +76,7 @@ class ScrewtapeInterpreterTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> interpreter.bracketMap(program), 
-        "Unmatched opening bracket");
+        "Unmatched closing bracket");
   }
 
 
