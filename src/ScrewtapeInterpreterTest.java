@@ -26,6 +26,26 @@ class ScrewtapeInterpreterTest {
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
+  @Test 
+  void testTooManyOpenBrackets() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[[]";
+
+    // Act/Assert
+    assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+  }
+
+  @Test 
+  void testTooManyClosedBrackets() {
+     // Arrange
+     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+     String program = "[]]";
+ 
+     // Act/Assert
+     assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+  }
+
   @Test
   void testMultipleSetsBracketMap() {
     // Arrange

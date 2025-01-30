@@ -114,9 +114,16 @@ public class ScrewtapeInterpreter {
       if (program.charAt(i) == '['){
         openBrackets.push(i);
       } else if (program.charAt(i) == ']'){
+        if (openBrackets.isEmpty()){
+          throw new IllegalArgumentException("Too many open brackets.");
+        }
         bracketPointers.put(i, openBrackets.peek());
         openBrackets.pop();
       }
+    }
+
+    if (!openBrackets.isEmpty()){
+      throw new IllegalArgumentException("Too many close brackets.");
     }
 
     return bracketPointers;
