@@ -156,27 +156,38 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    Map<Integer, Integer> bracketMap = bracketMap(program);
-    Map<Integer, Integer> memory = new HashMap<>();
-
-    int instructionPointer = 0; // basically index
+    Map<Integer, Integer> map = bracketMap(program); // use the map of brackets to jump back/ loop
     String output = "";
+    int instructionPointer = 0; // basically index
 
     while (instructionPointer < program.length()) {
-      char c = program.charAt(instructionPointer);
+      char c = program.charAt(instructionPointer); // current index/character/screwtape command
 
       if (c == '+') {
         tapePointer.value++;
       } else if (c == '-') {
         tapePointer.value--;
       } else if (c == '>') {
-        tapePointer = tapePointer.next;
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0); // link next with new node
+          tapePointer.next.prev = tapePointer; // link prev
+        }
+        tapePointer = tapePointer.next; // advance node forward
       } else if (c == '<') {
+        if (tapePointer.prev == null) {
+          tapePointer.prev = new Node(0);
+          tapeHead = tapePointer.prev; // set new head
+          tapeHead.next = tapePointer;
+        }
         tapePointer = tapePointer.prev;
       } else if (c == '.') {
-        output += tapePointer.value;
-      } else if (c == ']') {
-        
+        output += (char) tapePointer.value; // cast int to char (ASCII character) and concat to output
+      } 
+      
+      // when ] is encountered jump to it's corresponding [ to enter a loop. If the value is zero, don't loop (zero times)
+      else if (c == ']' && tapePointer.value != 0) { 
+        instructionPointer = map.get(instructionPointer); // pointer/index is now key=*VALUE*
+        // so now key=] the instructionPointer can jump back to value=[ to repeat the action or LOOP
       }
 
       instructionPointer++;
