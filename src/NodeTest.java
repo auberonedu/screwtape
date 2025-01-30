@@ -48,7 +48,7 @@ class NodeTest {
     assertThrows(
         IllegalArgumentException.class,
         () -> new Node(null),
-        "The list cannot be null!"
+        "Expected constructor to throw IllegalArgumentException for an empty list."
     );
   }
 
@@ -93,5 +93,26 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+
+  @Test
+  void testToListWithNoNextAndPrev() {
+    // Arrange
+    Node single = new Node(10);
+
+    // Act
+    List<Integer> values = single.toList();
+
+    // Assert
+    assertEquals(List.of(10), values);
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+
+  @Test
+  void testListWithEmptyList() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(List.of()),
+        "Expected constructor to throw IllegalArgumentException for an empty list."
+    );
+}
 }
