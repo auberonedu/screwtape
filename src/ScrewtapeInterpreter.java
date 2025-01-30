@@ -194,11 +194,18 @@ public class ScrewtapeInterpreter {
 
       } else if (instructions[i] == '<') {
         if (tapePointer.prev == null) {
-          tapePointer.prev = new Node(0);
-          tapePointer.prev.next = tapePointer;
-        }
+          //create new node
+          Node newNode = new Node(0);
+          // set pointer prev to newNode
+          tapePointer.prev = newNode;
+          //newNode next is the current pointer
+          newNode.next = tapePointer;
+          //set head to newNode
+          tapeHead = newNode;
+        } 
+        // move pointer to previous nod
           tapePointer = tapePointer.prev;
-
+    
       } else if (instructions[i] == '+') {
         // increment 1 to current value at pointer
         tapePointer.value += 1;
