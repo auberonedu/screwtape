@@ -41,9 +41,34 @@ class NodeTest {
     );
   }
 
-  
+  @Test 
+  void testListConstructorWithNullList(){
   // TODO: Add test for list constructor when passed null list
+  List<Integer> nullList = null;
+  // Node head = new Node(nullList);
+  // assertEquals(null, head);
+
+  //  Borrowed from test case above
+  assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(nullList),
+        "List is Empty"
+    );
+  }
+ 
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test 
+  void testListConstructorWithNullElemens() {
+    List<Integer> listWithNulls = new ArrayList<>();
+    listWithNulls.add(1);
+    listWithNulls.add(null);
+    listWithNulls.add(3);
+    listWithNulls.add(4);
+    
+    assertNull(listWithNulls.get(1));
+
+    assertEquals(4, listWithNulls.size());
+  }
 
 
   // -------- WAVE 2 -------
@@ -68,5 +93,29 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithNoPrevOrNext() {
+    Node newNode = new Node(5);
+
+    assertNull(newNode.next);
+    assertNull(newNode.prev);
+
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test 
+  void testToListWithDuplicates(){
+    List<Integer> dupValues = new ArrayList<>();
+    dupValues.add(1);
+    dupValues.add(2);
+    dupValues.add(2);
+    dupValues.add(1);
+
+    assertEquals(4, dupValues.size());
+
+    assertEquals(1, dupValues.get(0));
+    assertEquals(2, dupValues.get(1));
+    assertEquals(2, dupValues.get(2));
+    assertEquals(1, dupValues.get(3));
+
+  }
 }
