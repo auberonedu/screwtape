@@ -191,18 +191,22 @@ public class ScrewtapeInterpreter {
             break;
           
           case '.':
-            //do something
+            output.append((char) tapePointer.value);
             break;
           
           case '[':
-            //do something
+            if (tapePointer.value == 0) {
+              i = brackets.get(i);
+            }
             break;
           
           case ']':
-            //do something
+            if (tapePointer.value != 0) {
+              i = brackets.get(i) - 1;
+            }
             break;
         }
     }
-    return null;
+    return output.toString();
   }
 }
