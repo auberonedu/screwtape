@@ -42,9 +42,22 @@ class NodeTest {
   }
 
   
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    assertThrows(IllegalArgumentException.class, () -> new Node(null), "Cannot pass null as a list");
+  }
 
+  // Add at least one more test for list constructor that would be useful and cover new ground
+  @Test
+  void testListConstructorWithSingleElement() {
+    List<Integer> singleValue = List.of(12);
+    Node head = new Node(singleValue);
+
+    assertEquals(12, head.value, "Head should store correct value");
+    assertNull(head.next, "Next should be null cause there is only one node(head)");
+    assertNull(head.prev, "Prev should be null cause there is only one node(head)");
+  }
 
   // -------- WAVE 2 -------
 
@@ -67,6 +80,33 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Add test for Node with no next or prev
+  @Test
+  void testToListWithSingleNode() {
+    Node head = new Node(7000);
+
+    List<Integer> value = head.toList();
+
+    assertEquals(List.of(7000), value);
+    assertNull(head.next, "Next should be null because there is only head");
+    assertNull(head.prev, "Prev should be null because there is only head");
+  }
+
+  // Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListWithDisconnectedNodes() {
+    Node head = new Node(5);
+    Node middle = new Node(7);
+    Node tail = new Node(3);
+
+    head.next = middle;
+    middle.prev = head;
+    // tail disconnected
+
+    List<Integer> values = head.toList();
+
+    assertEquals(List.of(5, 7), values);
+    assertNull(tail.prev, "Prev node should be null because it's disconnected");
+    assertNull(tail.next, "Next node should be null because it's disconnected");
+  }
 }

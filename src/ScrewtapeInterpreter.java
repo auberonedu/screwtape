@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -105,9 +107,34 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
-    // Hint: use a stack
-    return null;
+
+    Map<Integer, Integer> map = new HashMap<>();
+    Stack<Integer> stack = new Stack<>();
+
+    if (program == null || program.isEmpty()) {
+      return map;
+    }
+
+    for (int i = 0; i < program.length(); i++) {
+      char c = program.charAt(i); // grab char at current index
+
+      if (c == '[') { // if its [ push index coordinate to a stack
+        stack.push(i);
+      } else if (c == ']') { // if its ] it means a match is found for [
+        if (stack.isEmpty()) {
+          throw new IllegalArgumentException("Program contains unmatched closing bracket at index " + i);
+        }
+        int open = stack.pop(); // save index coordinate before popping it
+        map.put(i, open); // record index of ] with the popped coordinate of [ open
+      } 
+    }
+    
+    // if stack isn't empty, there's a rouge bracket
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Program contains unmatched opening bracket at index " + stack.peek());
+    }
+
+    return map;
   }
 
   /**
@@ -129,8 +156,43 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    Map<Integer, Integer> map = bracketMap(program); // use the map of brackets to jump back/ loop
+    String output = "";
+    int instructionPointer = 0; // basically index
+
+    while (instructionPointer < program.length()) {
+      char c = program.charAt(instructionPointer); // current index/character/screwtape command
+
+      if (c == '+') {
+        tapePointer.value++;
+      } else if (c == '-') {
+        tapePointer.value--;
+      } else if (c == '>') {
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0); // link next with new node
+          tapePointer.next.prev = tapePointer; // link prev
+        }
+        tapePointer = tapePointer.next; // advance node forward
+      } else if (c == '<') {
+        if (tapePointer.prev == null) {
+          tapePointer.prev = new Node(0);
+          tapeHead = tapePointer.prev; // set new head
+          tapeHead.next = tapePointer;
+        }
+        tapePointer = tapePointer.prev;
+      } else if (c == '.') {
+        output += (char) tapePointer.value; // cast int to char (ASCII character) and concat to output
+      } 
+      
+      // when ] is encountered jump to it's corresponding [ to enter a loop. If the value is zero, don't loop (zero times)
+      else if (c == ']' && tapePointer.value != 0) { 
+        instructionPointer = map.get(instructionPointer); // pointer/index is now key=*VALUE*
+        // so now key=] the instructionPointer can jump back to value=[ to repeat the action or LOOP
+      }
+
+      instructionPointer++;
+    }
+
+    return output;
   }
 }
