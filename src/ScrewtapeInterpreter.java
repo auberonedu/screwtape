@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -105,9 +107,26 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
-    // Hint: use a stack
-    return null;
+    Stack<Integer> openBrackets = new Stack<>();
+    Map<Integer, Integer> bracketPointers = new HashMap<>();
+
+    for (int i = 0; i < program.length(); i++){
+      if (program.charAt(i) == '['){
+        openBrackets.push(i);
+      } else if (program.charAt(i) == ']'){
+        if (openBrackets.isEmpty()){
+          throw new IllegalArgumentException("Too many open brackets.");
+        }
+        bracketPointers.put(i, openBrackets.peek());
+        openBrackets.pop();
+      }
+    }
+
+    if (!openBrackets.isEmpty()){
+      throw new IllegalArgumentException("Too many close brackets.");
+    }
+
+    return bracketPointers;
   }
 
   /**
@@ -129,8 +148,57 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    String output = "";
+    Map<Integer, Integer> bracketIndices = bracketMap(program);
+
+    for (int i = 0; i < program.length(); i++){
+      char currentChar = program.charAt(i);
+
+      // +
+      if (currentChar == '+'){
+        tapePointer.value++;
+      } 
+      // -
+      else if (currentChar == '-'){
+        tapePointer.value--;
+      }
+      // >
+      else if (currentChar == '>'){
+        if (tapePointer.next == null){
+          Node newNode = new Node(0);
+          tapePointer.next = newNode;
+          newNode.prev = tapePointer;
+        }
+        tapePointer = tapePointer.next;
+        
+      }
+      // <
+      else if (currentChar == '<'){
+        if (tapePointer.prev == null){
+          Node newNode = new Node(0);
+          tapePointer.prev = newNode;
+          newNode.next = tapePointer;
+          tapeHead = newNode;
+        }
+        tapePointer = tapePointer.prev;
+      }
+      // output
+      else if (currentChar == '.'){
+        char currentVal = (char)tapePointer.value;
+        output += currentVal;
+      }
+
+      // loop
+      else if (currentChar == ']'){
+        // set i to the index of the corresponding open bracket
+        if (tapePointer.value != 0){
+          i = bracketIndices.get(i);
+        }
+        
+      }
+
+    }
+    return output;
   }
 }

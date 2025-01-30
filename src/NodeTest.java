@@ -42,8 +42,28 @@ class NodeTest {
   }
 
   
-  // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Add test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    List<Integer> nullList = null;
+
+    assertThrows(
+      NullPointerException.class, 
+      () -> new Node(nullList), "Expected constructor to throw NullPointerException for a null list.");
+  }
+  // Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithOneValue(){
+    // Arrange
+    List<Integer> values = List.of(17);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(17, head.value);
+    assertNull(head.next);
+  }
 
 
   // -------- WAVE 2 -------
@@ -67,6 +87,38 @@ class NodeTest {
     assertEquals(List.of(5, 7, 3), values);
   }
 
-  // TODO: Add test for Node with no next or prev
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  // Add test for Node with no next or prev
+  @Test
+  void testToListWithNoNextOrPrev() {
+
+    // Arrange
+    Node head = new Node(17);
+
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(17), values);
+
+  }
+
+  // Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListSkippingHead(){
+    // Arrange
+    Node head = new Node(5);
+    Node middle = new Node(7);
+    Node tail = new Node(3);
+
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    // Act
+    List<Integer> values = middle.toList();
+
+    // Assert
+    assertEquals(List.of(7, 3), values);
+  }
 }
