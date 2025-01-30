@@ -1,9 +1,7 @@
+import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class NodeTest {
 
@@ -41,9 +39,30 @@ class NodeTest {
     );
   }
 
-  
   // TODO: Add test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    List<Integer> nullList = null;
+
+    assertThrows(
+      IllegalArgumentException.class,
+      () -> new Node(nullList),
+      "Expected constructor to throw Illegal Argument for a null list.");
+  }
+
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+@Test
+void testListConstructorOneValue(){
+  //Arrange
+  List<Integer> values = List.of(8);
+  //Act
+  Node head = new Node(values);
+  //Assert
+  assertEquals(8, head.value);
+  assertNull(head.next);
+  assertNull(head.prev);
+}
+
 
 
   // -------- WAVE 2 -------
@@ -68,5 +87,32 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithOneValue(){
+    //Arrange
+    Node head = new Node(8);
+    // Act
+    List<Integer> values = head.toList();
+    //Assert
+    assertEquals(List.of(8), values);
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testToListStartingAtSecondValue(){
+    //Arrange
+    Node head = new Node(4);
+    Node middle = new Node(9);
+    Node tail = new Node(2);
+
+    head.next = middle;
+    middle.prev = head;
+    middle.next = tail;
+    tail.prev = middle;
+
+    //Act
+  List<Integer> values = middle.toList();
+  
+    //Assert
+    assertEquals(List.of(9, 2), values);
+  }
 }
