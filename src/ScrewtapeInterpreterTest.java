@@ -25,8 +25,35 @@ class ScrewtapeInterpreterTest {
 
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testBracketMapWithSinglePair() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
 
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(1, 0);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    assertEquals(expectedMap, actualMap);
+  }
   
+  @Test
+  void testBracketMapWithUnmatchedOpeningBracket() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[>+[+]>";
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+    assertEquals("Unmatched opening bracket at index 0", exception.getMessage());
+  }
+
+  @Test
+  void testBracketMapWithUnmatchedClosingBracket() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+>+] ]";
+
+    Exception exception = assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+    assertEquals("Unmatched closing bracket at index 6", exception.getMessage());
+  }
 
   @Test
   void testAdd() {

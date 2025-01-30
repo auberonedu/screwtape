@@ -120,11 +120,18 @@ public class ScrewtapeInterpreter {
         if (findChar == '[') {
           openBrackets.push(i);
         } else if (findChar == ']') {
+          if (openBrackets.isEmpty()) {
+            throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+          }
           int openIndex = openBrackets.pop();
           pairs.put(i,openIndex);
         }
     }
-    // Hint: use a stack
+
+    if (!openBrackets.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + openBrackets.peek());
+    }
+
     return pairs;
   }
 
@@ -147,8 +154,11 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
+    if (program == null) {
+      throw new IllegalArgumentException("Program cannot be null");
+    }
+
+    
     return null;
   }
 }
