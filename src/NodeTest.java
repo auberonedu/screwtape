@@ -106,10 +106,19 @@ class NodeTest {
   @Test
   void testToListWithNegativeValues() {
     // Arrange
+    Node head = new Node(-3);
+    Node negativeNode = new Node (-1);
+    Node tail = new Node(-16);
+
+    head.next = negativeNode;
+    negativeNode.prev = head;
+    negativeNode.next = tail;
+    tail.prev = negativeNode;
 
     // Act
+    List<Integer> values = head.toList();
 
     // Assert
-
+    assertEquals(List.of(-3, -1, -16), values);
   }
 }
