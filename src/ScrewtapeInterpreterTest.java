@@ -26,8 +26,31 @@ class ScrewtapeInterpreterTest {
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
-  
+  @Test 
+  void testEmptyBracketMap() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "<+++>++<++";
 
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  } 
+
+  @Test
+  void testMissingBracketMap() {
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "<+++>++<++]"; // Program with missing closing bracket
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected bracketMap to throw IllegalArgumentException for a program with unmatched brackets."
+    );
+}
+
+  
   @Test
   void testAdd() {
     // Arrange
