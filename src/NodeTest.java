@@ -43,8 +43,28 @@ class NodeTest {
 
   
   // TODO: Add test for list constructor when passed null list
+  @Test
+  void testListConstructorWithNullList() {
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(null),
+        "Expected constructor to throw IllegalArgumentException for an empty list."
+    );
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithOneValue() {
+    // Arrange
+    List<Integer> single = List.of(42);
 
+    // Act 
+    Node head = new Node(single);
+    // Assert
+    assertEquals(42, head.value);
+    assertNull(head.next);
+    assertNull(head.prev);
+  }
 
   // -------- WAVE 2 -------
 
@@ -68,5 +88,42 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithNoNextOrPrev() {
+    // Arrange
+    Node single = new Node(55);
+
+    // Act
+    List<Integer> values = single.toList();
+
+    // Assert
+    assertEquals(List.of(55), values);
+    assertNull(single.next);
+    assertNull(single.prev);
+  }
+
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWithDuplicateValues() {
+    // Arrange
+    List<Integer> duplicateValues = List.of(8, 8, 8, 8);
+
+    // Act
+    Node head = new Node(duplicateValues);
+
+    // Assert
+    assertEquals(8, head.value);
+    assertNotNull(head.next);
+    assertEquals(8, head.next.value);
+    assertNotNull(head.next.next);
+    assertEquals(8, head.next.next.value);
+    assertNotNull(head.next.next.next);
+    assertEquals(8, head.next.next.next.value);
+    assertNull(head.next.next.next.next);
+
+    // Check the doubly linked structure
+    assertEquals(head, head.next.prev);
+    assertEquals(head.next, head.next.next.prev);
+    assertEquals(head.next.next, head.next.next.next.prev);
+  }
 }

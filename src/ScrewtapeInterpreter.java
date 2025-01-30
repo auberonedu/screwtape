@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -105,9 +107,32 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public Map<Integer, Integer> bracketMap(String program) {
-    // TODO: Implement this
-    // Hint: use a stack
-    return null;
+    if (program == null) {
+      throw new IllegalArgumentException("Program cannot be null.");
+    }
+
+    Map<Integer, Integer> pairs = new HashMap<>();
+    Stack<Integer> openBrackets = new Stack<>();
+
+    for (int i = 0; i < program.length(); i++) {
+        char findChar = program.charAt(i);
+
+        if (findChar == '[') {
+          openBrackets.push(i);
+        } else if (findChar == ']') {
+          if (openBrackets.isEmpty()) {
+            throw new IllegalArgumentException("Unmatched closing bracket at index " + i);
+          }
+          int openIndex = openBrackets.pop();
+          pairs.put(i,openIndex);
+        }
+    }
+
+    if (!openBrackets.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket at index " + openBrackets.peek());
+    }
+
+    return pairs;
   }
 
   /**
@@ -129,8 +154,59 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the program contains unmatched brackets.
    */
   public String execute(String program) {
-    // TODO: Implement this
-    // If you get stuck, you can look at hint.md for a hint
-    return null;
+    if (program == null) {
+      throw new IllegalArgumentException("Program cannot be null");
+    }
+
+    StringBuilder output = new StringBuilder();
+    Map<Integer, Integer> brackets = bracketMap(program);
+
+    for (int i = 0; i < program.length(); i++) {
+        char prompt = program.charAt(i);
+        
+        switch(prompt) {
+          case '+':
+            tapePointer.value++;
+            break;
+          
+          case '-':
+            tapePointer.value--;
+            break;
+
+          case '>':
+            if (tapePointer.next == null) {
+                tapePointer.next = new Node(0);
+                tapePointer.next.prev = tapePointer;
+              }
+              tapePointer = tapePointer.next;
+            break;
+          
+          case '<':
+            if (tapePointer.prev == null) {
+                tapePointer.prev = new Node(0);
+                tapePointer.prev.next = tapePointer;
+                tapeHead = tapePointer.prev;
+              }
+              tapePointer = tapePointer.prev;
+            break;
+          
+          case '.':
+            output.append((char) tapePointer.value);
+            break;
+          
+          case '[':
+            if (tapePointer.value == 0) {
+              i = brackets.get(i);
+            }
+            break;
+          
+          case ']':
+            if (tapePointer.value != 0) {
+              i = brackets.get(i) - 1;
+            }
+            break;
+        }
+    }
+    return output.toString();
   }
 }
