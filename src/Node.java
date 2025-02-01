@@ -66,10 +66,12 @@ public class Node {
     List<Integer> resultList = new ArrayList<>();
     Node current = this;
     while (current != null) {
-      resultList.add(current.value); // Add the current node's value
-      current = current.next; // Move to the next node
+      // Add the current node's value
+      resultList.add(current.value); 
+      // Move to the next node
+      current = current.next;
   }
-
-    return resultList;  // Return the populated list
+    // Return the populated list
+    return resultList; 
   }
 }
