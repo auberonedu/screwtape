@@ -174,8 +174,45 @@ public class ScrewtapeInterpreter {
         break;
 
         case '>':
-        if (t)
+        if (tapePointer.next == null){
+          //new tail node made
+          tapePointer.next  = new Node(0);
+          tapePointer.next.prev = tapePointer;
+        }
+        tapePointer = tapePointer.next;
+        break;
+
+        case '<':
+        if (tapePointer.prev == null){
+          //make a new head node
+          Node newHead = new Node (0);
+          tapePointer.prev = newHead;
+          tapePointer.prev.next = tapePointer;
+          tapeHead = newHead;
+        }
+        tapePointer = tapePointer.prev; 
+        break;
+
+        case '.':
+        //print out in ascii
+        outputString += (char) tapePointer.value;
+        break;
+
+        case '[':
+        if(tapePointer.value == 0){
+        pointer = bracketMap.get(pointer);
+        }
+        break;
+
+        case ']':
+        if(tapePointer.value != 0){
+        pointer = bracketMap.get(pointer);
+        }
+        break;
       }
+      //increase pointer
+      pointer ++;
+
     }
     return outputString;
       
