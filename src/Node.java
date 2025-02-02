@@ -82,6 +82,15 @@ public class Node {
     // TODO: Implement this
      // Create an empty list to store the node values
     List<Integer> result = new ArrayList<>();
-    return null;
+    // Starting from 'this' node and walking forward
+    Node current = this;
+    while (current != null) {
+        // Add the current node's value to the list
+        result.add(current.value);
+        // Move to the next node
+        current = current.next;
+    }
+
+    return result;
   }
 }

@@ -94,4 +94,39 @@ class NodeTest {
 
     // TODO: Add test for Node with no next or prev
     // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
-}
+
+    @Test
+    void testToListWithSingleNode() {
+        // This test fulfills the "Node with no next or prev" situation.
+        Node single = new Node(100);
+
+        List<Integer> result = single.toList();
+
+        // Assert
+        assertEquals(List.of(100), result,
+                "A single-node list should return a list containing only 100.");
+    }
+
+    @Test
+    void testToListStartingFromMiddleNode() {
+        // This test ensures that if we treat a middle node as "head",
+        // toList() only gathers values by traversing forward, ignoring 'prev'.
+        
+        Node head = new Node(10);
+        Node middle = new Node(20);
+        Node tail = new Node(30);
+
+        head.next = middle;
+        middle.prev = head;
+        middle.next = tail;
+        tail.prev = middle;
+
+        // Act
+        // Start toList from the 'middle' node
+        List<Integer> result = middle.toList();
+
+        // Assert
+        // We expect [20, 30], since we start at 'middle' and move forward
+        assertEquals(List.of(20, 30), result,
+                "Starting at the middle node should return [20, 30], ignoring the prev pointer.");
+}}
