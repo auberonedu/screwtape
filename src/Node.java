@@ -39,6 +39,9 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
+    if (list == null || list.isEmpty()) {
+      throw new IllegalArgumentException("The list cannot be empty or null.");
+    }
   }
 
   /**
