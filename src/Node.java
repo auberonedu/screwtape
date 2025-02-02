@@ -39,15 +39,36 @@ public class Node {
    */
   public Node(List<Integer> list) {
     // TODO: implement this
-    if (list == null || list.isEmpty()) {
-      throw new IllegalArgumentException("The list cannot be empty or null.");
-    }
+       if (list == null || list.isEmpty()) {
+       throw new IllegalArgumentException("The list cannot be empty or null.");
+    
+     }
 
     // Initialize this node with the first element's value
-    value = list.get(0);
+       value = list.get(0);
 
     // Keep track of the current node as we build the rest
-    Node current = this;
+       Node current = this;
+
+
+      // Loop through the remaining elements in the list, starting at index 1
+      // because we've already taken care of index 0 for the head node's value.
+      for (int i = 1; i < list.size(); i++) {
+
+      // Creating a new Node to hold the current element from the list
+      Node newNode = new Node(list.get(i));
+
+     // Link the current node's 'next' pointer to our new node
+     current.next = newNode;
+
+     // Link the new node's 'prev' pointer back to the current node
+     newNode.prev = current;
+
+     // Advance 'current' so that it now refers to this new node
+     current = newNode;
+ }
+
+    
   }
 
   /**
