@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,6 +80,8 @@ public class Node {
    */
   public List<Integer> toList() {
     // TODO: Implement this
+     // Create an empty list to store the node values
+    List<Integer> result = new ArrayList<>();
     return null;
   }
 }
