@@ -283,4 +283,11 @@ class ScrewtapeInterpreterTest {
 
     assertEquals("i", result);
   }
+
+
+@Test
+  void testExecuteEmptyProgram() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+  }
 }
