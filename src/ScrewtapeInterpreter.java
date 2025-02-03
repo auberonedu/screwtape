@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -107,8 +109,39 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+    Stack<Integer> stack = new Stack<>();
+     Map<Integer, Integer> bracketPairs = new HashMap<>();
+       if (program.isEmpty() || program == null) {
+        throw new IllegalArgumentException("Expecting a program");
+     }
+
+      // Looping through each character in the program
+      for (int i = 0; i < program.length(); i++) {
+       char c = program.charAt(i);
+
+       if (c == '[') {
+          // Push the index of the '[' onto the stack
+          stack.push(i);
+       } 
+       else if (c == ']') {
+          // When we encounter a closing bracket, we should match it with the top of the stack
+          if (stack.isEmpty()) {
+              // There's a ']' without a matching '['
+              throw new IllegalArgumentException("Unmatched ']' at index " + i);
+          }
+          int openingIndex = stack.pop();
+          // Record the mapping from the closing bracket to its matching opening bracket
+          bracketPairs.put(i, openingIndex);
+      }
+   }
+
+          // If there's still something left in the stack, we have '[' brackets without matching ']'
+         if (!stack.isEmpty()) {
+         throw new IllegalArgumentException("Unmatched '[' at index " + stack.peek());
   }
+
+       return bracketPairs;
+     }
 
   /**
    * Executes a Screwtape program and returns the output as a string.
@@ -131,6 +164,64 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
-  }
-}
+      if (program == null || program.isEmpty()) {
+          return "";
+      }
+      Map<Integer, Integer> pairs = bracketMap(program);
+      StringBuilder output = new StringBuilder();
+  
+      int i = 0;
+      while (i < program.length()) {
+          char c = program.charAt(i);
+          switch (c) {
+              case '>':
+                  if (tapePointer.next == null) {
+                      tapePointer.next = new Node(0);
+                      tapePointer.next.prev = tapePointer;
+                  }
+                  tapePointer = tapePointer.next;
+                  break;
+  
+                  case '<':
+                  // If moving left from the head, create a new node and update tapeHead
+                  if (tapePointer.prev == null) {
+                  Node newNode = new Node(0);  
+                  newNode.next = tapePointer;  
+                  tapePointer.prev = newNode;  
+                  tapeHead = newNode;  
+                  }  
+                  // Move to the newly created left node
+                   tapePointer = tapePointer.prev;  
+                    break;
+
+              
+  
+              case '+':
+                  tapePointer.value++;
+                  break;
+  
+              case '-':
+                  tapePointer.value--;
+                  break;
+  
+              case '.':
+                  output.append((char) tapePointer.value);
+                  break;
+  
+              case '[':
+                  break;
+  
+              case ']':
+                  if (tapePointer.value != 0) {
+                      i = pairs.get(i);
+                  }
+                  break;
+  
+              default:
+                  break;
+          }
+          i++;
+      }
+      return output.toString();
+    }}
+  
