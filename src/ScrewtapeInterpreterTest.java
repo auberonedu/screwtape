@@ -25,8 +25,100 @@ class ScrewtapeInterpreterTest {
 
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
-
   
+
+  /**
+   * TEST #1: Tests that an empty string throws an exception.
+   */
+  @Test
+  void testBracketMapEmptyProgram() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "";
+
+    // Assert
+    // Expecting an IllegalArgumentException due to empty program
+    assertThrows(IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected bracketMap to throw IllegalArgumentException for empty program.");
+  }
+
+  /**
+   * TEST #2: Tests a simple empty bracket pair "[]".
+   * Expected mapping: {1=0}
+   */
+  @Test
+  void testBracketMapSimpleEmptyBrackets() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(1, 0);
+
+    // Act
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    // Assert
+    assertEquals(expectedMap, actualMap,
+        "Expected {1=0} for a simple bracket pair '[]'.");
+  }
+
+  /**
+   * TEST #3: Tests multiple bracket pairs: "[+++][---]<<[+]".
+   * Expected mapping: {4=0, 9=5, 14=12}
+   */
+  @Test
+  void testBracketMapMultipleSections() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(4, 0);
+    expectedMap.put(9, 5);
+    expectedMap.put(14, 12);
+
+    // Act
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    // Assert
+    assertEquals(expectedMap, actualMap,
+        "Expected {4=0, 9=5, 14=12} for program '[+++][---]<<[+]'.");
+  }
+
+  /**
+   * TEST #4: Tests unmatched '['.
+   * Example: "[[" -> should throw IllegalArgumentException
+   */
+  @Test
+  void testBracketMapUnmatchedLeftBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[[";
+
+    // Act and Assert
+    assertThrows(IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected bracketMap to throw IllegalArgumentException for unmatched '['.");
+  }
+
+  /**
+   * TEST #5: Tests unmatched ']'.
+   * Example: "]]" -> should throw IllegalArgumentException
+   */
+  @Test
+  void testBracketMapUnmatchedRightBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "]]"; 
+
+    // Act & Assert
+    assertThrows(IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program),
+        "Expected bracketMap to throw IllegalArgumentException for unmatched ']'.");
+  }
+
 
   @Test
   void testAdd() {
