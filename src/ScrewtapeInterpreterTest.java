@@ -243,4 +243,18 @@ class ScrewtapeInterpreterTest {
 
     assertEquals("i", result);
   }
+
+  @Test
+  void testOutputBonus() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    // Adds 88 times, output, then add once, output, then add once, output
+    String program = "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>+++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<++.>+++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<.>++++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<+...";
+
+    // Act
+    String result = interpreter.execute(program);
+
+    // The program should increase to 88, output X, then increase to 89, output Y, then increase to 90, output Z
+    assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", result);
+  }
 }
