@@ -176,21 +176,23 @@ class ScrewtapeInterpreterTest {
 
   @Test
   void testLeftAndAdd() {
-    // Arrange
-    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
-    String program = "<<++";
-
-    // Act
-    interpreter.execute(program);
-
-    // Assert
-    // The tape should look like: [2, 0, 0]
-    List<Integer> tapeData = interpreter.getTapeData();
-    assertEquals(List.of(2, 0, 0), tapeData);
-
-    // The tape pointer should be at the head cell, value = 2
-    assertEquals(2, interpreter.getTapePointerValue());
+      // Arrange
+      ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+      String program = "<<++";
+  
+      // Act
+      interpreter.execute(program);
+  
+      // Assert
+      // The tape should look like: [2, 0, 0]
+      List<Integer> tapeData = interpreter.getTapeData();
+      assertEquals(List.of(2, 0, 0), tapeData);
+  
+      // The tape pointer should be at the head cell, value = 2
+      assertEquals(2, interpreter.getTapePointerValue());
   }
+  
+  
 
   @Test
   void testOutput() {
@@ -285,9 +287,76 @@ class ScrewtapeInterpreterTest {
   }
 
 
+
+ // NEW TEST #1: testExecuteEmptyProgram
 @Test
-  void testExecuteEmptyProgram() {
+void testExecuteEmptyProgram() {
     // Arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String emptyProgram = "";
+
+    // Act
+    String output = interpreter.execute(emptyProgram);
+
+    // Assert
+    List<Integer> tapeData = interpreter.getTapeData();
+    assertEquals(List.of(0), tapeData, "Tape should remain a single node with value 0.");
+    assertEquals(0, interpreter.getTapePointerValue(), "Pointer value should still be 0.");
+    assertEquals("", output, "Output should be an empty string for empty program.");
+}
+
+
+   //NEW TEST #2: testExecuteInvalidCommands
+  @Test
+  void testExecuteInvalidCommands() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    // 'xyz' are not valid Screwtape commands; they should be ignored.
+    String program = "xyz";
+
+    // Act
+    String output = interpreter.execute(program);
+
+    // Assert
+    // The tape should remain [0], pointer = 0, no output
+    List<Integer> tapeData = interpreter.getTapeData();
+    assertEquals(List.of(0), tapeData, "Invalid commands should not modify the tape.");
+    assertEquals(0, interpreter.getTapePointerValue(), "Pointer value should remain 0.");
+    assertEquals("", output, "No valid '.' commands => empty output.");
+  }
+
+
+   //TEST #3: testExecuteMoveLeftFromHead
+  @Test
+  void testExecuteMoveLeftFromHead() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+
+    String program = "<+";
+
+    // Act
+    interpreter.execute(program);
+
+    // Assert
+    assertEquals(1, interpreter.getTapePointerValue(),
+        "After moving left from the head and incrementing, pointer should hold 1.");
+  }
+
+
+  //NEW TEST #4: testExecuteMoveRightFromTail
+  @Test
+  void testExecuteMoveRightFromTail() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    // Program: ">>++"
+    String program = ">>++";
+
+    // Act
+    interpreter.execute(program);
+
+    // Assert
+    // The pointer should be two nodes to the right of the original, with value=2.
+    assertEquals(2, interpreter.getTapePointerValue(),
+        "Pointer should be on the newly created node, which has been incremented to 2.");
   }
 }

@@ -164,76 +164,64 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    Map<Integer, Integer> pairs = bracketMap(program);
-    StringBuilder output = new StringBuilder();
+      if (program == null || program.isEmpty()) {
+          return "";
+      }
+      Map<Integer, Integer> pairs = bracketMap(program);
+      StringBuilder output = new StringBuilder();
+  
+      int i = 0;
+      while (i < program.length()) {
+          char c = program.charAt(i);
+          switch (c) {
+              case '>':
+                  if (tapePointer.next == null) {
+                      tapePointer.next = new Node(0);
+                      tapePointer.next.prev = tapePointer;
+                  }
+                  tapePointer = tapePointer.next;
+                  break;
+  
+                  case '<':
+                  // If moving left from the head, create a new node and update tapeHead
+                  if (tapePointer.prev == null) {
+                  Node newNode = new Node(0);  
+                  newNode.next = tapePointer;  
+                  tapePointer.prev = newNode;  
+                  tapeHead = newNode;  
+                  }  
+                  // Move to the newly created left node
+                   tapePointer = tapePointer.prev;  
+                    break;
 
-    // Program counter
-    int i = 0;
-
-    //Interpret each character until we reach the end
-    while (i < program.length()) {
-        char c = program.charAt(i);
-
-        switch (c) {
-            case '>':
-                // Move the tape pointer to the right, creating a new node if needed
-                if (tapePointer.next == null) {
-                    // Dynamically extend the tape to the right
-                    Node newNode = new Node(0);
-                    tapePointer.next = newNode;
-                    newNode.prev = tapePointer;
-                }
-                tapePointer = tapePointer.next;
-                break;
-
-            case '<':
-                // Move the tape pointer to the left, creating a new node if needed
-                if (tapePointer.prev == null) {
-                    // Dynamically extend the tape to the left
-                    Node newNode = new Node(0);
-                    newNode.next = tapePointer;
-                    tapePointer.prev = newNode;
-                }
-                tapePointer = tapePointer.prev;
-                break;
-
-            case '+':
-                // Increment the value in the current memory node
-                tapePointer.value++;
-                break;
-
-            case '-':
-                // Decrement the value in the current memory node
-                tapePointer.value--;
-                break;
-
-            case '.':
-                // Output the character represented by the current node's value
-                output.append((char) (tapePointer.value));
-                break;
-
-            case '[':
-                // Doing nothing on '[', actual jump logic is handled in ']'
-                break;
-
-            case ']':
-                // If the current cell’s value != 0, jump back to the matching '['
-                if (tapePointer.value != 0) {
-                    i = pairs.get(i);
-                }
-                break;
-
-            default:
-                // Ignore any characters not part of Screwtape
-                break;
-        }
-
-        // Move to the next instruction
-        i++;
-    }
-
-    // Return whatever we collected from '.' commands
-    return output.toString();
-
-  }
-}
+              
+  
+              case '+':
+                  tapePointer.value++;
+                  break;
+  
+              case '-':
+                  tapePointer.value--;
+                  break;
+  
+              case '.':
+                  output.append((char) tapePointer.value);
+                  break;
+  
+              case '[':
+                  break;
+  
+              case ']':
+                  if (tapePointer.value != 0) {
+                      i = pairs.get(i);
+                  }
+                  break;
+  
+              default:
+                  break;
+          }
+          i++;
+      }
+      return output.toString();
+    }}
+  
