@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -107,7 +109,29 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+    Map<Integer, Integer> bracketLocations = new HashMap<>();
+    Stack<Integer> bracketPairing = new Stack<>();
+
+    for (int i = 0; i < program.length(); i++) {
+      char c = program.charAt(i);
+
+      if (c == '[') {
+        bracketPairing.push(i);
+      } else if (c == ']') {
+        // if empty then no opening bracket to match closing bracket
+        if (bracketPairing.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched closing bracket");
+        }
+        bracketLocations.put(i, bracketPairing.pop());
+      }
+    }
+
+    // only opening brackets in the stack so if not empty means unmatched
+    if (!bracketPairing.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched opening bracket");
+    }
+
+    return bracketLocations;
   }
 
   /**
@@ -131,6 +155,65 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    int index = 0;
+    Map<Integer, Integer> bracketIndex = bracketMap(program);
+    String converted = "";
+
+    while (index < program.length()) {
+
+      char c = program.charAt(index);
+
+      switch (c) {
+
+        case '>':
+          if (tapePointer.next == null) {
+            tapePointer.next = new Node(0);
+            tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next;
+          break;
+      
+        case '<':
+          if (tapePointer.prev == null) {
+            Node newNode = new Node(0);
+            newNode.next = tapePointer;
+            tapePointer.prev = newNode;
+            tapePointer = newNode;
+            tapeHead = newNode;
+          } else {
+            tapePointer = tapePointer.prev;
+          }
+          break;
+
+        case '+':
+          tapePointer.value++;
+          break;
+        
+        case '-':
+          tapePointer.value--;
+          break;
+
+        case '.':
+        // do something
+          int asciiValue = tapePointer.value;
+          char character = (char) asciiValue;
+          converted += character;
+          break;
+        
+        case '[':
+          // do nothing
+          break;
+        
+        case ']':
+          if (tapePointer.value != 0) {
+            // starts loop back at index where [ is
+            index = bracketIndex.get(index);
+          }
+          break;
+      }
+
+      index++;
+    }
+    return converted;
   }
 }

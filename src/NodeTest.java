@@ -43,8 +43,32 @@ class NodeTest {
 
   
   // TODO: Add test for list constructor when passed null list
-  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
 
+  @Test
+  void testListConstructorWithNullList() {
+    // Arrange
+    List<Integer> nullList = null;
+
+    // Act and Assert
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> new Node(nullList),
+        "Expected constructor to throw IllegalArgumentException for a null list."
+    );
+  }
+  // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @Test
+  void testListConstructorWitOneValue() {
+    // Arrange
+    List<Integer> values = List.of(1);
+
+    // Act
+    Node head = new Node(values);
+
+    // Assert
+    assertEquals(1, head.value);
+    assertNull(head.next);
+  }
 
   // -------- WAVE 2 -------
 
@@ -68,5 +92,33 @@ class NodeTest {
   }
 
   // TODO: Add test for Node with no next or prev
+  @Test
+  void testToListWithOneValue() {
+    // Arrange
+    Node head = new Node(5);
+
+    head.next = null;
+    head.prev = null;
+    
+    // Act
+    List<Integer> values = head.toList();
+
+    // Assert
+    assertEquals(List.of(5), values);
+  }
   // TODO: Add at least one more test for list constructor that would be useful and cover new ground.
+  @SuppressWarnings("null")
+  @Test
+  void testToListWithNullNode() {
+  
+    Node head = null;
+
+    assertThrows(
+        NullPointerException.class,
+        () -> {
+            head.toList();
+        },
+        "Expected toList() to throw NullPointerException when called on a null Node."
+    );
+  }
 }

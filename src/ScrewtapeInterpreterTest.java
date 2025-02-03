@@ -25,8 +25,60 @@ class ScrewtapeInterpreterTest {
 
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testNestedBracketMapExampleTwo() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
 
-  
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(4, 0);
+    expectedMap.put(9, 5);
+    expectedMap.put(14, 12);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testNestedBracketMapExampleThree() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]";
+
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(1, 0);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+  }
+
+  @Test
+  void testNestedBracketMapUnmatchedOpeningBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[][";
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program), 
+        "Unmatched opening bracket");
+  }
+
+  @Test
+  void testNestedBracketMapUnmatchedClosingBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[]]]";
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> interpreter.bracketMap(program), 
+        "Unmatched closing bracket");
+  }
+
 
   @Test
   void testAdd() {
@@ -190,5 +242,19 @@ class ScrewtapeInterpreterTest {
     assertEquals(105, interpreter.getTapePointerValue());
 
     assertEquals("i", result);
+  }
+
+  @Test
+  void testOutputBonus() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    // Adds 88 times, output, then add once, output, then add once, output
+    String program = "++++++++++[>+>+++>+++++++>++++++++++<<<<-]>>>>+++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<++.>+++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<.>++++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<+...";
+
+    // Act
+    String result = interpreter.execute(program);
+
+    // The program should increase to 88, output X, then increase to 89, output Y, then increase to 90, output Z
+    assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", result);
   }
 }
