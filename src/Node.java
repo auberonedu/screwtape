@@ -45,7 +45,7 @@ public class Node {
         if(list == null || list.isEmpty()) {
           throw new IllegalArgumentException("The list cannot be null or empty!");
         }
-
+        
         this.value = list.get(0);
         this.prev = null;
         this.next = null;
