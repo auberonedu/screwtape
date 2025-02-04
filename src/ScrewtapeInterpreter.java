@@ -1,5 +1,7 @@
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -107,7 +109,24 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+    Map<Integer, Integer> bracketPair = new HashMap<>();
+    Stack<Integer> stack = new Stack<>();
+
+    for (int i = 0; i < program.length(); i++) {
+      char chr = program.charAt(i);
+      if (chr == '['){
+        stack.push(i);
+      } else if (chr == ']') {
+        if (stack.isEmpty()) {
+          throw new IllegalArgumentException("Unmatched brackets");
+        }
+        bracketPair.put(i, stack.pop());
+      }
+    }
+    if (!stack.isEmpty()) {
+      throw new IllegalArgumentException("Unmatched brackets");
+    }
+    return bracketPair;
   }
 
   /**
@@ -131,6 +150,61 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    Map<Integer, Integer> bracketMap = bracketMap(program);
+    StringBuilder result = new StringBuilder();
+    int counter = 0;
+
+    while (counter < program.length()) {
+      char instruction = program.charAt(counter);
+
+      switch (instruction) {
+        // Addition
+        case '+':
+          tapePointer.value++;
+          break;
+        // Subraction
+        case '-':
+          tapePointer.value--;
+          break;
+        // Right
+        case '>':
+          if (tapePointer.next == null) {
+            tapePointer.next = new Node(0);
+            tapePointer.next.prev = tapePointer;
+          }
+          tapePointer = tapePointer.next;
+          break;
+        // Left
+        case '<':
+          if (tapePointer.prev == null) {
+            Node newHead = new Node(0);
+            newHead.next = tapeHead;
+            tapeHead.prev = newHead;
+            tapeHead = newHead;
+          }
+          tapePointer = tapePointer.prev;
+          break;
+        // Outputs a value
+        case '.':
+          result.append((char) tapePointer.value);
+          break;
+        // Start of loop
+        case '[':
+          if (tapePointer.value == 0) {
+            counter = bracketMap.get(counter);
+          }
+          break;
+        // Indicates if the loop keeps going 
+        case ']':
+          if (tapePointer.value != 0) {
+            counter = bracketMap.get(counter) - 1;
+          }
+          break;
+        default: // This will ignore invalid characters
+          break;
+      }
+      counter++;
+    }
+    return result.toString();
   }
 }

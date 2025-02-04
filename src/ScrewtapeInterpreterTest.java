@@ -23,10 +23,54 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
-  // TODO: Implement more tests for bracketMap
-  // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
+  // TODO: Screwtape Invitational
+@Test 
+void testScrewtapeInvitational() {
+
+  // Arrange
+  ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+
+  // Act
+  String program = "+++++>++++++++[<+++++>-]<.>++++[<++++>-]<.>+++++<.>++++++++[<++++>-]<.>+++<.>+++++++<.";
+  String output = interpreter.execute(program);
+
+  // Assert 
+  System.out.println(output);
+
+  assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", output);
+}
+
+  // TODO: Implement more tests for bracketMap
+  @Test
+  void testMultipleBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[+++][---]<<[+]";
+
+    // Act
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(4, 0);
+    expectedMap.put(9, 5);
+    expectedMap.put(14, 12);
+
+    // Assert
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+    assertEquals(expectedMap, actualMap);
+  }
+
+  // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testUnmatchedBracket() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
   
+    // Act
+    String program = "+]";
+
+    // Assert
+    assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+  }
 
   @Test
   void testAdd() {
