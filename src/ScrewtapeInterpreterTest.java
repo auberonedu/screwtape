@@ -23,6 +23,24 @@ class ScrewtapeInterpreterTest {
     assertEquals(expectedMap, actualMap);
   }
 
+
+  // TODO: Screwtape Invitational
+@Test 
+void testScrewtapeInvitational() {
+
+  // Arrange
+  ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+
+  // Act
+  String program = "+++++>++++++++[<+++++>-]<.>++++[<++++>-]<.>+++++<.>++++++++[<++++>-]<.>+++<.>+++++++<.";
+  String output = interpreter.execute(program);
+
+  // Assert 
+  System.out.println(output);
+
+  assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", output);
+}
+
   // TODO: Implement more tests for bracketMap
   @Test
   void testMultipleBracket() {

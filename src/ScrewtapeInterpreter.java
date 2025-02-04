@@ -190,7 +190,10 @@ public class ScrewtapeInterpreter {
           break;
         // Start of loop
         case '[':
-          break; // Do nothing
+          if (tapePointer.value == 0) {
+            counter = bracketMap.get(counter);
+          }
+          break;
         // Indicates if the loop keeps going 
         case ']':
           if (tapePointer.value != 0) {
