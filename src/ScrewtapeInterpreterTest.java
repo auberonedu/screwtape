@@ -26,8 +26,6 @@ class ScrewtapeInterpreterTest {
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
 
-  
-
   @Test
   void testAdd() {
     // Arrange
@@ -36,12 +34,12 @@ class ScrewtapeInterpreterTest {
 
     // Act
     interpreter.execute(program);
-
+    
     // Assert
     // The tape should look like: [3]
     List<Integer> tapeData = interpreter.getTapeData();
     assertEquals(List.of(3), tapeData);
-
+    
     // The tape pointer should be at the head cell, value = 3
     assertEquals(3, interpreter.getTapePointerValue());
   }
@@ -190,5 +188,23 @@ class ScrewtapeInterpreterTest {
     assertEquals(105, interpreter.getTapePointerValue());
 
     assertEquals("i", result);
+  }
+  
+  // additional test
+  @Test
+  void testMatchingBrackets() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[[[]]]";
+    
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(5, 0);
+    expectedMap.put(4, 1);
+    expectedMap.put(3, 2);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+    
   }
 }

@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
+
+
 
 /**
  * A Screwtape interpreter that executes programs written in the Screwtape esoteric programming language.
@@ -23,7 +28,7 @@ public class ScrewtapeInterpreter {
 
   /** The pointer to the current node in the tape. */
   private Node tapePointer;
-
+  
   /**
    * Constructs a new Screwtape interpreter with an initialized memory tape of a single node set to 0.
    */
@@ -48,6 +53,11 @@ public class ScrewtapeInterpreter {
    * @throws IllegalArgumentException If the list is null or empty.
    */
   public void setTape(List<Integer> data) {
+
+    if(data.isEmpty() || data == null) {
+      throw new IllegalArgumentException("List cannot be null or empty!");
+    }
+
     tapeHead = new Node(data);
     tapePointer = tapeHead;
   }
@@ -107,7 +117,28 @@ public class ScrewtapeInterpreter {
   public Map<Integer, Integer> bracketMap(String program) {
     // TODO: Implement this
     // Hint: use a stack
-    return null;
+
+    Stack<Integer> stack = new Stack<>();
+
+    Map<Integer, Integer> map = new HashMap<>();
+    
+    for (int i = 0; i < program.length(); i++) {
+      char c = program.charAt(i);
+
+      if (c == '[') {
+          stack.push(i);
+      } else if (c == ']') {
+          if (stack.isEmpty()) {
+              throw new IllegalArgumentException("Contains unmatched brackets.");
+          };
+          int last = stack.pop(); 
+          map.put(i, last);
+          
+      }
+  }
+
+    return map;
+
   }
 
   /**
@@ -131,6 +162,64 @@ public class ScrewtapeInterpreter {
   public String execute(String program) {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
-    return null;
+    Map<Integer, Integer> bracket = bracketMap(program);
+    String output = "";
+    int i = 0;
+    
+    while(i < program.length()) {
+      char c = program.charAt(i);
+      
+      if(c == '+') {
+        tapePointer.value++;
+
+      } else if(c == '-') {
+
+        tapePointer.value--;
+      }
+      else if(c == '>') {
+        
+        if (tapePointer.next == null) {
+          tapePointer.next = new Node(0);
+          tapePointer.next.prev = tapePointer;
+      }
+        tapePointer = tapePointer.next;  
+      }
+
+      else if(c == '<') {
+        Node newNode = new Node(0);
+        if(tapePointer.prev == null) {
+        
+        newNode.next = tapePointer;
+        tapePointer.prev = newNode;
+        tapeHead = newNode;
+        
+        }
+
+        tapePointer = tapePointer.prev;  
+      } 
+
+      else if(c == '.') {
+        int number = tapePointer.value;
+        char asciiChar = (char) number;
+
+        output += asciiChar;
+      }
+
+      else if (c == '[') {
+        
+        if (tapePointer.value == 0) {
+            i = bracket.get(i);
+        }
+      } 
+      else if (c == ']') {
+        
+        if (tapePointer.value != 0) {
+            i = bracket.get(i);
+          }
+      }
+      i++;
+  }
+   
+    return output;
   }
 }
