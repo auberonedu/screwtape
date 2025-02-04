@@ -189,4 +189,22 @@ class ScrewtapeInterpreterTest {
 
     assertEquals("i", result);
   }
+  
+  // additional test
+  @Test
+  void testMatchingBrackets() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[[[]]]";
+    
+    Map<Integer, Integer> expectedMap = new HashMap<>();
+    expectedMap.put(5, 0);
+    expectedMap.put(4, 1);
+    expectedMap.put(3, 2);
+
+    Map<Integer, Integer> actualMap = interpreter.bracketMap(program);
+
+    assertEquals(expectedMap, actualMap);
+    
+  }
 }

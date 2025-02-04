@@ -122,7 +122,7 @@ public class ScrewtapeInterpreter {
 
     Map<Integer, Integer> map = new HashMap<>();
     
-    for (int i = 1; i < program.length(); i++) {
+    for (int i = 0; i < program.length(); i++) {
       char c = program.charAt(i);
 
       if (c == '[') {
@@ -133,6 +133,7 @@ public class ScrewtapeInterpreter {
           };
           int last = stack.pop(); 
           map.put(i, last);
+          
       }
   }
 
@@ -162,7 +163,6 @@ public class ScrewtapeInterpreter {
     // TODO: Implement this
     // If you get stuck, you can look at hint.md for a hint
     Map<Integer, Integer> bracket = bracketMap(program);
-    int iPointer = 0;
     String output = "";
     int i = 0;
     
@@ -219,11 +219,7 @@ public class ScrewtapeInterpreter {
       }
       i++;
   }
-    // for(int i = 0; i < map.size(); i++) {
-    //   if(program.charAt(i) == '+') {
-    //     count++;
-    //   }
-    // }
+   
     return output;
   }
 }
