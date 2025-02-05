@@ -25,8 +25,22 @@ class ScrewtapeInterpreterTest {
 
   // TODO: Implement more tests for bracketMap
   // At a bare minimum, implement the other examples from the Javadoc and at least one more you come up with
+  @Test
+  void testNestedBracketMapExtraOpen() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "[[]]>[+>[+-]<";
+    //act/asssert
+    assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+  }
 
-  
+  @Test
+  void testNestedBracketClosingOnly() {
+    // Arrange
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    String program = "++++]";
+    assertThrows(IllegalArgumentException.class, () -> interpreter.bracketMap(program));
+  }
 
   @Test
   void testAdd() {
@@ -158,7 +172,7 @@ class ScrewtapeInterpreterTest {
   void testLoopNested() {
     // Arrange
     ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
-
+    
     // This program executes a multiplication of 4*3*2
     // Explanation:
     //
@@ -191,4 +205,57 @@ class ScrewtapeInterpreterTest {
 
     assertEquals("i", result);
   }
+
+  @Test
+  /*
+   * s-115, c- 99, r-114, e- 101, w-119 
+   * t- 116 a- 97 p 112, 
+   * S- 83 C- 67 R- 82 E- 69, W-87
+   * T- 84 A- 65 P- 80
+   * !- 33 space - 32
+   */
+
+   // want a indicator for i can do a loop of 10 to get 30, 70 and 100 indicator 
+  void testScrewtape(){
+    ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+    ScrewtapeInterpreter interpreter2 = new ScrewtapeInterpreter();
+   // first attempt 30/70/100 first loops
+    String program = "++++++++++[>+++>+++++++>++++++++++<<<-]>>>+++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<++.>+++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<.>++++++++++++++.----------------.+++++++++++++++.-------------.>--------------.---.<----.>----.<++++.<.>>+++++++++++++++++++++++++++++++++++.----------------.+++++++++++++++.-------------.++++++++++++++++++.---.-------------------.+++++++++++++++.-----------.<<+...";
+    String program2 = "+++++++++++[>+++>++++++>++++++++>+++++++++>++++++++++<<<<<-]>>>>>+++++.<.>-.<++.>+++++.---.<----.>----.<++++.<<<-.>>-----.<+.>-.<++.>+++++.---.<----.>----.<++++.<.>>>>+++.<--.>-.<++.>+++++.---.<----.>----.<++++.<<<.>>+++.<--.>-.<++.>+++++.---.<----.>----.<++++.<.>>>>+++.<--.>-.<++.>+++++.---.<----.>----.<++++.<<<+...";
+   // second attempt 0, 33, 66, 88, 99, 110 loop initialization, could not figure out the loop for screwtape SCREWTAPE third attempt will be to try and get the loop correct
+   //0 32, 69, 80,101, 112
+
+    // Act 
+    String result = interpreter.execute(program);
+    String result2 = interpreter2.execute(program2);
+    assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", result);
+    assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", result2);
+  }
+  
+@Test 
+void shortestScrewTest(){
+
+  ScrewtapeInterpreter interpreter = new ScrewtapeInterpreter();
+  String program =  "+++++++++++[>+++>++++++>++++++++>+++++++++>++++++++++<<<<<-]++[>>>>>+++++.<.>-.<++.>+++++.---.<----.>----.<++++.<<<-.>>-----.<+.>-.<++.>+++++.---.<----.>----.<++++.<.+>--->++++++++>-->--<<<<<-]>>>>>+++++.<.>-.<++.>+++++.---.<----.>----.<++++.<<<...";
+  String result = interpreter.execute(program);
+  assertEquals("screwtape SCREWTAPE screwtape SCREWTAPE screwtape!!!", result);
+  }
 }
+//0, 33, 66, 88, 99, 115;
+
+/* indexes before start of one loop of screw tape
+[1] = ! (33)
+[2] = B (66)
+[3] = X (88)
+[4] = c (99)
+[5] = n (110)   
+
+values after one loop of screwtape
+[0] = (0)
+[1] = (32)
+[2] = E (69)
+[3] = P (80)
+[4] = e (101)
+[5] = p (112)
+*/
+  
